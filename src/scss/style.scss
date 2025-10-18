@@ -1,0 +1,35 @@
+/**
+ * {{projectName}} Plugin Styles - Frontend Only
+ *
+ * The following styles get applied only on the front of your site.
+ * These styles are not loaded in the editor.
+ */
+
+.wp-block-{{namespace}}-{{slug}} {
+	// Frontend-specific styling
+	.wp-block-{{namespace}}-{{slug}}__content {
+		transition: all 0.2s ease-in-out;
+		
+		// Hover effects for frontend
+		&:hover {
+			background-color: #f0f0f0;
+			border-color: #ccc;
+		}
+	}
+	
+	// Print-specific styles
+	@media print {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			border: 1px solid #000;
+			background-color: transparent;
+		}
+	}
+	
+	// Mobile responsiveness
+	@media (max-width: 768px) {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			padding: 0.75rem;
+			font-size: 0.9rem;
+		}
+	}
+}

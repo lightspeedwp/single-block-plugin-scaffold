@@ -1,0 +1,58 @@
+/**
+ * {{projectName}} Block Styles - Frontend & Editor
+ *
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace this comment with actual styles for your block.
+ */
+
+.wp-block-{{namespace}}-{{slug}} {
+	box-sizing: border-box;
+	
+	&__content {
+		padding: 1rem;
+		border: 1px solid #e0e0e0;
+		border-radius: 4px;
+		background-color: #f9f9f9;
+		min-height: 60px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		
+		p {
+			margin: 0;
+			line-height: 1.5;
+		}
+	}
+	
+	// Text alignment variations
+	&.has-text-align-left {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			justify-content: flex-start;
+			text-align: left;
+		}
+	}
+	
+	&.has-text-align-center {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			justify-content: center;
+			text-align: center;
+		}
+	}
+	
+	&.has-text-align-right {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			justify-content: flex-end;
+			text-align: right;
+		}
+	}
+	
+	// Focus state for better accessibility
+	&:focus-within {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			border-color: #007cba;
+			box-shadow: 0 0 0 1px #007cba;
+		}
+	}
+}
