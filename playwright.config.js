@@ -1,4 +1,4 @@
-# Playwright configuration for {{projectName}}
+// Playwright configuration for {{projectName}}
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
