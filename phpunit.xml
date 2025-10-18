@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	syntaxCheck="false"
+	>
+	<testsuites>
+		<testsuite name="{{projectName}} Test Suite">
+			<directory suffix=".php">./tests/</directory>
+			<exclude>./tests/bootstrap.php</exclude>
+			<exclude>./tests/data/</exclude>
+		</testsuite>
+	</testsuites>
+	
+	<coverage>
+		<include>
+			<directory suffix=".php">./src/</directory>
+			<file>./{{slug}}.php</file>
+		</include>
+		<exclude>
+			<directory>./vendor/</directory>
+			<directory>./node_modules/</directory>
+			<directory>./build/</directory>
+			<directory>./tests/</directory>
+		</exclude>
+	</coverage>
+	
+	<logging>
+		<log type="coverage-clover" target="coverage.xml"/>
+		<log type="coverage-html" target="coverage-html"/>
+	</logging>
+	
+	<php>
+		<ini name="error_reporting" value="E_ALL"/>
+		<ini name="display_errors" value="1"/>
+		<ini name="display_startup_errors" value="1"/>
+		<server name="SERVER_NAME" value="localhost"/>
+		<server name="REQUEST_URI" value="/"/>
+		<server name="HTTP_HOST" value="localhost"/>
+		<server name="SCRIPT_NAME" value="/index.php"/>
+		<const name="WP_TESTS_DOMAIN" value="localhost"/>
+		<const name="WP_TESTS_EMAIL" value="admin@localhost.dev"/>
+		<const name="WP_TESTS_TITLE" value="{{projectName}} Tests"/>
+		<const name="WP_DEBUG" value="true"/>
+		<const name="WP_DEBUG_LOG" value="false"/>
+		<const name="WP_DEBUG_DISPLAY" value="true"/>
+	</php>
+</phpunit>

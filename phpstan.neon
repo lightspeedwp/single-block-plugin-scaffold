@@ -1,0 +1,21 @@
+parameters:
+	level: 8
+	paths:
+		- src/
+		- {{slug}}.php
+	excludePaths:
+		- vendor/
+		- node_modules/
+		- build/
+		- tests/
+	ignoreErrors:
+		# WordPress core functions that PHPStan doesn't recognize
+		- '#Function (wp_|get_|is_|current_user_can|esc_|sanitize_|add_action|add_filter|register_block_type)[a-zA-Z_]+ not found#'
+		# WordPress globals
+		- '#Undefined variable: \$wpdb#'
+		# WordPress constants
+		- '#Constant (ABSPATH|WP_DEBUG|WPINC) not found#'
+	bootstrapFiles:
+		- tests/phpstan-bootstrap.php
+	wordpress:
+		constantsFile: tests/wordpress-constants.php
