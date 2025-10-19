@@ -4,7 +4,7 @@
 
 	<!-- Include WordPress Coding Standards -->
 	<rule ref="WordPress">
-		<!-- Allow short array syntax -->
+		<!-- Enable short array syntax by excluding the disallow rule -->
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 		
 		<!-- Allow short open tags in templates -->
