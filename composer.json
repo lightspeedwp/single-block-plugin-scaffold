@@ -1,0 +1,55 @@
+{
+	"name": "{{author}}/{{slug}}",
+	"description": "{{description}}",
+	"type": "wordpress-plugin",
+	"license": "{{license}}",
+	"version": "{{version}}",
+	"authors": [
+		{
+			"name": "{{author}}",
+			"homepage": "https://github.com/{{author}}"
+		}
+	],
+	"homepage": "https://github.com/{{author}}/{{slug}}",
+	"support": {
+		"issues": "https://github.com/{{author}}/{{slug}}/issues",
+		"source": "https://github.com/{{author}}/{{slug}}"
+	},
+	"require": {
+		"php": ">=8.0"
+	},
+	"require-dev": {
+		"10up/phpcs-composer": "^2.1",
+		"phpstan/phpstan": "^1.10",
+		"phpunit/phpunit": "^10.0",
+		"yoast/phpunit-polyfills": "^2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"{{namespace|pascalCase}}\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"{{namespace|pascalCase}}\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"test": "phpunit",
+		"analyse": "phpstan analyse",
+		"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+		"post-install-cmd": [
+			"@install-codestandards"
+		],
+		"post-update-cmd": [
+			"@install-codestandards"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}

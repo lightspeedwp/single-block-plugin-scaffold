@@ -1,0 +1,43 @@
+{
+	// Recommended extensions for {{slug}} plugin
+	"recommendations": [
+		// WordPress development
+		"wordpresstoolbox.wordpress-toolbox",
+		"wp-blocks.wp-blocks",
+		"johnbillion.vscode-wordpress-hooks",
+		
+		// JavaScript/React development
+		"ms-vscode.vscode-typescript-next",
+		"bradlc.vscode-tailwindcss",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		
+		// PHP development
+		"felixfbecker.php-intellisense",
+		"valeryanm.vscode-phpsab",
+		"persoderlind.vscode-phpcbf",
+		"phpunit.phpunit",
+		"recca0120.vscode-phpunit",
+		
+		// SCSS/CSS development
+		"stylelint.vscode-stylelint",
+		"sissel.shopify-liquid",
+		
+		// Git and version control
+		"eamodio.gitlens",
+		"mhutchie.git-graph",
+		
+		// General development
+		"ms-vscode.vscode-json",
+		"redhat.vscode-yaml",
+		"ms-vscode.vscode-markdown",
+		"bierner.markdown-preview-github-styles",
+		
+		// WordPress environment
+		"wp-env.wp-env",
+		
+		// Testing and debugging
+		"ms-vscode.vscode-jest",
+		"ms-playwright.playwright"
+	]
+}

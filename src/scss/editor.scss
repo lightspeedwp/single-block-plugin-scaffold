@@ -1,0 +1,42 @@
+/**
+ * {{projectName}} Block Styles - Editor Only
+ *
+ * The following styles get applied only in the editor.
+ * They are used to style the block in the block editor.
+ */
+
+.wp-block-{{namespace}}-{{slug}} {
+	// Editor-specific styling
+	.wp-block-{{namespace}}-{{slug}}__content {
+		// Placeholder styling when empty
+		&:empty::before {
+			content: attr(data-placeholder);
+			color: #8d96a0;
+			font-style: italic;
+		}
+		
+		// RichText component styling
+		.rich-text {
+			outline: none;
+			
+			&:focus {
+				box-shadow: none;
+			}
+		}
+	}
+	
+	// Selected state in editor
+	&.is-selected {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			border-color: #007cba;
+			box-shadow: 0 0 0 1px #007cba;
+		}
+	}
+	
+	// Hovered state in editor
+	&.is-hovered {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			border-color: #007cba;
+		}
+	}
+}

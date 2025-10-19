@@ -1,0 +1,199 @@
+{
+	// VSCode tasks for {{slug}} plugin
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build Plugin",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "build"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": ["$eslint-stylish"]
+		},
+		{
+			"label": "Start Development",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "start"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"isBackground": true,
+			"problemMatcher": [
+				{
+					"owner": "webpack",
+					"source": "webpack",
+					"severity": "error",
+					"fileLocation": "relative",
+					"pattern": [
+						{
+							"regexp": "^ERROR in (.*)$",
+							"file": 1
+						},
+						{
+							"regexp": "^(.*)\\((\\d+),(\\d+)\\): (.*)$",
+							"file": 1,
+							"line": 2,
+							"column": 3,
+							"message": 4
+						}
+					],
+					"background": {
+						"activeOnStart": true,
+						"beginsPattern": "^webpack: Compiling\\.\\.\\.",
+						"endsPattern": "^webpack: .* compiled.*"
+					}
+				}
+			]
+		},
+		{
+			"label": "Lint JavaScript",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint:js"],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": ["$eslint-stylish"]
+		},
+		{
+			"label": "Lint CSS",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "lint:css"],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": ["$stylelint"]
+		},
+		{
+			"label": "Lint PHP",
+			"type": "shell",
+			"command": "composer",
+			"args": ["run", "lint"],
+			"group": "test",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": [
+				{
+					"owner": "phpcs",
+					"source": "phpcs",
+					"fileLocation": "relative",
+					"pattern": [
+						{
+							"regexp": "^FILE: (.*)$",
+							"file": 1
+						},
+						{
+							"regexp": "^\\s*(\\d+)\\s*\\|\\s*(ERROR|WARNING)\\s*\\|\\s*(.*)$",
+							"line": 1,
+							"severity": 2,
+							"message": 3,
+							"loop": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"label": "Run Tests",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "test"],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"problemMatcher": ["$eslint-stylish"]
+		},
+		{
+			"label": "Start WordPress Environment",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "env:start"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Stop WordPress Environment",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "env:stop"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			}
+		},
+		{
+			"label": "Create Plugin ZIP",
+			"type": "shell",
+			"command": "npm",
+			"args": ["run", "plugin-zip"],
+			"group": "build",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"dependsOn": "Build Plugin"
+		}
+	]
+}
