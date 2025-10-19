@@ -29,7 +29,7 @@ test.describe( '{{projectName}} Block', () => {
 		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
 		
 		// Check if block appears in search results
-		const blockResult = page.locator( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
+		const blockResult = page.locator( '[data-id="{{namespace}}/{{slug}}"]' );
 		await expect( blockResult ).toBeVisible();
 	} );
 
