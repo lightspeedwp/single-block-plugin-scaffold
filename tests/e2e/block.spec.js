@@ -95,7 +95,7 @@ test.describe( '{{projectName}} Block', () => {
 		await expect( blockPanel ).toBeVisible();
 		
 		// Test alignment dropdown in sidebar
-		const alignmentSelect = page.locator( 'select' ).first();
+		const alignmentSelect = page.locator( 'select[aria-label*="alignment"]' );
 		if ( await alignmentSelect.isVisible() ) {
 			await alignmentSelect.selectOption( 'center' );
 			await expect( block ).toHaveClass( /has-text-align-center/ );
