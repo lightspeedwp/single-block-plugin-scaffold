@@ -2,17 +2,13 @@
 
 ...
 
-## Agent
+## Agent Directory
 
-Directory
-
-- See [Main Agent Index](.github/agents/agent.md) for all agent
-implementations and specs.
-- Each agent must have both a code file (`.js`, `.py`,
-etc.) and a spec (`.md`) following the template.
-- All contributors must follow the
-org [Coding
-Standards](.github/instructions/coding-standards.instructions.md).
+- See [Main Agent Index](.github/agents/agent.md) for all agent implementations, specs, and usage.
+- Each agent must have both a code file (`.js`, `.py`, etc.) and a spec (`.md`) following the template.
+- The main build agent for single block plugins is documented in [wp-block-build.agent.md](.github/agents/wp-block-build.agent.md) and implemented in [wp-block-build.agent.js](.github/agents/wp-block-build.agent.js), both referenced by the main agent index and all AI ops files.
+- The build/test/lint workflow is defined in [block-plugin-build-and-e2e.yml](.github/workflows/block-plugin-build-and-e2e.yml).
+- All contributors must follow the org [Coding Standards](.github/instructions/coding-standards.instructions.md).
 
 ## Agent Test Status
 
@@ -183,24 +179,13 @@ and file-type-specific standards.
 
 ## Cross-References & Discoverability
 
-|
-Resource Name           | Reference
-         | Purpose / Notes                                          |
-|
------------------------ |
----------------------------------------------------------------- | -------------------------------------------------------- |
-| **Custom
-Instructions** | [.github/custom-instructions.md](.github/custom-instructions.md) |
-Central Copilot/org instructions, prompts, and standards |
-| **Main Agent
-Index**    | [.github/agents/agent.md](.github/agents/agent.md)               |
-Directory of agent specs, stubs, usage, implementation   |
-| **Chat Modes Index**    |
-[.github/chatmodes/chatmodes.md](.github/chatmodes/chatmodes.md) | List and
-guidance for all chat modes                     |
-| **Prompts Index**       |
-[.github/prompts/prompts.md](.github/prompts/prompts.md)         | Master prompt
-index and authoring conventions            |
+| Resource Name           | Reference                                              | Purpose / Notes                                          |
+|------------------------|-------------------------------------------------------|----------------------------------------------------------|
+| **Custom Instructions** | [.github/custom-instructions.md](.github/custom-instructions.md) | Central Copilot/org instructions, prompts, and standards |
+| **Main Agent Index**    | [.github/agents/agent.md](.github/agents/agent.md)               | Directory of agent specs, stubs, usage, implementation   |
+| **WP Block Build Agent Spec** | [.github/agents/wp-block-build.agent.md](.github/agents/wp-block-build.agent.md) | Detailed build process for single block plugin agent     |
+| **Chat Modes Index**    | [.github/chatmodes/chatmodes.md](.github/chatmodes/chatmodes.md) | List and guidance for all chat modes                     |
+| **Prompts Index**       | [.github/prompts/prompts.md](.github/prompts/prompts.md)         | Master prompt index and authoring conventions            |
 
 ---
 
@@ -212,13 +197,3 @@ Reference main index files directly in your workflow or
 documentation:
 
 -
-
-...
-
-# LightSpeed – Global AI Rules (AGENTS.md)
-
-...
-`@lightspeedwp/.github/files/.github/instructions/coding-standards.instructions.md`
--
-
-...
