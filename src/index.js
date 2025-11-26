@@ -1,5 +1,5 @@
 /**
- * {{projectName}} - Main block registration entry point.
+ * {{name}} - Main block registration entry point.
  *
  * Registers all blocks within this plugin.
  *

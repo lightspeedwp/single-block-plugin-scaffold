@@ -1,5 +1,5 @@
 ---
-title: "{{projectName}} - WordPress Block Plugin"
+title: "{{name}} - WordPress Block Plugin"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
@@ -7,24 +7,27 @@ description: "{{description}}"
 type: "documentation"
 ---
 
-# {{projectName}}
+# {{name}}
 
 {{description}}
 
 ## Quick Start
 
 1. **Install Dependencies**
+
    ```bash
    npm install
    composer install
    ```
 
 2. **Start Development**
+
    ```bash
    npm run start
    ```
 
 3. **Build for Production**
+
    ```bash
    npm run build
    ```
@@ -54,7 +57,7 @@ This template uses mustache-style placeholders that should be replaced when scaf
 | `{{license}}`       | License identifier                       | `GPL-3.0-or-later`        |
 | `{{textdomain}}`    | WordPress text domain                    | `my-awesome-block`         |
 | `{{version}}`       | Plugin version                           | `1.0.0`                    |
-| `{{projectName}}`   | Human-readable project name             | `My Awesome Block`         |
+| `{{name}}`          | Human-readable plugin name               | `My Awesome Block`         |
 
 ## File Structure
 
@@ -101,6 +104,9 @@ This template uses mustache-style placeholders that should be replaced when scaf
 - `npm run start` - Start development with watch mode
 - `npm run lint` - Lint JavaScript and CSS
 - `npm run test` - Run all tests
+- `npm run makepot` - Generate translation POT file
+- `npm run makejson` - Generate JSON translation files
+- `npm run i18n` - Complete i18n workflow (makepot + makejson)
 - `npm run env:start` - Start WordPress environment
 - `npm run plugin-zip` - Create distribution ZIP
 
@@ -112,7 +118,7 @@ This template uses mustache-style placeholders that should be replaced when scaf
 
 ## Contributing
 
-See [CONTRIBUTING.md](./docs/single-block-plugin/CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ## License
 
@@ -120,4 +126,7 @@ This project is licensed under the {{license}} License - see the [LICENSE](LICEN
 
 ## Support
 
-For support, please see [SUPPORT.md](./docs/single-block-plugin/SUPPORT.md).
+For support, please see:
+
+- [Support Documentation](SUPPORT.md)
+- [Internationalization Guide](docs/INTERNATIONALIZATION.md)

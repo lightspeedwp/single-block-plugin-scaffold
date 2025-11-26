@@ -1,0 +1,46 @@
+/**
+ * {{name}} Block Styles - Editor Only (Block-specific)
+ *
+ * The following styles get applied only in the editor for this specific block.
+ * For global editor styles, see src/scss/editor.scss
+ *
+ * @package {{namespace}}
+ * @since   {{version}}
+ */
+
+// Import global editor styles if needed
+// @import '../scss/abstracts/variables';
+
+.wp-block-{{namespace}}-{{slug}} {
+	// Block-specific editor styling
+	.block-editor-block-list__layout & {
+		// Styles for when block is in the editor
+	}
+
+	// Selected state in editor
+	&.is-selected {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			// Additional selected state styling
+		}
+	}
+
+	// Hovered state in editor
+	&.is-hovered {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			// Additional hover state styling
+		}
+	}
+
+	// Multi-selected state
+	&.is-multi-selected {
+		.wp-block-{{namespace}}-{{slug}}__content {
+			// Styling when multiple blocks are selected
+			opacity: 0.5;
+		}
+	}
+
+	// Placeholder text styling
+	.components-placeholder {
+		// Customize placeholder appearance
+	}
+}

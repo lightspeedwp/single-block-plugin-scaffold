@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPStan bootstrap file for {{projectName}}.
+ * PHPStan bootstrap file for {{name}}.
  *
  * @package {{namespace}}
  */

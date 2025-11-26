@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="{{projectName}}">
-	<description>Coding standards for {{projectName}}</description>
+<ruleset name="{{name}}">
+	<description>Coding standards for {{name}}</description>
 
 	<!-- Include WordPress Coding Standards -->
 	<rule ref="WordPress">

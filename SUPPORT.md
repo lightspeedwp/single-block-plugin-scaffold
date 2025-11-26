@@ -1,21 +1,21 @@
 ---
-title: "{{projectName}} - Support Guide"
+title: "{{name}} - Support Guide"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Support resources for {{projectName}}"
+description: "Support resources for {{name}}"
 type: "documentation"
 ---
 
 # Support
 
-Need help with {{projectName}}? This guide provides various support options and resources.
+Need help with {{name}}? This guide provides various support options and resources.
 
 ## Quick Help
 
 ### Before Asking for Help
 
-1. **Check the documentation** - Start with [USAGE.md](./USAGE.md) and [DEVELOPMENT.md](./DEVELOPMENT.md)
+1. **Check the documentation** - Start with [USAGE.md](USAGE.md) and [DEVELOPMENT.md](DEVELOPMENT.md)
 2. **Search existing issues** - Someone may have already reported your problem
 3. **Try troubleshooting** - Follow the troubleshooting steps below
 4. **Gather information** - Collect relevant details about your issue
@@ -107,9 +107,9 @@ Any other context about the problem here.
 
 **Self-service resources**:
 
-- **[Usage Guide](./USAGE.md)** - How to use the plugin
-- **[Development Guide](./DEVELOPMENT.md)** - Technical documentation
-- **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute
+- **[Usage Guide](USAGE.md)** - How to use the plugin
+- **[Development Guide](DEVELOPMENT.md)** - Technical documentation
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
 - **[FAQ Section](#frequently-asked-questions)** - Common questions
 
 ## Commercial Support
@@ -180,18 +180,21 @@ For enterprise clients, we offer:
 Issues are prioritized based on:
 
 ### High Priority
+
 - **Security vulnerabilities**
 - **Data loss or corruption**
 - **Complete functionality breakage**
 - **Accessibility violations**
 
 ### Medium Priority
+
 - **Significant bugs affecting many users**
 - **Performance issues**
 - **Compatibility problems**
 - **Feature improvements**
 
 ### Low Priority
+
 - **Minor bugs with workarounds**
 - **Enhancement requests**
 - **Documentation improvements**
@@ -202,7 +205,7 @@ Issues are prioritized based on:
 ### Installation and Setup
 
 **Q: How do I install the plugin?**
-A: See the [Installation section](./USAGE.md#installation) in the usage guide.
+A: See the [Installation section](USAGE.md#installation) in the usage guide.
 
 **Q: What WordPress version is required?**
 A: WordPress 6.0 or higher is required.
@@ -216,7 +219,7 @@ A: The plugin is designed for the WordPress block editor. Page builder compatibi
 ### Usage and Configuration
 
 **Q: How do I customize the styling?**
-A: Use WordPress's built-in design tools, theme customizer, or custom CSS. See [USAGE.md](./USAGE.md#styling-and-customization).
+A: Use WordPress's built-in design tools, theme customizer, or custom CSS. See [USAGE.md](USAGE.md#styling-and-customization).
 
 **Q: Can I translate the plugin?**
 A: Yes, the plugin is translation-ready. Contribute translations via [WordPress.org](https://translate.wordpress.org/).
@@ -312,4 +315,4 @@ You can help improve support by:
 - **Add features** requested by the community
 - **Improve accessibility** and usability
 
-Thank you for using {{projectName}}! We're here to help you succeed. 🚀
+Thank you for using {{name}}! We're here to help you succeed. 🚀

@@ -1,15 +1,15 @@
 ---
-title: "{{projectName}} - Contributing Guidelines"
+title: "{{name}} - Contributing Guidelines"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Guidelines for contributing to {{projectName}}"
+description: "Guidelines for contributing to {{name}}"
 type: "documentation"
 ---
 
-# Contributing to {{projectName}}
+# Contributing to {{name}}
 
-Thank you for your interest in contributing to {{projectName}}! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to {{name}}! This document provides guidelines and information for contributors.
 
 ## Table of Contents
 
@@ -24,7 +24,7 @@ Thank you for your interest in contributing to {{projectName}}! This document pr
 
 ## Code of Conduct
 
-This project adheres to a [Code of Conduct](./CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to {{author}}.
+This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to {{author}}.
 
 ## Getting Started
 
@@ -40,9 +40,9 @@ This project adheres to a [Code of Conduct](./CODE_OF_CONDUCT.md). By participat
 
 If you're new to open source contribution:
 
-1. **Read the documentation** - especially [DEVELOPMENT.md](./DEVELOPMENT.md)
+1. **Read the documentation** - especially [DEVELOPMENT.md](DEVELOPMENT.md)
 2. **Look for "good first issue"** labels on GitHub
-3. **Join our community** - see [SUPPORT.md](./SUPPORT.md) for communication channels
+3. **Join our community** - see [SUPPORT.md](SUPPORT.md) for communication channels
 4. **Ask questions** - don't hesitate to ask for help
 
 ## Types of Contributions
@@ -146,11 +146,11 @@ Example:
  */
 function {{namespace}}_{{slug|snakeCase}}_render_callback( array $attributes, string $content, WP_Block $block ): string {
     $content_text = wp_kses_post( $attributes['content'] ?? '' );
-    
+
     if ( empty( $content_text ) ) {
         return '';
     }
-    
+
     return sprintf(
         '<div %s><p>%s</p></div>',
         get_block_wrapper_attributes(),
@@ -180,9 +180,9 @@ Example:
  */
 export default function Edit( { attributes, setAttributes } ) {
     const { content } = attributes;
-    
+
     const blockProps = useBlockProps();
-    
+
     return (
         <div { ...blockProps }>
             <RichText
@@ -211,12 +211,12 @@ Example:
         padding: var(--wp--preset--spacing--medium);
         border: 1px solid var(--wp--preset--color--border);
         border-radius: var(--wp--preset--spacing--x-small);
-        
+
         @media (max-width: 768px) {
             padding: var(--wp--preset--spacing--small);
         }
     }
-    
+
     &.has-text-align-center {
         text-align: center;
     }
@@ -236,6 +236,7 @@ Example:
 ### Workflow
 
 1. **Create a branch** from `develop`:
+
    ```bash
    git checkout develop
    git pull upstream develop
@@ -247,6 +248,7 @@ Example:
 3. **Write/update tests** for your changes
 
 4. **Test thoroughly**:
+
    ```bash
    npm run test
    npm run lint
@@ -255,12 +257,14 @@ Example:
    ```
 
 5. **Commit with clear messages**:
+
    ```bash
    git add .
    git commit -m "Add: Brief description of changes"
    ```
 
 6. **Push to your fork**:
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -285,6 +289,7 @@ Closes #123
 ```
 
 Types:
+
 - **Add:** New features
 - **Fix:** Bug fixes
 - **Update:** Changes to existing features
@@ -392,7 +397,7 @@ Outstanding contributors may be invited to become:
 
 - **General questions** - Use [GitHub Discussions](https://github.com/{{author}}/{{slug}}/discussions)
 - **Specific issues** - Comment on relevant GitHub issues
-- **Development help** - See [SUPPORT.md](./SUPPORT.md) for channels
+- **Development help** - See [SUPPORT.md](SUPPORT.md) for channels
 - **Urgent matters** - Contact maintainers directly
 
 ### Resources
@@ -405,6 +410,6 @@ Outstanding contributors may be invited to become:
 
 ## License
 
-By contributing to {{projectName}}, you agree that your contributions will be licensed under the same license as the project ({{license}}).
+By contributing to {{name}}, you agree that your contributions will be licensed under the same license as the project ({{license}}).
 
-Thank you for contributing to {{projectName}}! 🎉
+Thank you for contributing to {{name}}! 🎉

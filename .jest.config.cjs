@@ -1,9 +1,9 @@
-// Jest configuration for {{projectName}}
+// Jest configuration for {{name}}
 module.exports = {
 	...require( '@wordpress/jest-preset-default' ),
 	testEnvironment: 'jsdom',
 	setupFilesAfterEnv: [ '<rootDir>/tests/setup-tests.js' ],
-	moduleNameMapping: {
+	moduleNameMapper: {
 		'\\.(css|scss)$': 'identity-obj-proxy',
 	},
 	collectCoverageFrom: [
@@ -15,11 +15,11 @@ module.exports = {
 	],
 	coverageDirectory: 'coverage',
 	coverageReporters: [ 'text', 'lcov', 'html' ],
-	testMatch: [
-		'**/tests/**/*.test.js',
-		'**/src/**/*.test.js',
-	],
+	testMatch: [ '**/tests/**/*.test.js', '**/src/**/*.test.js' ],
 	transform: {
-		'^.+\\.[jt]sx?$': [ 'babel-jest', { presets: [ '@wordpress/babel-preset-default' ] } ],
+		'^.+\\.[jt]sx?$': [
+			'babel-jest',
+			{ presets: [ '@wordpress/babel-preset-default' ] },
+		],
 	},
 };

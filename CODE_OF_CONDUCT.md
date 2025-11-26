@@ -1,9 +1,9 @@
 ---
-title: "{{projectName}} - Code of Conduct"
+title: "{{name}} - Code of Conduct"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Code of conduct for {{projectName}} community"
+description: "Code of conduct for {{name}} community"
 type: "documentation"
 ---
 
@@ -262,7 +262,7 @@ This Code of Conduct may be updated to:
 
 ### Version History
 
-* **v{{version}}** (2024-10-18) - Initial version for {{projectName}}
+* **v{{version}}** (2024-10-18) - Initial version for {{name}}
 
 ---
 

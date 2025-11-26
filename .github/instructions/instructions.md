@@ -1,21 +1,42 @@
 ---
-title: "{{projectName}} - Instructions for Agents"
+title: "{{name}} - Instructions for Agents"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Comprehensive instructions for AI agents working with {{projectName}}"
+description: "Comprehensive instructions for AI agents working with {{name}}"
 type: "documentation"
 ---
 
-# Agent Instructions for {{projectName}}
+# Agent Instructions for {{name}}
 
-This document provides comprehensive instructions for AI agents (like GitHub Copilot, ChatGPT, Claude, etc.) when working with the {{projectName}} codebase.
+This document provides comprehensive instructions for AI agents (like GitHub Copilot, ChatGPT, Claude, etc.) when working with the {{name}} codebase.
+
+## Overview & Related Files
+
+**Related Files:**
+
+- [Custom Instructions](../custom-instructions.md) — main AI/Copilot and plugin instructions
+- [Chat Modes](../chatmodes/chatmodes.md) — context-specific Copilot prompts
+- [Prompts](../prompts/prompts.md) — prompt templates for consistent output
+- [Main Agent Index](../agents/agent.md) — agent specs and usage
+- [WP Block Build Agent Spec](../agents/wp-block-build.agent.md) — build agent spec for this scaffold
+- [Global AI Rules (AGENTS.md)](../../AGENTS.md) — org-wide agent rules and coding standards
+
+**Dynamic References:**
+
+- All instruction files: [`*.instructions.md`](../instructions/) (current directory)
+- All agent files: [`*.agent.md`](../agents/) and [`*.agent.js`](../agents/)
+- All prompt files: [`*.prompt.md`](../prompts/)
+- All chatmode files: [`*.md`](../chatmodes/)
+
+---
 
 ## Project Overview
 
-{{projectName}} is a WordPress block plugin that provides {{description}}. The plugin follows WordPress and LightSpeed development standards and uses modern development practices.
+{{name}} is a WordPress block plugin that provides {{description}}. The plugin follows WordPress and LightSpeed development standards and uses modern development practices.
 
 ### Key Technologies
+
 - **WordPress 6.0+** - Block Editor (Gutenberg)
 - **React 18+** - Frontend framework for block components
 - **PHP 8.0+** - Server-side functionality
@@ -32,14 +53,14 @@ This is a mustache-template-based scaffold. All files contain placeholders that 
 
 ```javascript
 const placeholders = {
-	'{{slug}}': 'my-awesome-block',           // Plugin slug (kebab-case)
-	'{{namespace}}': 'mycompany',              // Namespace (kebab-case)
-	'{{author}}': 'John Doe',                  // Author name
-	'{{description}}': 'An awesome block',     // Plugin description
-	'{{license}}': 'GPL-3.0-or-later',       // License identifier
-	'{{textdomain}}': 'my-awesome-block',     // WordPress text domain
-	'{{version}}': '1.0.0',                   // Plugin version
-	'{{projectName}}': 'My Awesome Block',    // Human-readable name
+ '{{slug}}': 'my-awesome-block',           // Plugin slug (kebab-case)
+ '{{namespace}}': 'mycompany',              // Namespace (kebab-case)
+ '{{author}}': 'John Doe',                  // Author name
+ '{{description}}': 'An awesome block',     // Plugin description
+ '{{license}}': 'GPL-3.0-or-later',       // License identifier
+ '{{textdomain}}': 'my-awesome-block',     // WordPress text domain
+ '{{version}}': '1.0.0',                   // Plugin version
+ '{{name}}': 'My Awesome Block',    // Human-readable name
 };
 ```
 
@@ -75,7 +96,11 @@ The system supports these transformations:
 ├── tests/                     # Test files
 ├── .github/workflows/         # CI/CD configuration
 ├── .vscode/                   # VSCode configuration
-├── docs/single-block-plugin/  # Documentation
+├── docs/                      # Technical documentation
+├── CODE_OF_CONDUCT.md         # Community code of conduct
+├── CONTRIBUTING.md            # Contribution guidelines
+├── SECURITY.md                # Security policy
+├── SUPPORT.md                 # Support resources
 └── [config files]            # Various configuration files
 ```
 
@@ -92,6 +117,7 @@ The system supports these transformations:
 ### File Header Templates
 
 #### PHP Files
+
 ```php
 <?php
 /**
@@ -103,11 +129,12 @@ The system supports these transformations:
 
 // Prevent direct access.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+ exit;
 }
 ```
 
 #### JavaScript Files
+
 ```javascript
 /**
  * Brief description of file purpose.
@@ -117,6 +144,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ```
 
 #### SCSS Files
+
 ```scss
 /**
  * Brief description of styles.
@@ -128,6 +156,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 ### Code Patterns to Follow
 
 #### React Components
+
 ```javascript
 /**
  * Component description.
@@ -138,17 +167,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return {Element} Component element.
  */
 export default function ComponentName( { attributes, setAttributes } ) {
-	const blockProps = useBlockProps();
-	
-	return (
-		<div { ...blockProps }>
-			{/* Component content */}
-		</div>
-	);
+ const blockProps = useBlockProps();
+
+ return (
+  <div { ...blockProps }>
+   {/* Component content */}
+  </div>
+ );
 }
 ```
 
 #### PHP Functions
+
 ```php
 /**
  * Function description.
@@ -159,30 +189,32 @@ export default function ComponentName( { attributes, setAttributes } ) {
  * @return string Rendered HTML.
  */
 function {{namespace}}_{{slug|snakeCase}}_function_name( array $attributes, string $content, WP_Block $block ): string {
-	// Function implementation
+ // Function implementation
 }
 ```
 
 #### CSS Classes
+
 ```scss
 .wp-block-{{namespace}}-{{slug}} {
-	&__element {
-		// Element styles
-	}
-	
-	&--modifier {
-		// Modifier styles
-	}
-	
-	&.has-custom-class {
-		// State styles
-	}
+ &__element {
+  // Element styles
+ }
+
+ &--modifier {
+  // Modifier styles
+ }
+
+ &.has-custom-class {
+  // State styles
+ }
 }
 ```
 
 ### Security Best Practices
 
 #### Input Sanitization
+
 ```php
 // Sanitize text input
 $text = sanitize_text_field( $input );
@@ -195,6 +227,7 @@ $url = esc_url( $input );
 ```
 
 #### Output Escaping
+
 ```php
 // Escape HTML output
 echo esc_html( $content );
@@ -207,16 +240,18 @@ echo '<a href="' . esc_url( $url ) . '">';
 ```
 
 #### Nonce Verification
+
 ```php
 // Verify nonce
 if ( ! wp_verify_nonce( $_POST['nonce'], 'action_name' ) ) {
-	wp_die( __( 'Security check failed.', '{{textdomain}}' ) );
+ wp_die( __( 'Security check failed.', '{{textdomain}}' ) );
 }
 ```
 
 ### Internationalization (i18n)
 
 #### JavaScript
+
 ```javascript
 import { __ } from '@wordpress/i18n';
 
@@ -228,6 +263,7 @@ const text = _x( 'Post', 'noun', '{{textdomain}}' );
 ```
 
 #### PHP
+
 ```php
 // Basic translation
 $text = __( 'Hello World', '{{textdomain}}' );
@@ -239,31 +275,33 @@ echo esc_html__( 'Hello World', '{{textdomain}}' );
 ### Testing Patterns
 
 #### JavaScript Unit Tests
+
 ```javascript
 import { render, screen } from '@testing-library/react';
 import ComponentName from '../component-name';
 
 describe( 'ComponentName', () => {
-	it( 'renders correctly', () => {
-		const attributes = { content: 'Test' };
-		const setAttributes = jest.fn();
-		
-		render( <ComponentName attributes={ attributes } setAttributes={ setAttributes } /> );
-		
-		expect( screen.getByText( 'Test' ) ).toBeInTheDocument();
-	} );
+ it( 'renders correctly', () => {
+  const attributes = { content: 'Test' };
+  const setAttributes = jest.fn();
+
+  render( <ComponentName attributes={ attributes } setAttributes={ setAttributes } /> );
+
+  expect( screen.getByText( 'Test' ) ).toBeInTheDocument();
+ } );
 } );
 ```
 
 #### PHP Unit Tests
+
 ```php
 <?php
 class Test_{{namespace|pascalCase}}_Functionality extends WP_UnitTestCase {
-	
-	public function test_function_name() {
-		$result = {{namespace}}_function_name( 'input' );
-		$this->assertEquals( 'expected', $result );
-	}
+
+ public function test_function_name() {
+  $result = {{namespace}}_function_name( 'input' );
+  $this->assertEquals( 'expected', $result );
+ }
 }
 ```
 
@@ -272,23 +310,25 @@ class Test_{{namespace|pascalCase}}_Functionality extends WP_UnitTestCase {
 ### Adding a New Block Attribute
 
 1. **Update block.json**:
+
 ```json
 {
-	"attributes": {
-		"newAttribute": {
-			"type": "string",
-			"default": ""
-		}
-	}
+ "attributes": {
+  "newAttribute": {
+   "type": "string",
+   "default": ""
+  }
+ }
 }
 ```
 
 2. **Update edit.js**:
+
 ```javascript
 const { newAttribute } = attributes;
 
 const onChangeNewAttribute = ( value ) => {
-	setAttributes( { newAttribute: value } );
+ setAttributes( { newAttribute: value } );
 };
 ```
 
@@ -318,50 +358,55 @@ const onChangeNewAttribute = ( value ) => {
 ## Error Handling and Validation
 
 ### Client-side Validation
+
 ```javascript
 // Validate props
 if ( ! attributes.content ) {
-	return null;
+ return null;
 }
 
 // Handle errors gracefully
 try {
-	// Component logic
+ // Component logic
 } catch ( error ) {
-	console.error( 'Component error:', error );
-	return <div>Error rendering component</div>;
+ console.error( 'Component error:', error );
+ return <div>Error rendering component</div>;
 }
 ```
 
 ### Server-side Validation
+
 ```php
 // Validate input
 if ( empty( $content ) || ! is_string( $content ) ) {
-	return '';
+ return '';
 }
 
 // Sanitize and validate
 $content = wp_kses_post( $content );
 if ( empty( $content ) ) {
-	return '';
+ return '';
 }
 ```
 
 ## Performance Considerations
 
 ### JavaScript Optimization
+
 - Use **React.memo()** for expensive components
 - Implement **proper useEffect dependencies**
 - Avoid **unnecessary re-renders**
 - Use **code splitting** where appropriate
 
 ### PHP Optimization
+
 - Use **transient caching** for expensive operations
 - Implement **proper database queries**
 - Avoid **global variable pollution**
 - Use **WordPress hooks** efficiently
 
 ### CSS Optimization
+
 - Use **CSS custom properties** for theming
 - Implement **mobile-first** responsive design
 - Minimize **specificity conflicts**
@@ -370,23 +415,26 @@ if ( empty( $content ) ) {
 ## Accessibility Requirements
 
 ### ARIA Labels
+
 ```javascript
 <button aria-label={ __( 'Button description', '{{textdomain}}' ) }>
-	{ __( 'Button Text', '{{textdomain}}' ) }
+ { __( 'Button Text', '{{textdomain}}' ) }
 </button>
 ```
 
 ### Keyboard Navigation
+
 ```javascript
 const onKeyDown = ( event ) => {
-	if ( event.key === 'Enter' || event.key === ' ' ) {
-		event.preventDefault();
-		handleAction();
-	}
+ if ( event.key === 'Enter' || event.key === ' ' ) {
+  event.preventDefault();
+  handleAction();
+ }
 };
 ```
 
 ### Color Contrast
+
 - Ensure **4.5:1 contrast ratio** for normal text
 - Ensure **3:1 contrast ratio** for large text
 - Test with **high contrast mode**
@@ -395,6 +443,7 @@ const onKeyDown = ( event ) => {
 ## Documentation Standards
 
 ### Code Comments
+
 ```javascript
 /**
  * Function description explaining what it does.
@@ -406,15 +455,18 @@ const onKeyDown = ( event ) => {
 ```
 
 ### Inline Comments
+
 ```javascript
 // Explain complex logic or business rules
 if ( complexCondition ) {
-	// Why this condition exists and what it accomplishes
+ // Why this condition exists and what it accomplishes
 }
 ```
 
 ### README Updates
+
 When adding features:
+
 1. Update **feature list** in README.md
 2. Add **usage examples** if applicable
 3. Update **installation instructions** if needed
@@ -423,6 +475,7 @@ When adding features:
 ## Common Pitfalls to Avoid
 
 ### WordPress-specific
+
 - ❌ Don't use PHP short tags (`<?`)
 - ❌ Don't echo unescaped output
 - ❌ Don't use deprecated WordPress functions
@@ -430,6 +483,7 @@ When adding features:
 - ❌ Don't forget text domains for translations
 
 ### React-specific
+
 - ❌ Don't mutate props directly
 - ❌ Don't use array indexes as keys
 - ❌ Don't forget to handle loading states
@@ -437,6 +491,7 @@ When adding features:
 - ❌ Don't create unnecessary re-renders
 
 ### General
+
 - ❌ Don't forget to test on mobile devices
 - ❌ Don't ignore accessibility requirements
 - ❌ Don't skip error handling
@@ -446,6 +501,7 @@ When adding features:
 ## Agent Behavior Guidelines
 
 ### When Asked to Add Features
+
 1. **Analyze existing patterns** in the codebase
 2. **Follow established conventions** for naming and structure
 3. **Update all relevant files** (tests, docs, etc.)
@@ -453,6 +509,7 @@ When adding features:
 5. **Ensure backward compatibility** where possible
 
 ### When Debugging Issues
+
 1. **Check browser console** for JavaScript errors
 2. **Review PHP error logs** for server-side issues
 3. **Validate HTML output** for markup issues
@@ -460,6 +517,7 @@ When adding features:
 5. **Verify WordPress compatibility** versions
 
 ### When Refactoring Code
+
 1. **Maintain existing functionality** exactly
 2. **Update tests** to match changes
 3. **Update documentation** if APIs change

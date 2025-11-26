@@ -1,5 +1,5 @@
 /**
- * Jest setup file for {{projectName}}.
+ * Jest setup file for {{name}}.
  *
  * @package {{namespace}}
  */

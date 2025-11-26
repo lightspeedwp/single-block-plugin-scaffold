@@ -1,34 +1,37 @@
 <?php
 /**
- * Plugin Name: {{projectName}}
- * Plugin URI: https://github.com/{{author}}/{{slug}}
- * Description: {{description}}
- * Version: {{version}}
- * Author: {{author}}
- * License: {{license}}
- * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain: {{textdomain}}
- * Domain Path: /languages
- * Requires at least: 6.0
- * Tested up to: 6.5
- * Requires PHP: 8.0
- * Network: false
- * Update URI: https://github.com/{{author}}/{{slug}}
+ * Plugin Name:       {{name}}
+ * Plugin URI:        {{plugin_uri}}
+ * Description:       {{description}}
+ * Version:           {{version}}
+ * Requires at least: {{requires_wp}}
+ * Requires PHP:      {{requires_php}}
+ * Author:            {{author}}
+ * Author URI:        {{author_uri}}
+ * License:           {{license}}
+ * License URI:       {{license_uri}}
+ * Text Domain:       {{textdomain}}
+ * Domain Path:       /languages
+ * Update URI:        {{update_uri}}
+ * Network:           false
  *
- * {{projectName}} is free software: you can redistribute it and/or modify
+ * @package           {{namespace}}
+ * @author            {{author}}
+ * @copyright         {{copyright_year}} {{copyright_holder}}
+ * @license           {{license}}
+ *
+ * {{name}} is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * any later version.
  *
- * {{projectName}} is distributed in the hope that it will be useful,
+ * {{name}} is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with {{projectName}}. If not, see <https://www.gnu.org/licenses/>.
- *
- * @package {{namespace}}
+ * along with {{name}}. If not, see {{license_uri}}.
  */
 
 // Prevent direct access.
@@ -70,16 +73,23 @@ class {{namespace|pascalCase}}_Plugin {
 	 */
 	public function enqueue_frontend_assets() {
 		$asset_file = {{namespace|upper}}_PLUGIN_DIR . 'build/index.asset.php';
-		
+
 		if ( file_exists( $asset_file ) ) {
 			$asset = include $asset_file;
-			
+
 			wp_enqueue_script(
 				'{{slug}}-frontend',
 				{{namespace|upper}}_PLUGIN_URL . 'build/index.js',
 				$asset['dependencies'] ?? array(),
 				$asset['version'] ?? {{namespace|upper}}_VERSION,
 				true
+			);
+
+			// Set script translations.
+			wp_set_script_translations(
+				'{{slug}}-frontend',
+				'{{textdomain}}',
+				{{namespace|upper}}_PLUGIN_DIR . 'languages'
 			);
 		}
 	}
@@ -89,16 +99,23 @@ class {{namespace|pascalCase}}_Plugin {
 	 */
 	public function enqueue_editor_assets() {
 		$asset_file = {{namespace|upper}}_PLUGIN_DIR . 'build/index.asset.php';
-		
+
 		if ( file_exists( $asset_file ) ) {
 			$asset = include $asset_file;
-			
+
 			wp_enqueue_script(
 				'{{slug}}-editor',
 				{{namespace|upper}}_PLUGIN_URL . 'build/index.js',
 				$asset['dependencies'] ?? array(),
 				$asset['version'] ?? {{namespace|upper}}_VERSION,
 				true
+			);
+
+			// Set script translations.
+			wp_set_script_translations(
+				'{{slug}}-editor',
+				'{{textdomain}}',
+				{{namespace|upper}}_PLUGIN_DIR . 'languages'
 			);
 		}
 	}

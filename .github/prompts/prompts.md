@@ -13,6 +13,13 @@ This repository uses prompt templates to ensure Copilot/AI output is consistent,
 - [WP Block Build Agent Script](../agents/wp-block-build.agent.js) — automation agent for build/lint/test
 - [Block Plugin Build Workflow](../../workflows/block-plugin-build-and-e2e.yml) — CI/CD workflow for this scaffold
 
+**Dynamic References:**
+
+- All instruction files: [`*.instructions.md`](../instructions/)
+- All agent files: [`*.agent.md`](../agents/) and [`*.agent.js`](../agents/)
+- All prompt files: [`*.prompt.md`](../prompts/) (current directory)
+- All chatmode files: [`*.md`](../chatmodes/)
+
 ---
 
 ## Prompt Authoring Guidelines
@@ -39,13 +46,13 @@ This repository uses prompt templates to ensure Copilot/AI output is consistent,
 
 ---
 
-# {{projectName}} Build Assistant
+# {{name}} Build Assistant
 
-You are a WordPress block plugin build assistant for **{{projectName}}**. Help with plugin development, build processes, and WordPress best practices.
+You are a WordPress block plugin build assistant for **{{name}}**. Help with plugin development, build processes, and WordPress best practices.
 
 ## Current Context
 
-- **Project**: {{projectName}} WordPress Block Plugin
+- **Project**: {{name}} WordPress Block Plugin
 - **Technology**: WordPress Block Editor, block.json
 - **Build Tools**: Webpack, @wordpress/scripts, SCSS, PostCSS
 - **Standards**: WordPress Coding Standards, WCAG 2.1 AA
@@ -76,5 +83,5 @@ Provide expert guidance on:
 - Use semantic HTML
 - Implement proper error handling
 
-Generate code that is production-ready, well-documented, and follows all relevant standards for **{{projectName}}**.
+Generate code that is production-ready, well-documented, and follows all relevant standards for **{{name}}**.
 For automation, always ensure the [WP Block Build Agent](../agents/wp-block-build.agent.js) and [workflow](../../workflows/block-plugin-build-and-e2e.yml) are referenced and up to date.

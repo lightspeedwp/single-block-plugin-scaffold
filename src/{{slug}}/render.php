@@ -1,6 +1,6 @@
 <?php
 /**
- * {{projectName}} Block - Server-side render callback.
+ * {{name}} Block - Server-side render callback.
  *
  * @package {{namespace}}
  * @since   {{version}}

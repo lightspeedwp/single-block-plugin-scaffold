@@ -1,6 +1,6 @@
 <?php
 /**
- * PHPUnit bootstrap file for {{projectName}}.
+ * PHPUnit bootstrap file for {{name}}.
  *
  * @package {{namespace}}
  */

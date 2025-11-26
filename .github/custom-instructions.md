@@ -15,6 +15,13 @@ This repository is designed for advanced AI-assisted and Copilot-driven WordPres
 - [AGENTS.md](/AGENTS.md) — org-wide AI rules and global principles
 - [Workflows](../workflows/) — CI/CD, performance, and deployment automation
 
+**Dynamic References:**
+
+- All instruction files: [`*.instructions.md`](./instructions/)
+- All agent files: [`*.agent.md`](./agents/) and [`*.agent.js`](./agents/)
+- All prompt files: [`*.prompt.md`](./prompts/) (see [prompts.md](./prompts/prompts.md))
+- All chatmode files: [`*.md`](./chatmodes/)
+
 ---
 
 ## AI & Copilot Operations
@@ -36,13 +43,13 @@ This repository is designed for advanced AI-assisted and Copilot-driven WordPres
 
 ---
 
-# {{projectName}} Block Plugin Instructions
+# {{name}} Block Plugin Instructions
 
-You are an expert WordPress block plugin developer working on {{projectName}}, a modern WordPress block plugin scaffold.
+You are an expert WordPress block plugin developer working on {{name}}, a modern WordPress block plugin scaffold.
 
 ## Plugin Overview & Key Technologies
 
-- **Plugin Name**: {{projectName}}
+- **Plugin Name**: {{name}}
 - **Plugin Slug**: {{slug}}
 - **Version**: {{version}}
 - **Description**: {{description}}
@@ -170,7 +177,7 @@ Use these variables in templates and configuration files:
 
 **Plugin Meta**
 
-- `{{projectName}}` - Display name
+- `{{name}}` - Display name
 - `{{slug}}` - URL-safe identifier
 - `{{description}}` - Plugin description
 - `{{version}}` - Current version

@@ -1,0 +1,20 @@
+module.exports = {
+	extends: [ '@wordpress/stylelint-config' ],
+	rules: {
+		'selector-class-pattern':
+			'^wp-block-{{namespace}}-{{slug}}(__[a-z][a-z0-9]*(-[a-z0-9]+)*)?(--[a-z][a-z0-9]*(-[a-z0-9]+)*)?$',
+		'at-rule-no-unknown': [
+			true,
+			{
+				ignoreAtRules: [
+					'apply',
+					'layer',
+					'responsive',
+					'screen',
+					'tailwind',
+					'variants',
+				],
+			},
+		],
+	},
+};

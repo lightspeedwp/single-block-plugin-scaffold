@@ -1,15 +1,15 @@
 ---
-title: "{{projectName}} - Usage Guide"
+title: "{{name}} - Usage Guide"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "User guide for {{projectName}}"
+description: "User guide for {{name}}"
 type: "documentation"
 ---
 
 # Usage Guide
 
-This guide explains how to use the {{projectName}} in your WordPress site.
+This guide explains how to use the {{name}} in your WordPress site.
 
 ## Installation
 
@@ -34,13 +34,13 @@ composer require {{author}}/{{slug}}
 
 ## Getting Started
 
-Once activated, the {{projectName}} block will be available in the WordPress block editor.
+Once activated, the {{name}} block will be available in the WordPress block editor.
 
 ### Adding the Block
 
 1. **Open the block editor** for any post or page
 2. **Click the (+) button** to add a new block
-3. **Search for "{{projectName}}"** or find it in the Widgets category
+3. **Search for "{{name}}"** or find it in the Widgets category
 4. **Click to insert** the block
 
 ### Basic Configuration
@@ -127,7 +127,7 @@ Create reusable patterns with the block:
 
 ### Accessibility Features
 
-The {{projectName}} block is built with accessibility in mind:
+The {{name}} block is built with accessibility in mind:
 
 #### Keyboard Navigation
 
@@ -200,13 +200,14 @@ If you encounter issues:
 1. **Check the FAQ** below for common solutions
 2. **Search existing issues** on [GitHub](https://github.com/{{author}}/{{slug}}/issues)
 3. **Create a new issue** with detailed information
-4. **Contact support** - see [SUPPORT.md](./SUPPORT.md) for options
+4. **Contact support** - see [SUPPORT.md](../SUPPORT.md) for options
 
 ## Frequently Asked Questions
 
 ### Can I use this block in widgets?
 
 Yes, the block works in any area that supports blocks, including:
+
 - Widget areas (if your theme supports block widgets)
 - Full Site Editing template areas
 - Custom post types that support blocks
@@ -218,6 +219,7 @@ The block is designed for the WordPress block editor. Compatibility with page bu
 ### Can I customize the styling?
 
 Yes, you can customize styling through:
+
 - WordPress's built-in design tools
 - Theme customizer options
 - Custom CSS
@@ -242,13 +244,14 @@ The block is designed to work with any properly coded WordPress theme. If you ex
 ### How do I update the plugin?
 
 Updates are delivered through WordPress's standard update system:
+
 1. You'll see update notifications in your admin
 2. Click **Update** to install the latest version
 3. Always backup your site before updating
 
 ### Can I contribute to development?
 
-Yes! See [CONTRIBUTING.md](./CONTRIBUTING.md) for information on how to contribute code, translations, or documentation.
+Yes! See [CONTRIBUTING.md](../CONTRIBUTING.md) for information on how to contribute code, translations, or documentation.
 
 ## Examples
 

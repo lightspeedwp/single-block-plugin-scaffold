@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🧪 Running tests for {{projectName}}..."
+echo "🧪 Running tests for {{name}}..."
 
 # Check if required tools are available
 if ! command -v npm &> /dev/null; then

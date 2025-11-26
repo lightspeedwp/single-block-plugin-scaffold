@@ -1,15 +1,15 @@
 ---
-title: "{{projectName}} - Security Policy"
+title: "{{name}} - Security Policy"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Security policy and guidelines for {{projectName}}"
+description: "Security policy and guidelines for {{name}}"
 type: "documentation"
 ---
 
 # Security Policy
 
-The security of {{projectName}} is a top priority. This document outlines our security practices, how to report vulnerabilities, and what users can expect from our security process.
+The security of {{name}} is a top priority. This document outlines our security practices, how to report vulnerabilities, and what users can expect from our security process.
 
 ## Supported Versions
 
@@ -351,7 +351,7 @@ The plugin complies with:
 
 ## Acknowledgments
 
-We thank the security researchers and community members who help keep {{projectName}} secure:
+We thank the security researchers and community members who help keep {{name}} secure:
 
 - **Security researchers** who responsibly disclose vulnerabilities
 - **WordPress security team** for platform security

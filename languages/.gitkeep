@@ -1,0 +1,6 @@
+# Translation files will be stored here
+#
+# .pot files - Template files for translators
+# .po files - Translation source files (human readable)
+# .mo files - Compiled translation files (machine readable)
+# .json files - JavaScript translation files

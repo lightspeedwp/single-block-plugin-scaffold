@@ -1,12 +1,12 @@
 /**
- * E2E tests for {{projectName}} block.
+ * E2E tests for {{name}} block.
  *
  * @package {{namespace}}
  */
 
 import { test, expect } from '@playwright/test';
 
-test.describe( '{{projectName}} Block', () => {
+test.describe( '{{name}} Block', () => {
 	test.beforeEach( async ( { page } ) => {
 		// Login to WordPress admin
 		await page.goto( '/wp-admin' );
@@ -26,7 +26,7 @@ test.describe( '{{projectName}} Block', () => {
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
 		
 		// Search for the block
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		
 		// Check if block appears in search results
 		const blockResult = page.locator( '[data-id="{{namespace}}/{{slug}}"]' );
@@ -36,7 +36,7 @@ test.describe( '{{projectName}} Block', () => {
 	test( 'should insert and render correctly', async ( { page } ) => {
 		// Insert the block
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		await page.click( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
 		
 		// Check if block is inserted
@@ -54,7 +54,7 @@ test.describe( '{{projectName}} Block', () => {
 	test( 'should allow alignment changes', async ( { page } ) => {
 		// Insert the block
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		await page.click( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
 		
 		// Select the block
@@ -77,7 +77,7 @@ test.describe( '{{projectName}} Block', () => {
 	test( 'should work with block settings', async ( { page } ) => {
 		// Insert the block
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		await page.click( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
 		
 		// Select the block
@@ -105,7 +105,7 @@ test.describe( '{{projectName}} Block', () => {
 	test( 'should save and render on frontend', async ( { page } ) => {
 		// Insert the block with content
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		await page.click( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
 		
 		const block = page.locator( '.wp-block-{{namespace}}-{{slug}}' );
@@ -138,7 +138,7 @@ test.describe( '{{projectName}} Block', () => {
 	test( 'should be accessible', async ( { page } ) => {
 		// Insert the block
 		await page.click( '.edit-post-header-toolbar__inserter-toggle' );
-		await page.fill( '.block-editor-inserter__search input', '{{projectName}}' );
+		await page.fill( '.block-editor-inserter__search input', '{{name}}' );
 		await page.click( '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}"]' );
 		
 		// Test keyboard navigation

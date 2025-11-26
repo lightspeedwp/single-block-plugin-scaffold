@@ -1,15 +1,15 @@
 ---
-title: "{{projectName}} - Development Guide"
+title: "{{name}} - Development Guide"
 version: "{{version}}"
 last_updated: "2024-10-18"
 author: "{{author}}"
-description: "Comprehensive development guide for {{projectName}}"
+description: "Comprehensive development guide for {{name}}"
 type: "documentation"
 ---
 
 # Development Guide
 
-This document provides comprehensive information for developers working on {{projectName}}.
+This document provides comprehensive information for developers working on {{name}}.
 
 ## Prerequisites
 
@@ -89,6 +89,7 @@ The build system supports these mustache transforms:
 #### File Naming
 
 Template files use placeholder syntax:
+
 - `{{slug}}.php` - Main plugin file
 - `src/{{slug}}/` - Block directory
 
@@ -195,14 +196,14 @@ import { render, screen } from '@testing-library/react';
 import { Edit } from '../edit';
 
 describe( '{{slug}} Edit Component', () => {
-	it( 'renders correctly', () => {
-		const attributes = { content: 'Test content' };
-		const setAttributes = jest.fn();
-		
-		render( <Edit attributes={ attributes } setAttributes={ setAttributes } /> );
-		
-		expect( screen.getByText( 'Test content' ) ).toBeInTheDocument();
-	} );
+ it( 'renders correctly', () => {
+  const attributes = { content: 'Test content' };
+  const setAttributes = jest.fn();
+
+  render( <Edit attributes={ attributes } setAttributes={ setAttributes } /> );
+
+  expect( screen.getByText( 'Test content' ) ).toBeInTheDocument();
+ } );
 } );
 ```
 
@@ -223,19 +224,19 @@ composer run test
 ```php
 <?php
 class Test_{{namespace|pascalCase}}_Block extends WP_UnitTestCase {
-	
-	public function test_block_registration() {
-		$this->assertTrue( 
-			WP_Block_Type_Registry::get_instance()->is_registered( '{{namespace}}/{{slug}}' )
-		);
-	}
-	
-	public function test_render_callback() {
-		$attributes = array( 'content' => 'Test content' );
-		$result = {{namespace}}_{{slug|snakeCase}}_render_callback( $attributes, '', null );
-		
-		$this->assertStringContainsString( 'Test content', $result );
-	}
+
+ public function test_block_registration() {
+  $this->assertTrue(
+   WP_Block_Type_Registry::get_instance()->is_registered( '{{namespace}}/{{slug}}' )
+  );
+ }
+
+ public function test_render_callback() {
+  $attributes = array( 'content' => 'Test content' );
+  $result = {{namespace}}_{{slug|snakeCase}}_render_callback( $attributes, '', null );
+
+  $this->assertStringContainsString( 'Test content', $result );
+ }
 }
 ```
 
@@ -260,6 +261,7 @@ npm run start
 ```
 
 This starts webpack in watch mode with:
+
 - Hot module replacement
 - Source maps
 - Development optimizations
@@ -271,6 +273,7 @@ npm run build
 ```
 
 This creates optimized assets in `build/`:
+
 - Minified JavaScript
 - Compressed CSS
 - Asset manifests
@@ -279,9 +282,47 @@ This creates optimized assets in `build/`:
 ### Build Configuration
 
 The build process is configured via:
+
 - `webpack.config.js` - Custom webpack configuration
 - `.babelrc` - Babel transpilation settings
 - `postcss.config.js` - PostCSS processing
+
+#### Webpack Configuration
+
+The `webpack.config.js` extends `@wordpress/scripts` with custom settings:
+
+**Entry Points:**
+
+- `index` - Main plugin entry (`src/index.js`)
+- `{{slug}}` - Block-specific entry (`src/{{slug}}/index.js`)
+
+**Path Aliases:**
+
+- `@` → `src/` directory
+- `@blocks` → `src/{{slug}}/` directory
+- `@utils` → `src/utils/` directory
+- `@components` → `src/components/` directory
+
+**Custom Loaders:**
+
+- SVG files processed with `@svgr/webpack` and `url-loader`
+- Supports inline SVG imports in React components
+
+**Optimization:**
+
+- Separate CSS bundles for styles and editor
+- Code splitting for better performance
+- Asset size limits: 512KB per chunk
+
+Example usage of path aliases:
+
+```javascript
+// Instead of:
+import MyComponent from '../../../components/MyComponent';
+
+// Use:
+import MyComponent from '@components/MyComponent';
+```
 
 ## Deployment
 
@@ -295,6 +336,7 @@ node bin/update-version.js 1.2.0
 ```
 
 This updates version numbers in:
+
 - `package.json`
 - `composer.json`
 - `{{slug}}.php`
@@ -316,6 +358,7 @@ npm run plugin-zip
 ```
 
 This creates a distribution-ready ZIP file excluding:
+
 - Development files (`src/`, `tests/`)
 - Configuration files (`.eslintrc`, etc.)
 - Dependencies (`node_modules/`, `vendor/`)
@@ -406,4 +449,4 @@ define( 'SCRIPT_DEBUG', true );
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed contribution guidelines.
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for detailed contribution guidelines.

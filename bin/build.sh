@@ -5,7 +5,7 @@
 
 set -e
 
-echo "🚀 Building {{projectName}}..."
+echo "🚀 Building {{name}}..."
 
 # Check if Node.js is installed
 if ! command -v node &> /dev/null; then

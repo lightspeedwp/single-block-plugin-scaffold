@@ -12,6 +12,13 @@ This file documents the primary automation agent(s) for this repository, their p
 -   [Global AI Rules (AGENTS.md)](../../AGENTS.md) — org-wide agent rules, coding standards, and cross-references
 -   [WP Block Build Agent Spec](./wp-block-build.agent.md) — detailed build agent spec for single block plugin
 
+**Dynamic References:**
+
+-   All instruction files: [`*.instructions.md`](../instructions/)
+-   All agent files: [`*.agent.md`](../agents/) and [`*.agent.js`](../agents/) (current directory)
+-   All prompt files: [`*.prompt.md`](../prompts/)
+-   All chatmode files: [`*.md`](../chatmodes/)
+
 ---
 
 ## Primary Agents

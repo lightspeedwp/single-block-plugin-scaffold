@@ -11,7 +11,7 @@
 	syntaxCheck="false"
 	>
 	<testsuites>
-		<testsuite name="{{projectName}} Test Suite">
+		<testsuite name="{{name}} Test Suite">
 			<directory suffix=".php">./tests/</directory>
 			<exclude>./tests/bootstrap.php</exclude>
 			<exclude>./tests/data/</exclude>
@@ -46,7 +46,7 @@
 		<server name="SCRIPT_NAME" value="/index.php"/>
 		<const name="WP_TESTS_DOMAIN" value="localhost"/>
 		<const name="WP_TESTS_EMAIL" value="admin@localhost.dev"/>
-		<const name="WP_TESTS_TITLE" value="{{projectName}} Tests"/>
+		<const name="WP_TESTS_TITLE" value="{{name}} Tests"/>
 		<const name="WP_DEBUG" value="true"/>
 		<const name="WP_DEBUG_LOG" value="false"/>
 		<const name="WP_DEBUG_DISPLAY" value="true"/>
