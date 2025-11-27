@@ -53,6 +53,7 @@ flowchart TB
 Tests the block functionality in a real browser environment.
 
 **Test scenarios:**
+
 - Block registration
 - Block insertion
 - Block editing
@@ -75,13 +76,13 @@ test.describe('My Block', () => {
     test('block can be inserted', async ({ page }) => {
         // Open inserter
         await page.click('[aria-label="Add block"]');
-        
+
         // Search for block
         await page.fill('[placeholder="Search"]', 'My Block');
-        
+
         // Insert block
         await page.click('button:has-text("My Block")');
-        
+
         // Verify block exists
         const block = page.locator('.wp-block-my-plugin-my-block');
         await expect(block).toBeVisible();
@@ -90,13 +91,13 @@ test.describe('My Block', () => {
     test('block attributes can be edited', async ({ page }) => {
         // Insert block
         await editor.insertBlock({ name: 'my-plugin/my-block' });
-        
+
         // Open settings sidebar
         await page.click('[aria-label="Settings"]');
-        
+
         // Edit attribute
         await page.fill('input[aria-label="Content"]', 'Test content');
-        
+
         // Verify change
         const block = page.locator('.wp-block-my-plugin-my-block');
         await expect(block).toContainText('Test content');
@@ -106,14 +107,14 @@ test.describe('My Block', () => {
         // Insert and configure block
         await editor.insertBlock({ name: 'my-plugin/my-block' });
         await page.fill('.wp-block-my-plugin-my-block input', 'Frontend test');
-        
+
         // Publish post
         await page.click('button:has-text("Publish")');
         await page.click('button:has-text("Publish")'); // Confirm
-        
+
         // View post
         await page.click('a:has-text("View Post")');
-        
+
         // Verify frontend rendering
         const block = page.locator('.wp-block-my-plugin-my-block');
         await expect(block).toContainText('Frontend test');
@@ -122,13 +123,13 @@ test.describe('My Block', () => {
     test('block can be deleted', async ({ page }) => {
         // Insert block
         await editor.insertBlock({ name: 'my-plugin/my-block' });
-        
+
         // Select block
         await page.click('.wp-block-my-plugin-my-block');
-        
+
         // Delete block
         await page.keyboard.press('Backspace');
-        
+
         // Verify deletion
         const block = page.locator('.wp-block-my-plugin-my-block');
         await expect(block).not.toBeVisible();
@@ -217,10 +218,10 @@ npm run test:e2e -- --grep "block can be inserted"
 Playwright provides WordPress-specific utilities:
 
 ```javascript
-import { 
-    admin, 
-    editor, 
-    page 
+import {
+    admin,
+    editor,
+    page
 } from '@wordpress/e2e-test-utils-playwright';
 
 // Admin utilities
@@ -375,6 +376,7 @@ flowchart LR
 ```
 
 Tests run in parallel across multiple browsers:
+
 - **Chromium** - Chrome, Edge
 - **Firefox** - Mozilla Firefox
 - **WebKit** - Safari
@@ -397,6 +399,7 @@ npm run test:e2e -- --headed --slow-mo=1000
 ### Screenshots and Videos
 
 Failed tests automatically capture:
+
 - Screenshots
 - Videos
 - Trace files
@@ -410,6 +413,7 @@ npm run test:e2e -- --debug
 ```
 
 Features:
+
 - Step through tests
 - Inspect elements
 - View console logs
@@ -456,10 +460,10 @@ test('frontend display', async ({ page }) => {
     await admin.createNewPost();
     await editor.insertBlock({ name: 'my-plugin/my-block' });
     await editor.publishPost();
-    
+
     const url = await page.locator('.post-publish-panel__postpublish-post-address').textContent();
     await page.goto(url);
-    
+
     await expect(page.locator('.wp-block-my-plugin-my-block')).toBeVisible();
 });
 ```

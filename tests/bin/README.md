@@ -38,6 +38,7 @@ flowchart TB
 Tests the plugin generation script functionality.
 
 **Tests:**
+
 - File template replacement
 - Directory structure creation
 - Package.json updates
@@ -67,7 +68,7 @@ describe('generate-single-block-plugin', () => {
     test('creates plugin directory structure', () => {
         const slug = 'my-block';
         createPluginStructure(slug);
-        
+
         expect(fs.mkdirSync).toHaveBeenCalledWith(
             expect.stringContaining(slug),
             expect.any(Object)
@@ -83,6 +84,7 @@ describe('generate-single-block-plugin', () => {
 ```
 
 **Coverage areas:**
+
 - Template variable replacement
 - File system operations
 - JSON parsing/stringifying
@@ -94,6 +96,7 @@ describe('generate-single-block-plugin', () => {
 Tests the version update script functionality.
 
 **Tests:**
+
 - Version number validation
 - File content updates
 - Semantic versioning
@@ -135,6 +138,7 @@ describe('update-version', () => {
 ```
 
 **Coverage areas:**
+
 - Version validation
 - Regex pattern matching
 - File content manipulation
@@ -168,7 +172,7 @@ afterEach(() => {
 test('parses CLI arguments', () => {
     const args = ['--slug', 'my-block', '--name', 'My Block'];
     const parsed = parseArgs(args);
-    
+
     expect(parsed.slug).toBe('my-block');
     expect(parsed.name).toBe('My Block');
 });
@@ -179,7 +183,7 @@ test('parses CLI arguments', () => {
 ```javascript
 test('handles missing required arguments', () => {
     const args = ['--name', 'My Block']; // Missing slug
-    
+
     expect(() => {
         parseArgs(args);
     }).toThrow('Missing required argument: slug');
@@ -341,6 +345,7 @@ npm run test:js -- tests/bin --coverage
 ```
 
 Coverage is reported for:
+
 - Statement coverage
 - Branch coverage
 - Function coverage

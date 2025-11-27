@@ -81,7 +81,7 @@ npm run test:php
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 // Set up WordPress testing environment
-define('WP_TESTS_PHPUNIT_POLYFILLS_PATH', 
+define('WP_TESTS_PHPUNIT_POLYFILLS_PATH',
     dirname(__FILE__) . '/../vendor/yoast/phpunit-polyfills');
 
 // Load WordPress test case

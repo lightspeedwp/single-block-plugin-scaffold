@@ -70,6 +70,7 @@ Builds the plugin by installing dependencies, linting, and compiling assets.
 ```
 
 **Actions:**
+
 1. Installs npm dependencies
 2. Installs composer dependencies
 3. Runs linters (PHP, JS, CSS)
@@ -87,6 +88,7 @@ Runs all test suites for the plugin.
 ```
 
 **Runs:**
+
 - PHPUnit tests
 - Jest tests
 - Linting checks
@@ -102,6 +104,7 @@ node bin/update-version.js 1.2.0
 ```
 
 **Updates:**
+
 - Main plugin file header
 - `package.json`
 - `readme.txt`

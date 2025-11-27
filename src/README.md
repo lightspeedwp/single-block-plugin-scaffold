@@ -119,6 +119,7 @@ npm start
 ```
 
 Features:
+
 - Watch mode (auto-rebuild on changes)
 - Source maps
 - Fast rebuild
@@ -133,6 +134,7 @@ npm run build
 ```
 
 Features:
+
 - Minified code
 - No source maps
 - Tree shaking

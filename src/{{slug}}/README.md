@@ -167,6 +167,7 @@ export default function Edit({ attributes, setAttributes }) {
 ```
 
 **Key Concepts:**
+
 - `useBlockProps()` - Required wrapper props
 - `InspectorControls` - Sidebar settings panel
 - `setAttributes()` - Update block attributes
@@ -192,11 +193,13 @@ export default function save({ attributes }) {
 ```
 
 **When to use:**
+
 - Static blocks (no server-side data)
 - Content that doesn't change dynamically
 - Better performance (no PHP execution)
 
 **When NOT to use:**
+
 - Dynamic content (user data, posts, etc.)
 - Content that needs server-side processing
 - Use `render.php` instead for dynamic blocks
@@ -225,12 +228,14 @@ $wrapper_attributes = get_block_wrapper_attributes();
 ```
 
 **Use for:**
+
 - Dynamic content (posts, users, custom queries)
 - Server-side data processing
 - Content that changes based on context
 - Security-sensitive content
 
 **Important:**
+
 - If `render.php` exists, `save.js` returns `null`
 - Use `get_block_wrapper_attributes()` for wrapper
 - Always escape output for security
@@ -253,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 **Use for:**
+
 - Frontend interactions (clicks, animations)
 - Client-side state management
 - Dynamic behavior without page reload
@@ -362,6 +368,7 @@ Attributes define the block's data structure:
 ```
 
 **Attribute Types:**
+
 - `string` - Text values
 - `boolean` - True/false
 - `number` - Numeric values
@@ -400,6 +407,7 @@ Enable features for your block:
 ### Edit in Editor
 
 1. Start development server:
+
    ```bash
    npm start
    ```

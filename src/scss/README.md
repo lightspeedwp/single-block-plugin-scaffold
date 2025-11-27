@@ -46,6 +46,7 @@ flowchart TB
 Global styles loaded on both frontend and in the block editor.
 
 **Use for:**
+
 - Frontend styles
 - CSS custom properties (variables)
 - Shared styles between frontend and editor
@@ -73,6 +74,7 @@ Global styles loaded on both frontend and in the block editor.
 Styles loaded only in the block editor.
 
 **Use for:**
+
 - Editor UI enhancements
 - Block placeholders
 - Editor-specific layout

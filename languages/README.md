@@ -63,6 +63,7 @@ Human-readable translation files for specific locales.
 **Naming convention:** `{text-domain}-{locale}.po`
 
 **Examples:**
+
 - `my-plugin-es_ES.po` - Spanish (Spain)
 - `my-plugin-fr_FR.po` - French (France)
 - `my-plugin-de_DE.po` - German (Germany)
@@ -226,7 +227,7 @@ wp i18n make-json languages --no-purge
 
 ### Poedit
 
-Download: https://poedit.net/
+Download: <https://poedit.net/>
 
 1. Open `.pot` file
 2. Create new translation
@@ -235,7 +236,7 @@ Download: https://poedit.net/
 
 ### Loco Translate (WordPress Plugin)
 
-Install: https://wordpress.org/plugins/loco-translate/
+Install: <https://wordpress.org/plugins/loco-translate/>
 
 1. Navigate to Loco Translate
 2. Select your plugin
