@@ -1,152 +1,172 @@
-# Block Theme Scaffold - Setup Summary
+# Single Block Plugin Scaffold - Setup Summary
 
 ## ✅ Completed Tasks
 
-### 1. Pattern System Implementation
+### 1. Block Development Structure
 
-**Created Pattern Files:**
+**Created Block Files:**
 
-- `patterns/header.php` - Main header pattern with site logo, title, and navigation
-- `patterns/footer.php` - Footer pattern with site info, navigation, and social links
+- `src/{{slug}}/block.json` - Block metadata and registration
+- `src/{{slug}}/edit.js` - Edit component for block editor
+- `src/{{slug}}/save.js` - Save component for frontend rendering
+- `src/{{slug}}/style.scss` - Block-specific styles
+- `src/{{slug}}/render.php` - Optional dynamic rendering
 
-**Updated Template Parts:**
+**Entry Point:**
 
-- `parts/header.html` - Now references `{{theme_slug}}/header` pattern
-- `parts/footer.html` - Now references `{{theme_slug}}/footer` pattern
+- `src/index.js` - Main entry point for block registration
 
 **Benefits:**
 
-- Cleaner template parts (single line pattern reference)
-- Reusable patterns across the theme
-- Proper internationalization support with PHP
-- Better organization and maintainability
+- Modern block development workflow
+- Component-based architecture
+- Reusable block across WordPress sites
+- Proper internationalization support
+- Editor and frontend separation
 
 ### 2. Build Process Configuration
 
 **Webpack Configuration (`.webpack.config.cjs`):**
 
-- Extends `@wordpress/scripts` for WordPress-optimized builds
-- Custom entry points for theme and editor assets
+- Extends `@wordpress/scripts` for WordPress block development
+- Single entry point for block registration: `src/index.js`
 - Output directory: `build/`
-- Path aliases: `@`, `@css`, `@js`
+- Path aliases: `@`, `@scss`
 - Asset handling for images and fonts
-- CSS code splitting for style and editor styles
-- Performance optimization settings
+- Block metadata processing from `block.json`
+- Performance optimization for block bundles
 
 **Package.json Scripts:**
 
 - `npm run start` - Development mode with hot reload
 - `npm run build` - Production build
-- `npm run build:production` - Explicit production build
+- `npm run plugin-zip` - Create installable plugin ZIP
 - `npm run makepot` - Generate translation template
 - Linting and testing scripts
 
 **Asset Management:**
 
-- Frontend styles: `build/css/style.css`
-- Editor styles: `build/css/editor-style.css`
-- Frontend JS: `build/js/theme.js`
-- Editor JS: `build/js/editor.js`
-- Automatic dependency management via `.asset.php` files
+- Block JavaScript: `build/index.js`
+- Block styles: `build/index.css`
+- Frontend styles: `build/style-index.css`
+- Automatic dependency management via `build/index.asset.php`
+- Block metadata: `build/{{slug}}/block.json`
 
 ### 3. Internationalization (i18n)
 
 **Setup:**
 
-- Text domain: `{{theme_slug}}`
-- Translation loading in `functions.php`
+- Text domain: `{{slug}}`
+- Translation loading in `{{slug}}.php`
 - Languages directory: `languages/`
 - POT file generation: `npm run makepot`
 
 **Implementation:**
 
-- All pattern files use proper i18n functions
-- Translation-ready text in header and footer patterns
-- Proper escaping with `esc_html_e()`, `esc_html__()`, `esc_html_x()`
+- All block files use proper i18n functions
+- Translation-ready text in edit.js and save.js
+- Proper escaping with `esc_html_e()`, `esc_html__()` in PHP
+- JavaScript translation support via `@wordpress/i18n`
 - Context support for translators
 
 **Usage Examples:**
 
+```javascript
+import { __ } from '@wordpress/i18n';
+
+const title = __( 'Block Title', '{{slug}}' );
+const label = _x( 'Label', 'Context', '{{slug}}' );
+```
+
 ```php
-<?php esc_html_e( 'Quick Links', '{{theme_slug}}' ); ?>
-<?php echo esc_html_x( 'Text', 'Context', '{{theme_slug}}' ); ?>
+<?php esc_html_e( 'Text', '{{slug}}' ); ?>
+<?php echo esc_html_x( 'Text', 'Context', '{{slug}}' ); ?>
 ```
 
 ### 4. File Updates
 
-**`functions.php`:**
+**`{{slug}}.php`:**
 
-- Added `load_theme_textdomain()` for i18n support
-- Updated asset paths from `public/` to `build/`
-- Asset enqueuing with dependency management
+- Added `load_plugin_textdomain()` for i18n support
+- Block registration via `register_block_type()`
+- Automatic asset enqueuing from `block.json`
+- Plugin activation and deactivation hooks
 
 **`.gitignore`:**
 
 - Excludes build output
 - Includes languages directory
 - Excludes compiled `.mo` files, keeps `.pot` files
+- Excludes plugin ZIP files
 
-**`bin/generate-theme.js`:**
+**`bin/build.sh`:**
 
-- Already configured to copy all directories including `patterns/`
-- Copies configuration files automatically
+- Automated plugin packaging script
+- Creates installable ZIP file
+- Excludes development files
 
 ### 5. Documentation
 
 **Created `docs/BUILD-PROCESS.md`:**
 
-- Complete build process documentation
+- Complete build process documentation for blocks
 - Development and production workflows
-- Asset loading explanation
-- Internationalization guide
+- Block registration and asset loading
+- Internationalization guide for blocks
 - Linting and testing instructions
 - WordPress environment setup
-- Performance optimization details
+- Performance optimization details for blocks
 - Troubleshooting guide
+
+**Created Block Documentation:**
+
+- Block metadata structure
+- Edit and save component patterns
+- Block styles organization
+- Dynamic rendering with PHP
 
 ## 📋 Template Variables
 
-All files use mustache-style placeholders that are replaced during theme generation:
+All files use mustache-style placeholders that are replaced during plugin generation:
 
 | Variable | Description |
 |----------|-------------|
-| `{{theme_slug}}` | Theme slug (kebab-case) |
-| `{{theme_name}}` | Human-readable theme name |
-| `{{version}}` | Theme version |
-| `{{namespace}}` | Theme namespace |
-| And more... | See package.json themeMeta |
+| `{{slug}}` | Plugin slug (kebab-case) |
+| `{{name}}` | Human-readable plugin name |
+| `{{namespace}}` | Plugin namespace (for PHP) |
+| `{{version}}` | Plugin version |
+| And more... | See package.json metadata |
 
-## 🚀 Next Steps for Generated Themes
+## 🚀 Next Steps for Generated Plugins
 
 ### Workflow Overview
 
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
 flowchart LR
-    subgraph Generate["1. Generate"]
-        Script["generate-theme.js"]
-        Config["Replace Templates"]
-    end
-
-    subgraph Setup["2. Setup"]
+    subgraph Setup["1. Setup"]
         Install["npm install"]
         Composer["composer install"]
     end
 
-    subgraph Develop["3. Develop"]
+    subgraph Develop["2. Develop"]
         Start["npm run start"]
         Watch["Watch Mode"]
     end
 
-    subgraph Build["4. Build"]
+    subgraph Build["3. Build"]
         Prod["npm run build"]
         i18n["npm run makepot"]
     end
 
-    Generate --> Setup --> Develop --> Build
+    subgraph Package["4. Package"]
+        Zip["npm run plugin-zip"]
+    end
+
+    Setup --> Develop --> Build --> Package
 ```
 
-After running `generate-theme.js`:
+After creating a plugin from the scaffold:
 
 1. **Install Dependencies:**
 
@@ -173,55 +193,53 @@ After running `generate-theme.js`:
    npm run makepot
    ```
 
-5. **Test Theme:**
+5. **Create Plugin ZIP:**
 
    ```bash
-   npm run env:start
+   npm run plugin-zip
    ```
 
 ## 📦 Build Output Structure
 
 ```
 build/
-├── css/
-│   ├── style.css              # Frontend styles
-│   ├── style.asset.php        # Dependencies & version
-│   ├── editor-style.css       # Editor styles
-│   └── editor-style.asset.php
-├── js/
-│   ├── theme.js               # Frontend JavaScript
-│   ├── theme.asset.php
-│   ├── editor.js              # Editor JavaScript
-│   └── editor.asset.php
-├── images/                    # Optimized images
-└── fonts/                     # Font files
+├── index.js               # Block JavaScript (editor + frontend)
+├── index.asset.php        # Dependencies & version
+├── index.css              # Combined block styles
+├── style-index.css        # Frontend-only styles
+└── {{slug}}/
+    ├── block.json         # Block metadata
+    └── render.php         # Dynamic rendering (if used)
 ```
 
 ## 🔍 Verification Checklist
 
-- ✅ Patterns created with i18n support
-- ✅ Template parts reference patterns
+- ✅ Block structure created with metadata
+- ✅ Edit and save components implemented
 - ✅ Webpack config extends WordPress Scripts
 - ✅ Build output to `build/` directory
-- ✅ Asset paths updated in functions.php
+- ✅ Block registration in main plugin file
 - ✅ i18n text domain loaded
 - ✅ makepot script configured
 - ✅ Languages directory created
 - ✅ .gitignore updated
 - ✅ Documentation complete
+- ✅ Plugin ZIP creation script
 
 ## 🎯 Key Features
 
-1. **Modern Build Process** - Webpack + Babel + PostCSS
+1. **Modern Block Development** - React + JSX + block.json
 2. **WordPress Optimized** - Uses @wordpress/scripts
-3. **i18n Ready** - Full translation support
-4. **Pattern-Based** - Reusable, translatable patterns
+3. **i18n Ready** - Full translation support (JS + PHP)
+4. **Component-Based** - Separate edit and save components
 5. **Developer Friendly** - Hot reload, source maps, linting
 6. **Production Ready** - Minification, optimization, cache busting
+7. **Easy Distribution** - One-command ZIP creation
 
 ## 📚 References
 
-- [WordPress Theme Build Process](https://developer.wordpress.org/themes/advanced-topics/build-process/)
-- [WordPress Internationalization](https://developer.wordpress.org/themes/advanced-topics/internationalization/)
+- [Block Editor Handbook](https://developer.wordpress.org/block-editor/)
+- [Block API Reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/)
+- [WordPress Internationalization](https://developer.wordpress.org/apis/internationalization/)
 - [WordPress Scripts Package](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)
-- [Block Patterns](https://developer.wordpress.org/themes/features/block-patterns/)
+- [block.json Metadata](https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/)

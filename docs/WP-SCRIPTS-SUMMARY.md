@@ -1,12 +1,12 @@
 # wp-scripts Configuration Summary
 
-**Theme**: {{theme_name}}
+**Plugin**: {{name}}
 **Package**: `@wordpress/scripts` v31.0.0+
 **Status**: ✅ Fully Configured
 
 ## What's Configured
 
-This block theme scaffold is fully configured to use `@wordpress/scripts` for a modern WordPress development workflow.
+This single block plugin scaffold is fully configured to use `@wordpress/scripts` for a modern WordPress block development workflow.
 
 ### ✅ Features Enabled
 
@@ -28,18 +28,19 @@ This block theme scaffold is fully configured to use `@wordpress/scripts` for a 
 All configuration files are in place and properly configured:
 
 ```
-block-theme-scaffold/
+single-block-plugin-scaffold/
 ├── webpack.config.cjs          ✅ Custom webpack configuration
 ├── .browserslistrc             ✅ Browser targets
 ├── .postcss.config.cjs         ✅ PostCSS plugins (autoprefixer, cssnano)
 ├── .eslint.config.cjs          ✅ JavaScript linting rules
-├── .stylelint.config.cjs       ✅ CSS/Sass linting rules
+├── .stylelint.config.cjs       ✅ CSS/Sass linting rules (BEM naming)
 ├── .prettierignore             ✅ Files to skip formatting
 ├── package.json                ✅ Scripts and dependencies
 └── docs/
     ├── BUILD-PROCESS.md        ✅ Complete build documentation
     ├── WP-SCRIPTS-CONFIGURATION.md  ✅ Detailed configuration guide
-    └── WP-SCRIPTS-QUICK-REFERENCE.md ✅ Quick reference
+    ├── WP-SCRIPTS-QUICK-REFERENCE.md ✅ Quick reference
+    └── SRC-FOLDER-STRUCTURE.md ✅ Block file structure guide
 ```
 
 ## npm Scripts
@@ -50,7 +51,7 @@ All wp-scripts commands are available:
 # Build Commands
 npm run start               # Development with watch mode
 npm run build               # Production build
-npm run build:production    # Alternative production build
+npm run plugin-zip          # Create installable plugin ZIP
 
 # Code Quality
 npm run lint                # Run all linters
@@ -58,17 +59,17 @@ npm run lint:js             # Lint JavaScript
 npm run lint:js:fix         # Auto-fix JavaScript
 npm run lint:css            # Lint CSS/Sass
 npm run lint:css:fix        # Auto-fix CSS
+npm run lint:php            # Lint PHP
 npm run format              # Format with Prettier
 
 # Testing
 npm run test                # Run all tests
 npm run test:js             # JavaScript unit tests
 npm run test:js:watch       # Watch mode
-npm run test:e2e            # End-to-end tests
+npm run test:php            # PHP unit tests
 
 # Internationalization
 npm run makepot             # Generate .pot file
-npm run i18n                # Generate all i18n files
 
 # Utilities
 npm run packages-update     # Update WordPress packages
@@ -80,28 +81,33 @@ npm run packages-update     # Update WordPress packages
 
 ```
 src/
-├── css/
-│   ├── style.scss          # Frontend styles → build/css/style.css
-│   └── editor.scss         # Editor styles → build/css/editor-style.css
-└── js/
-    ├── theme.js            # Frontend JS → build/js/theme.js
-    └── editor.js           # Editor JS → build/js/editor.js
+├── index.js                # Block registration entry point → build/index.js
+├── scss/
+│   ├── style.scss          # Frontend and editor styles → build/index.css
+│   └── editor.scss         # Editor-only styles → merged into index.css
+└── {{slug}}/
+    ├── block.json          # Block metadata
+    ├── index.js            # Block registration
+    ├── edit.js             # Edit component
+    ├── save.js             # Save component
+    ├── render.php          # Dynamic rendering (optional)
+    ├── view.js             # Frontend JavaScript (optional)
+    ├── style.scss          # Block-specific styles
+    └── editor.scss         # Block-specific editor styles
 ```
 
 ### Build Output (build/)
 
 ```
 build/
-├── css/
-│   ├── style.css
-│   ├── style.asset.php
-│   ├── editor-style.css
-│   └── editor-style.asset.php
-└── js/
-    ├── theme.js
-    ├── theme.asset.php
-    ├── editor.js
-    └── editor.asset.php
+├── index.js                # Compiled block JavaScript
+├── index.asset.php         # Dependency metadata and version
+├── index.css               # Compiled block CSS
+├── style-index.css         # Compiled frontend-only CSS
+└── {{slug}}/               # Block-specific build output
+    ├── block.json          # Copied block metadata
+    ├── render.php          # Copied render file (if exists)
+    └── *.asset.php         # Block-specific assets
 ```
 
 ## How It Works
@@ -112,8 +118,9 @@ build/
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
 flowchart LR
     subgraph Source["Source"]
-        JS["src/js/*.js"]
-        SCSS["src/css/*.scss"]
+        Index["src/index.js"]
+        Block["src/{{slug}}/*"]
+        SCSS["src/scss/*.scss"]
     end
 
     subgraph Process["wp-scripts"]
@@ -123,12 +130,13 @@ flowchart LR
     end
 
     subgraph Output["Build"]
-        JSOut["*.js"]
-        CSSOut["*.css"]
+        JSOut["index.js"]
+        CSSOut["index.css"]
         Asset["*.asset.php"]
     end
 
-    JS --> Babel --> Webpack
+    Index --> Babel --> Webpack
+    Block --> Babel --> Webpack
     SCSS --> Sass --> Webpack
     Webpack --> JSOut
     Webpack --> CSSOut
@@ -142,11 +150,16 @@ flowchart LR
 **Example**:
 
 ```javascript
-// src/js/theme.js (source)
-const greeting = (name) => `Hello, ${name}!`;
+// src/{{slug}}/edit.js (source)
+const BlockEdit = ({ attributes, setAttributes }) => {
+    return <div {...useBlockProps()}>Content</div>;
+};
 
-// build/js/theme.js (output)
-var greeting = function(name) { return "Hello, " + name + "!"; };
+// build/index.js (output)
+var BlockEdit = function(ref) {
+    var attributes = ref.attributes;
+    return React.createElement('div', useBlockProps(), 'Content');
+};
 ```
 
 ### 2. Bundling (webpack)
@@ -156,12 +169,14 @@ var greeting = function(name) { return "Hello, " + name + "!"; };
 **Example**:
 
 ```
-src/js/theme.js
-  ├── components/Header.js
-  ├── utils/helpers.js
-  └── @wordpress/element
+src/index.js
+  ├── {{slug}}/edit.js
+  ├── {{slug}}/save.js
+  ├── @wordpress/blocks
+  ├── @wordpress/block-editor
+  └── @wordpress/i18n
        ↓
-build/js/theme.js (bundled)
+build/index.js (bundled)
 ```
 
 ### 3. Sass Compilation
@@ -171,12 +186,17 @@ build/js/theme.js (bundled)
 **Example**:
 
 ```scss
-// src/css/style.scss
-$primary: #0073aa;
-.button { background: $primary; }
+// src/scss/style.scss
+.wp-block-{{namespace}}-{{slug}} {
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
 
-// build/css/style.css
-.button { background: #0073aa; }
+// build/index.css
+.wp-block-{{namespace}}-{{slug}} {
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
 ```
 
 ### 4. Code Linting (ESLint)
@@ -210,47 +230,49 @@ npm run format         # Format all files
 - Minified CSS (cssnano)
 - 60-70% size reduction
 
-## Asset Enqueuing
+## Block Registration
 
-The theme automatically enqueues assets using `.asset.php` files:
+The plugin automatically registers the block and enqueues assets:
 
 ```php
-// functions.php
-function {{theme_slug}}_enqueue_assets() {
- // Load stylesheet
- $asset = include get_theme_file_path( 'build/css/style.asset.php' );
- wp_enqueue_style(
-  '{{theme_slug}}-style',
-  get_theme_file_uri( 'build/css/style.css' ),
-  $asset['dependencies'] ?? array(),
-  $asset['version'] ?? {{theme_slug|upper}}_VERSION
- );
-
- // Load JavaScript
- $js_asset = include get_theme_file_path( 'build/js/theme.asset.php' );
- wp_enqueue_script(
-  '{{theme_slug}}-script',
-  get_theme_file_uri( 'build/js/theme.js' ),
-  $js_asset['dependencies'] ?? array(),
-  $js_asset['version'] ?? {{theme_slug|upper}}_VERSION,
-  true
- );
+// {{slug}}.php
+function {{namespace}}_register_block() {
+    // Register block using block.json metadata
+    register_block_type( __DIR__ . '/build' );
 }
-add_action( 'wp_enqueue_scripts', '{{theme_slug}}_enqueue_assets' );
+add_action( 'init', '{{namespace}}_register_block' );
 ```
+
+**block.json automatically handles asset enqueuing:**
+
+```json
+{
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css",
+    "viewScript": "file:./view.js"
+}
+```
+
+WordPress uses the `.asset.php` files to:
+
+- Load correct dependencies
+- Add version hashing for cache busting
+- Ensure proper script/style loading order
 
 ## WordPress Packages
 
 All `@wordpress/*` packages are available:
 
 ```javascript
-// Import WordPress packages
-import { useState } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
-import { Button } from '@wordpress/components';
+// Import WordPress packages for block development
+import { registerBlockType } from '@wordpress/blocks';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useSelect } from '@wordpress/data';
 
-// Dependencies automatically added to .asset.php
+// Dependencies automatically added to build/index.asset.php
 ```
 
 ## Development Workflow
@@ -320,35 +342,33 @@ Build time: ~5 seconds
 
 ## Customization
 
-### Add New Entry Point
+### Add Additional Block
 
-1. Create file: `src/js/custom.js`
-2. Update `webpack.config.cjs`:
+1. Create new block directory: `src/another-block/`
+2. Add `block.json`, `edit.js`, `save.js`, etc.
+3. Register in `src/index.js`:
 
    ```javascript
-   entry: {
-     'js/custom': './src/js/custom.js',
-   }
+   import './another-block';
    ```
 
-3. Build: `npm run build`
-4. Enqueue in `functions.php`
+4. Build: `npm run build`
+5. WordPress automatically registers from `block.json`
 
 ### Use Path Aliases
 
 ```javascript
 // Instead of:
-import Header from '../../../components/Header';
+import Component from '../../../components/Component';
 
 // Use:
-import Header from '@js/components/Header';
+import Component from '@/components/Component';
 ```
 
 Pre-configured aliases:
 
-- `@` → `src/`
-- `@js` → `src/js/`
-- `@css` → `src/css/`
+- `@` → `src/` directory
+- `@scss` → `src/scss/` directory
 
 ## Documentation
 
@@ -359,6 +379,7 @@ Comprehensive documentation is available:
 | `docs/BUILD-PROCESS.md` | Complete build process guide |
 | `docs/WP-SCRIPTS-CONFIGURATION.md` | Detailed configuration documentation |
 | `docs/WP-SCRIPTS-QUICK-REFERENCE.md` | Quick reference for common tasks |
+| `docs/SRC-FOLDER-STRUCTURE.md` | Block file structure and organization |
 
 ## Troubleshooting
 
@@ -388,7 +409,8 @@ npm run format
 ## Resources
 
 - [@wordpress/scripts](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/) - Official documentation
-- [Theme Build Process](https://developer.wordpress.org/themes/advanced-topics/build-process/) - WordPress guide
+- [Block Editor Handbook](https://developer.wordpress.org/block-editor/) - WordPress block development guide
+- [Block API Reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/) - Block metadata and registration
 - [webpack](https://webpack.js.org/) - Bundler documentation
 - [Babel](https://babeljs.io/) - JavaScript compiler
 - [WordPress Packages](https://developer.wordpress.org/block-editor/reference-guides/packages/) - Available packages
@@ -398,16 +420,17 @@ npm run format
 ✅ **@wordpress/scripts fully configured**
 ✅ **All 6 required features enabled**:
 
-- Compilation (Babel)
-- Bundling (webpack)
-- Code Linting (ESLint)
-- Code Formatting (Prettier)
-- Sass Compilation (sass-loader + PostCSS)
+- Compilation (Babel with JSX support)
+- Bundling (webpack with block.json)
+- Code Linting (ESLint with block standards)
+- Code Formatting (Prettier with PHP support)
+- Sass Compilation (sass-loader + PostCSS with BEM)
 - Code Minification (Terser + cssnano)
 
+✅ **Block-specific configuration**
 ✅ **Complete documentation provided**
 ✅ **Production-ready configuration**
-✅ **WordPress coding standards enforced**
-✅ **Optimized development workflow**
+✅ **WordPress block standards enforced**
+✅ **Optimized block development workflow**
 
-**Ready to use!** Just run `npm install` and `npm run start` to begin development.
+**Ready to use!** Just run `npm install` and `npm run start` to begin block development.

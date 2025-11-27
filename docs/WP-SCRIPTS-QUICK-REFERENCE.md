@@ -1,6 +1,6 @@
 # wp-scripts Quick Reference
 
-Quick reference guide for using `@wordpress/scripts` in the {{theme_name}} block theme.
+Quick reference guide for using `@wordpress/scripts` in the {{name}} single block plugin.
 
 ## Build Commands
 
@@ -11,8 +11,8 @@ npm run start
 # Production build (minified, optimized)
 npm run build
 
-# Alternative production build
-npm run build:production
+# Create installable plugin ZIP
+npm run plugin-zip
 ```
 
 ## What Gets Built?
@@ -21,10 +21,11 @@ npm run build:production
 
 | Source | Output |
 |--------|--------|
-| `src/js/theme.js` | `build/js/theme.js` + `build/js/theme.asset.php` |
-| `src/js/editor.js` | `build/js/editor.js` + `build/js/editor.asset.php` |
-| `src/css/style.scss` | `build/css/style.css` + `build/css/style.asset.php` |
-| `src/css/editor.scss` | `build/css/editor-style.css` + `build/css/editor-style.asset.php` |
+| `src/index.js` | `build/index.js` + `build/index.asset.php` |
+| `src/scss/style.scss` | `build/index.css` |
+| `src/scss/editor.scss` | `build/index.css` (merged) |
+| `src/{{slug}}/block.json` | `build/{{slug}}/block.json` (copied) |
+| `src/{{slug}}/style.scss` | Merged into `build/index.css` |
 
 ## Build Process Features
 
@@ -53,11 +54,14 @@ Converts modern JavaScript (ESNext, JSX) to browser-compatible code.
 **Example**:
 
 ```javascript
-// Source (src/js/theme.js)
-const greeting = (name) => `Hello, ${name}!`;
+// Source (src/{{slug}}/edit.js)
+const Edit = ({ attributes }) => <div {...useBlockProps()}>Content</div>;
 
-// Output (build/js/theme.js) - compatible with older browsers
-var greeting = function(name) { return "Hello, " + name + "!"; };
+// Output (build/index.js) - compatible with older browsers
+var Edit = function(ref) {
+    var attributes = ref.attributes;
+    return React.createElement('div', useBlockProps(), 'Content');
+};
 ```
 
 **Configuration**: Automatic via `@wordpress/babel-preset-default`
@@ -69,12 +73,15 @@ Combines multiple files into single bundles.
 **Example**:
 
 ```javascript
-// src/js/theme.js
-import Header from './components/Header';
-import Footer from './components/Footer';
-import './utils/helpers';
+// src/index.js
+import './{{slug}}';
 
-// All combined into → build/js/theme.js
+// src/{{slug}}/index.js
+import Edit from './edit';
+import save from './save';
+import './style.scss';
+
+// All combined into → build/index.js
 ```
 
 **Configuration**: `webpack.config.cjs`
@@ -86,12 +93,15 @@ Converts `.scss` to standard CSS.
 **Example**:
 
 ```scss
-// Source (src/css/style.scss)
-$primary: #0073aa;
-.button { background: $primary; }
+// Source (src/scss/style.scss)
+.wp-block-{{namespace}}-{{slug}} {
+    padding: 1rem;
+}
 
-// Output (build/css/style.css)
-.button { background: #0073aa; }
+// Output (build/index.css)
+.wp-block-{{namespace}}-{{slug}} {
+    padding: 1rem;
+}
 ```
 
 **Configuration**: Automatic, processed with PostCSS
@@ -174,9 +184,6 @@ npm run test
 npm run test:js
 npm run test:js:watch    # Watch mode
 
-# End-to-end tests
-npm run test:e2e
-
 # PHP tests
 npm run test:php
 ```
@@ -186,24 +193,24 @@ npm run test:php
 Import WordPress packages directly:
 
 ```javascript
-// React-like components
-import { useState, useEffect } from '@wordpress/element';
+// Block registration
+import { registerBlockType } from '@wordpress/blocks';
+
+// Block editor components
+import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
+
+// UI Components
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 // Data management
 import { useSelect, useDispatch } from '@wordpress/data';
 
-// UI Components
-import { Button, Modal } from '@wordpress/components';
-
 // Translations
 import { __ } from '@wordpress/i18n';
-const text = __( 'Hello', '{{theme_slug}}' );
+const text = __( 'Hello', '{{slug}}' );
 
-// API
-import apiFetch from '@wordpress/api-fetch';
-
-// Block Editor
-import { BlockControls } from '@wordpress/block-editor';
+// Element (React)
+import { useState, useEffect } from '@wordpress/element';
 ```
 
 **No manual enqueuing needed** - dependencies automatically added to `.asset.php`.
@@ -224,17 +231,17 @@ Each compiled file gets an `.asset.php` file:
 );
 ```
 
-**Use in theme**:
+**Use in plugin**:
+
+WordPress automatically uses `.asset.php` when registering blocks via `register_block_type()`:
 
 ```php
-$asset = include get_theme_file_path( 'build/js/theme.asset.php' );
-
-wp_enqueue_script(
- '{{theme_slug}}-script',
- get_theme_file_uri( 'build/js/theme.js' ),
- $asset['dependencies'],  // Auto-includes WordPress deps
- $asset['version']        // Auto cache-busting
-);
+// {{slug}}.php
+function {{namespace}}_register_block() {
+    // Automatically uses build/index.asset.php for dependencies
+    register_block_type( __DIR__ . '/build' );
+}
+add_action( 'init', '{{namespace}}_register_block' );
 ```
 
 ## Configuration Files
@@ -260,12 +267,14 @@ npm run start
 
 ```
 src/
-├── css/
-│   ├── style.scss      ← Edit
-│   └── editor.scss     ← Edit
-└── js/
-    ├── theme.js        ← Edit
-    └── editor.js       ← Edit
+├── index.js            ← Edit (block registration)
+├── scss/
+│   ├── style.scss      ← Edit (frontend styles)
+│   └── editor.scss     ← Edit (editor styles)
+└── {{slug}}/
+    ├── edit.js         ← Edit (edit component)
+    ├── save.js         ← Edit (save component)
+    └── style.scss      ← Edit (block styles)
 ```
 
 ### 3. Auto-compile
@@ -284,43 +293,48 @@ npm run build
 
 ## Common Tasks
 
-### Add New JavaScript File
+### Add Another Block
 
-1. **Create**: `src/js/custom.js`
-2. **Configure**: Add to `webpack.config.cjs` entry points:
+1. **Create**: `src/another-block/` directory with:
+   - `block.json`
+   - `index.js`
+   - `edit.js`
+   - `save.js`
+   - `style.scss`
+
+2. **Register**: In `src/index.js`:
 
    ```javascript
-   entry: {
-     'js/custom': './src/js/custom.js',
-   }
+   import './another-block';
    ```
 
 3. **Build**: `npm run build`
-4. **Enqueue**: Add to `functions.php`
+4. **Auto-registered**: WordPress automatically registers from `block.json`
 
 ### Add New Sass File
 
-1. **Create**: `src/css/custom.scss`
-2. **Import**: In `src/css/style.scss`:
+1. **Create**: `src/scss/custom.scss`
+2. **Import**: In `src/scss/style.scss`:
 
    ```scss
    @import 'custom';
    ```
 
-3. **Build**: Automatically included
+3. **Build**: Automatically included in `build/index.css`
 
 ### Use Path Aliases
 
 Instead of:
 
 ```javascript
-import Header from '../../../components/Header';
+import Component from '../../../components/Component';
 ```
 
 Use:
 
 ```javascript
-import Header from '@js/components/Header';
+import Component from '@/components/Component';
+import '@scss/custom.scss';
 ```
 
 Configured in `webpack.config.cjs`:
@@ -328,8 +342,7 @@ Configured in `webpack.config.cjs`:
 ```javascript
 alias: {
  '@': path.resolve( __dirname, 'src' ),
- '@js': path.resolve( __dirname, 'src/js' ),
- '@css': path.resolve( __dirname, 'src/css' ),
+ '@scss': path.resolve( __dirname, 'src/scss' ),
 }
 ```
 
@@ -371,15 +384,15 @@ npm run format
 **Development** (`npm run start`):
 
 ```
-build/js/theme.js: ~150 KB
-build/css/style.css: ~50 KB
+build/index.js: ~120 KB
+build/index.css: ~30 KB
 ```
 
 **Production** (`npm run build`):
 
 ```
-build/js/theme.js: ~45 KB (70% smaller)
-build/css/style.css: ~15 KB (70% smaller)
+build/index.js: ~35 KB (70% smaller)
+build/index.css: ~10 KB (67% smaller)
 ```
 
 ## Browser Support
@@ -396,14 +409,15 @@ Modern features are automatically transpiled/polyfilled.
 
 ## Performance Tips
 
-### 1. Code Splitting
+### 1. Block-Specific Loading
 
-Separate entry points for frontend and editor:
+Blocks are automatically loaded only when needed by WordPress.
 
-```javascript
-entry: {
- 'js/theme': './src/js/theme.js',    // Frontend only
- 'js/editor': './src/js/editor.js',  // Editor only
+```json
+// block.json ensures assets only load when block is used
+{
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
 }
 ```
 
@@ -460,7 +474,6 @@ npm run test:e2e           # E2E tests
 
 # Internationalization
 npm run makepot            # Generate .pot
-npm run i18n               # Generate all i18n files
 
 # Maintenance
 npm run packages-update    # Update packages
@@ -470,9 +483,9 @@ npm install                # Install deps
 ## Resources
 
 - [wp-scripts Documentation](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)
+- [Block Editor Handbook](https://developer.wordpress.org/block-editor/)
+- [Block API Reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/)
 - [WordPress Packages](https://developer.wordpress.org/block-editor/reference-guides/packages/)
-- [Theme Build Process](https://developer.wordpress.org/themes/advanced-topics/build-process/)
-- [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
 
 ---
 

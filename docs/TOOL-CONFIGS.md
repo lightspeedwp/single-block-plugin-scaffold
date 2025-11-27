@@ -1,22 +1,22 @@
 # Tool Configuration Overview
 
-This document provides an overview of all the tools used in the {{theme_name}} block theme scaffold, why we use them, and where to find detailed documentation for each.
+This document provides an overview of all the tools used in the {{name}} single block plugin scaffold, why we use them, and where to find detailed documentation for each.
 
 ## Why Use Multiple Tools?
 
-Building a modern WordPress block theme requires a sophisticated toolchain to ensure code quality, maintainability, browser compatibility, and adherence to WordPress standards. Each tool serves a specific purpose in our development workflow:
+Building a modern WordPress block plugin requires a sophisticated toolchain to ensure code quality, maintainability, browser compatibility, and adherence to WordPress standards. Each tool serves a specific purpose in our development workflow:
 
 ### Code Quality & Consistency
 
-We use linters and formatters to maintain consistent, high-quality code that follows WordPress coding standards. This ensures all team members write code in the same style and helps catch common errors before they reach production.
+We use linters and formatters to maintain consistent, high-quality code that follows WordPress block development and coding standards. This ensures all team members write code in the same style and helps catch common errors before they reach production.
 
 ### Build & Optimization
 
-Modern JavaScript and CSS features need to be transpiled and bundled for browser compatibility. Build tools handle this transformation while optimizing assets for faster page loads.
+Modern JavaScript (JSX, ESNext) and CSS features used in block development need to be transpiled and bundled for browser compatibility. Build tools handle this transformation while optimizing block assets for faster page loads.
 
 ### Testing & Reliability
 
-Automated testing catches bugs early and ensures changes don't break existing functionality. We use both unit tests for individual components and end-to-end tests for complete user workflows.
+Automated testing catches bugs early and ensures changes don't break block functionality. We use unit tests for individual block components and integration tests for block registration and rendering.
 
 ### Developer Experience
 
@@ -52,7 +52,6 @@ Tools that verify code functionality and catch bugs.
 | Tool | Purpose | Config File | Documentation |
 |------|---------|-------------|---------------|
 | **Jest** | JavaScript unit and integration testing | `.jest.config.cjs` | [Jest Guide](config/jest.md) |
-| **Playwright** | End-to-end browser testing | `.playwright.config.cjs` | [Playwright Guide](config/playwright.md) |
 | **PHPUnit** | PHP unit testing | `phpunit.xml` | [PHPUnit Testing](../tests/) |
 
 ## The @wordpress/scripts Foundation
@@ -77,19 +76,17 @@ npm run lint:js:fix        # Auto-fix JavaScript issues
 npm run lint:css:fix       # Auto-fix CSS issues
 npm run format             # Format all files
 npm run test:js            # Run unit tests
-npm run test:e2e           # Run E2E tests
 ```
 
 ### Configuration Files Location
 
 ```
-block-theme-scaffold/
+single-block-plugin-scaffold/
 ├── .eslint.config.cjs           # ESLint configuration
 ├── .stylelint.config.cjs        # Stylelint configuration
 ├── .postcss.config.cjs          # PostCSS configuration
 ├── webpack.config.cjs           # Webpack configuration
 ├── .jest.config.cjs             # Jest configuration
-├── .playwright.config.cjs       # Playwright configuration
 ├── .npmpackagejsonlintrc.json   # Package.json validation
 ├── .prettierignore              # Prettier ignore patterns
 ├── phpcs.xml                    # PHP CodeSniffer rules
@@ -109,7 +106,6 @@ Our theme leverages the official WordPress package ecosystem:
 | `@wordpress/babel-preset-default` | ^8.35.0 | JS transpilation |
 | `@wordpress/postcss-plugins-preset` | ^5.35.0 | CSS processing |
 | `@wordpress/jest-preset-default` | ^12.35.0 | Testing standards |
-| `@wordpress/e2e-test-utils-playwright` | ^1.35.0 | E2E utilities |
 | `@wordpress/browserslist-config` | ^6.35.0 | Browser targets |
 
 ## Browser Support
@@ -132,7 +128,6 @@ For the best development experience, install these VS Code extensions:
 - **Prettier - Code formatter** - Automatic code formatting
 - **Stylelint** - Real-time CSS/SCSS linting
 - **Jest** - Inline test results
-- **Playwright Test for VSCode** - E2E test runner
 
 Recommended `.vscode/settings.json`:
 
@@ -169,7 +164,6 @@ flowchart TD
 
     subgraph Test["Testing"]
         Jest["Jest<br/>Unit Tests"]
-        Playwright["Playwright<br/>E2E Tests"]
         PHPUnit["PHPUnit<br/>PHP Tests"]
     end
 
@@ -242,7 +236,7 @@ npm run format           # Format all files
 npm run lint:js          # Verify JavaScript
 npm run lint:css         # Verify CSS
 npm run test:js          # Run unit tests
-npm run test:e2e         # Run E2E tests
+npm run test:php         # Run PHP tests
 npm run build            # Build optimized assets
 ```
 
@@ -266,7 +260,7 @@ Each tool has its own comprehensive guide with:
 ### WordPress Documentation
 
 - [Block Editor Handbook](https://developer.wordpress.org/block-editor/)
-- [Theme Handbook](https://developer.wordpress.org/themes/)
+- [Block API Reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/)
 - [Coding Standards](https://developer.wordpress.org/coding-standards/)
 - [@wordpress/scripts Package](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)
 
@@ -286,7 +280,6 @@ Each tool has its own comprehensive guide with:
 - [Babel Official Docs](https://babeljs.io/)
 - [PostCSS Official Docs](https://postcss.org/)
 - [Jest Official Docs](https://jestjs.io/)
-- [Playwright Official Docs](https://playwright.dev/)
 
 ## Troubleshooting
 

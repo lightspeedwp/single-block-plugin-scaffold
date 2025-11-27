@@ -1,10 +1,10 @@
 # wp-scripts Configuration Guide
 
-This document details how `@wordpress/scripts` is configured in the {{theme_name}} block theme scaffold.
+This document details how `@wordpress/scripts` is configured in the {{name}} single block plugin scaffold.
 
 ## Overview
 
-The theme uses `@wordpress/scripts` as its build system, which provides a standardized, zero-configuration approach to WordPress theme development with full support for:
+The plugin uses `@wordpress/scripts` as its build system, which provides a standardized, zero-configuration approach to WordPress block development with full support for:
 
 ✅ **Compilation**: Modern JavaScript (ESNext) and JSX to browser-compatible code via Babel
 ✅ **Bundling**: Multiple files combined into optimized bundles via webpack
@@ -78,12 +78,9 @@ const path = require( 'path' );
 module.exports = {
  ...defaultConfig,
 
- // Custom entry points
+ // Single entry point for block registration
  entry: {
-  'js/theme': './src/js/theme.js',
-  'js/editor': './src/js/editor.js',
-  'css/style': './src/css/style.scss',
-  'css/editor-style': './src/css/editor.scss',
+  index: './src/index.js',
  },
 
  // Output configuration
@@ -97,8 +94,7 @@ module.exports = {
  resolve: {
   alias: {
    '@': path.resolve( __dirname, 'src' ),
-   '@css': path.resolve( __dirname, 'src/css' ),
-   '@js': path.resolve( __dirname, 'src/js' ),
+   '@scss': path.resolve( __dirname, 'src/scss' ),
   },
  },
 };
@@ -107,10 +103,11 @@ module.exports = {
 **Key Features**:
 
 - Extends all wp-scripts defaults (Babel, Sass, PostCSS, etc.)
-- Adds custom entry points for theme files
+- Single entry point for block registration
 - Configures path aliases for cleaner imports
 - Handles additional asset types (images, fonts)
-- Sets performance budgets
+- Automatically processes block.json metadata
+- Sets performance budgets for block bundles
 
 ### 2. .browserslistrc
 
@@ -173,6 +170,7 @@ module.exports = {
  globals: {
   wp: 'readonly',
   wpApiSettings: 'readonly',
+  {{namespace}}: 'readonly',
  },
 };
 ```
@@ -220,8 +218,7 @@ All wp-scripts commands are defined in `package.json`:
     "lint:css": "wp-scripts lint-style",
     "lint:css:fix": "wp-scripts lint-style --fix",
     "format": "wp-scripts format",
-    "test:js": "wp-scripts test-unit-js",
-    "test:e2e": "wp-scripts test-e2e"
+    "test:js": "wp-scripts test-unit-js"
   }
 }
 ```
@@ -238,7 +235,6 @@ All wp-scripts commands are defined in `package.json`:
 | `npm run lint:css:fix` | Auto-fixes CSS linting issues |
 | `npm run format` | Formats all files with Prettier |
 | `npm run test:js` | Runs JavaScript unit tests with Jest |
-| `npm run test:e2e` | Runs end-to-end tests with Playwright |
 
 ## How wp-scripts Works
 
@@ -246,20 +242,20 @@ All wp-scripts commands are defined in `package.json`:
 
 **What happens**: Modern JavaScript → Browser-compatible JavaScript
 
-**Input** (`src/js/theme.js`):
+**Input** (`src/{{slug}}/edit.js`):
 
 ```javascript
-import { useState } from '@wordpress/element';
+import { useBlockProps } from '@wordpress/block-editor';
 
-const MyComponent = () => {
- const [count, setCount] = useState(0);
- return <button onClick={() => setCount(count + 1)}>{count}</button>;
+const Edit = ({ attributes, setAttributes }) => {
+ const blockProps = useBlockProps();
+ return <div {...blockProps}>Block content</div>;
 };
 
-export default MyComponent;
+export default Edit;
 ```
 
-**Output** (`build/js/theme.js`):
+**Output** (`build/index.js`):
 
 ```javascript
 // Transpiled code with polyfills, no JSX, browser-compatible
@@ -293,48 +289,50 @@ var MyComponent = function() {
 **Example**:
 
 ```
-src/js/theme.js (imports from multiple files)
-  ├── components/Header.js
-  ├── utils/helpers.js
-  └── @wordpress/element
+src/index.js (imports from multiple files)
+  ├── {{slug}}/edit.js
+  ├── {{slug}}/save.js
+  ├── @wordpress/blocks
+  ├── @wordpress/block-editor
+  └── @wordpress/i18n
 
                 ↓ webpack bundling
 
-build/js/theme.js (single optimized file)
-build/js/theme.asset.php (dependency manifest)
+build/index.js (single optimized file)
+build/index.asset.php (dependency manifest)
 ```
 
 ### 3. Sass Compilation
 
 **What happens**: SCSS → CSS
 
-**Input** (`src/css/style.scss`):
+**Input** (`src/scss/style.scss`):
 
 ```scss
 @import '@wordpress/base-styles';
 
-$primary: #0073aa;
+.wp-block-{{namespace}}-{{slug}} {
+ padding: 1rem;
+ border: 1px solid #ddd;
 
-.site-header {
- background: $primary;
-
- &__logo {
-  max-width: 200px;
+ &__content {
+  font-size: 1rem;
  }
 }
 ```
 
-**Output** (`build/css/style.css`):
+**Output** (`build/index.css`):
 
 ```css
 /* WordPress base styles included */
 
-.site-header {
- background: #0073aa;
+.wp-block-{{namespace}}-{{slug}} {
+ padding: 1rem;
+ border: 1px solid #ddd;
 }
 
-.site-header__logo {
- max-width: 200px;
+.wp-block-{{namespace}}-{{slug}}__content {
+ font-size: 1rem;
 }
 ```
 
@@ -354,7 +352,7 @@ For each entry point, wp-scripts generates a `.asset.php` file:
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
 flowchart LR
     subgraph Input["Source File"]
-        JS["theme.js<br/>imports @wordpress/*"]
+        JS["index.js<br/>imports @wordpress/*"]
     end
 
     subgraph Process["wp-scripts build"]
@@ -373,7 +371,7 @@ flowchart LR
     Hash --> Asset
 ```
 
-**Example** (`build/js/theme.asset.php`):
+**Example** (`build/index.asset.php`):
 
 ```php
 <?php return array(
@@ -393,18 +391,19 @@ flowchart LR
 - `dependencies`: Array of script handles that must be loaded first
 - `version`: Content hash for cache busting (changes when file changes)
 
-**Usage in theme**:
+**Usage in plugin**:
+
+WordPress automatically loads assets when registering blocks via `block.json`:
 
 ```php
-$asset = include get_theme_file_path( 'build/js/theme.asset.php' );
-
-wp_enqueue_script(
- '{{theme_slug}}-script',
- get_theme_file_uri( 'build/js/theme.js' ),
- $asset['dependencies'],  // Automatically includes all WordPress dependencies
- $asset['version']        // Automatic cache invalidation
-);
+// {{slug}}.php
+function {{namespace}}_register_block() {
+    register_block_type( __DIR__ . '/build' );
+}
+add_action( 'init', '{{namespace}}_register_block' );
 ```
+
+The `.asset.php` file is automatically used by `register_block_type()` for dependency management and versioning.
 
 ### 5. Code Minification
 
@@ -430,12 +429,12 @@ wp_enqueue_script(
 
 ```
 Development:
-  build/js/theme.js: 150 KB
-  build/css/style.css: 50 KB
+  build/index.js: 120 KB
+  build/index.css: 30 KB
 
 Production:
-  build/js/theme.js: 45 KB (70% smaller)
-  build/css/style.css: 15 KB (70% smaller)
+  build/index.js: 35 KB (70% smaller)
+  build/index.css: 10 KB (67% smaller)
 ```
 
 ## Development Workflow
@@ -460,12 +459,14 @@ Edit files in `src/`:
 
 ```
 src/
-├── css/
+├── index.js               # Block registration entry
+├── scss/
 │   ├── style.scss         # Edit this
 │   └── editor.scss        # Edit this
-└── js/
-    ├── theme.js           # Edit this
-    └── editor.js          # Edit this
+└── {{slug}}/
+    ├── edit.js            # Edit this
+    ├── save.js            # Edit this
+    └── style.scss         # Edit this
 ```
 
 ### 3. Auto-compile
@@ -476,13 +477,13 @@ webpack automatically detects changes and rebuilds:
 ℹ Compiling...
 ✔ Compiled successfully in 234ms
 
-assets by path js/*.js 125 KiB
-  asset js/theme.js 85.2 KiB [emitted] (name: js/theme)
-  asset js/editor.js 39.8 KiB [emitted] (name: js/editor)
+assets by path build/*.js 85 KiB
+  asset index.js 85.2 KiB [emitted] (name: index)
+  asset index.asset.php 234 bytes [emitted]
 
-assets by path css/*.css 45 KiB
-  asset css/style.css 30 KiB [emitted] (name: css/style)
-  asset css/editor-style.css 15 KiB [emitted] (name: css/editor-style)
+assets by path build/*.css 30 KiB
+  asset index.css 25 KiB [emitted] (name: index)
+  asset style-index.css 5 KiB [emitted]
 ```
 
 ### 4. Production Build
@@ -505,86 +506,75 @@ This creates optimized bundles:
 wp-scripts includes all `@wordpress/*` packages. Import them in your JavaScript:
 
 ```javascript
-// Element (React)
-import { useState, useEffect } from '@wordpress/element';
+// Block registration
+import { registerBlockType } from '@wordpress/blocks';
 
-// Data management
-import { useSelect, useDispatch } from '@wordpress/data';
+// Block editor components
+import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
 
-// Components
-import { Button, Modal, TextControl } from '@wordpress/components';
+// UI Components
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 // Internationalization
 import { __ } from '@wordpress/i18n';
 
-// API requests
-import apiFetch from '@wordpress/api-fetch';
+// Data management
+import { useSelect } from '@wordpress/data';
 
-// Block editor
-import { BlockControls, InspectorControls } from '@wordpress/block-editor';
-
-// Utilities
-import { dateI18n } from '@wordpress/date';
+// Element (React)
+import { useState, useEffect } from '@wordpress/element';
 ```
 
 **No manual enqueuing needed** - wp-scripts automatically adds dependencies to `.asset.php`.
 
 ## Customization Examples
 
-### Adding a New Entry Point
+### Adding Another Block
 
-**1. Create source file**:
+**1. Create block directory**:
 
 ```bash
-src/js/admin.js
+mkdir src/another-block
 ```
 
-**2. Update `webpack.config.cjs`**:
+**2. Create block files**:
+
+```bash
+src/another-block/
+├── block.json
+├── edit.js
+├── save.js
+└── style.scss
+```
+
+**3. Register in `src/index.js`**:
 
 ```javascript
-entry: {
- // ... existing entries
- 'js/admin': './src/js/admin.js',
-}
+import './another-block';
 ```
 
-**3. Build**:
+**4. Build**:
 
 ```bash
 npm run build
 ```
 
-**4. Enqueue in theme**:
-
-```php
-function {{theme_slug}}_enqueue_admin_scripts( $hook ) {
- $asset = include get_theme_file_path( 'build/js/admin.asset.php' );
-
- wp_enqueue_script(
-  '{{theme_slug}}-admin',
-  get_theme_file_uri( 'build/js/admin.js' ),
-  $asset['dependencies'],
-  $asset['version']
- );
-}
-add_action( 'admin_enqueue_scripts', '{{theme_slug}}_enqueue_admin_scripts' );
-```
+**5. WordPress automatically registers from block.json** - no manual enqueuing needed!
 
 ### Using Path Aliases
 
 Instead of relative imports:
 
 ```javascript
-import Header from '../../../components/Header';
-import { formatDate } from '../../../../utils/date';
+import Component from '../../../components/Component';
+import '../../../scss/component.scss';
 ```
 
 Use path aliases (configured in `webpack.config.cjs`):
 
 ```javascript
-import Header from '@js/components/Header';
-import { formatDate } from '@js/utils/date';
-import '@css/components/header.scss';
+import Component from '@/components/Component';
+import '@scss/component.scss';
 ```
 
 ### External Dependencies
@@ -627,7 +617,7 @@ npm run lint:js
 
 ---
 
-**Problem**: `Error: Can't resolve './src/js/theme.js'`
+**Problem**: `Error: Can't resolve './src/index.js'`
 
 **Solution**: Verify file exists at specified path in `webpack.config.cjs`.
 
@@ -665,16 +655,15 @@ npm run build
 
 **Problem**: Dependencies not loaded
 
-**Solution**: Ensure you're including the `.asset.php` dependencies:
+**Solution**: The `.asset.php` is automatically used by `register_block_type()`:
 
 ```php
-$asset = include get_theme_file_path( 'build/js/theme.asset.php' );
-wp_enqueue_script(
- 'theme-script',
- get_theme_file_uri( 'build/js/theme.js' ),
- $asset['dependencies'],  // ← Important!
- $asset['version']
-);
+// {{slug}}.php
+function {{namespace}}_register_block() {
+    // Automatically uses build/index.asset.php
+    register_block_type( __DIR__ . '/build' );
+}
+add_action( 'init', '{{namespace}}_register_block' );
 ```
 
 ## Best Practices
@@ -686,15 +675,15 @@ Never edit files in `build/` directly - they're auto-generated and will be overw
 ✅ **Correct**:
 
 ```
-Edit: src/js/theme.js
+Edit: src/{{slug}}/edit.js
 Build: npm run build
-Result: build/js/theme.js (auto-generated)
+Result: build/index.js (auto-generated)
 ```
 
 ❌ **Incorrect**:
 
 ```
-Edit: build/js/theme.js (will be lost on next build)
+Edit: build/index.js (will be lost on next build)
 ```
 
 ### 2. Keep Dependencies Updated
@@ -739,23 +728,25 @@ npm run build
 ## Additional Resources
 
 - [@wordpress/scripts Documentation](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/)
+- [Block Editor Handbook](https://developer.wordpress.org/block-editor/) - Complete block development guide
+- [Block API Reference](https://developer.wordpress.org/block-editor/reference-guides/block-api/) - Block metadata and registration
 - [webpack Documentation](https://webpack.js.org/)
 - [Babel Documentation](https://babeljs.io/docs/)
 - [WordPress JavaScript Packages](https://developer.wordpress.org/block-editor/reference-guides/packages/)
-- [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/)
 
 ## Summary
 
-This theme's build process is powered by `@wordpress/scripts`, providing:
+This plugin's build process is powered by `@wordpress/scripts`, providing:
 
-✅ Zero-configuration setup with sensible defaults
+✅ Zero-configuration block development setup
 ✅ Full customization when needed via `webpack.config.cjs`
-✅ Automatic dependency management
+✅ Automatic dependency management via block.json
 ✅ Modern JavaScript support (ESNext, JSX, React)
 ✅ Sass compilation with PostCSS
 ✅ Code minification for production
 ✅ Integrated linting and formatting
 ✅ Hot module replacement for development
 ✅ Testing utilities included
+✅ Block-specific optimizations
 
-All while following WordPress coding standards and best practices!
+All while following WordPress block development and coding standards!
