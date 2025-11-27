@@ -12,6 +12,36 @@ This document explains the complete `src/` folder structure for the {{name}} blo
 
 ## Directory Overview
 
+### Block Architecture
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
+flowchart LR
+    subgraph BlockJSON["block.json"]
+        Meta["Metadata<br/>name, attributes, supports"]
+    end
+
+    subgraph Editor["Editor"]
+        Edit["edit.js<br/>React Component"]
+        Save["save.js<br/>Static Output"]
+    end
+
+    subgraph Frontend["Frontend"]
+        Render["render.php<br/>Dynamic Output"]
+        View["view.js<br/>Interactivity"]
+    end
+
+    subgraph Styles["Styles"]
+        StyleCSS["style.scss<br/>Shared"]
+        EditorCSS["editor.scss<br/>Editor Only"]
+    end
+
+    BlockJSON --> Editor
+    BlockJSON --> Frontend
+    Editor --> Styles
+    Frontend --> StyleCSS
+```
+
 ```
 src/
 ├── index.js                    # Main entry point - registers all blocks
@@ -316,6 +346,30 @@ function init{{namespace|pascalCase}}{{slug|pascalCase}}Block() {
 - Frontend-only hover effects
 
 ## File Loading Order
+
+### Block Loading Flow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
+flowchart TB
+    subgraph Editor["Block Editor"]
+        direction TB
+        IndexJS["src/index.js"] --> BlockIndex["src/slug/index.js"]
+        BlockIndex --> BlockJSON["block.json"]
+        BlockIndex --> EditJS["edit.js"]
+        BlockIndex --> StyleSCSS["style.scss"]
+        BlockIndex --> EditorSCSS["editor.scss"]
+    end
+
+    subgraph Frontend["Frontend"]
+        direction TB
+        RenderPHP["render.php"] --> FrontStyle["style.css"]
+        RenderPHP --> ViewJS["view.js"]
+    end
+
+    BlockJSON --> Editor
+    BlockJSON --> Frontend
+```
 
 ### In Editor
 

@@ -12,6 +12,29 @@ The `bin/` directory contains utility scripts for:
 - Updating the plugin version across all files
 - Setting up the WordPress PHPUnit test environment
 
+### Plugin Generation Flow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
+flowchart LR
+    subgraph Scaffold["Scaffold Template"]
+        Template["Template Files<br/>with mustache placeholders"]
+    end
+
+    subgraph Generate["Generation Script"]
+        Script["generate-single-block-plugin.js"]
+        Values["User Values<br/>--slug, --name, etc."]
+    end
+
+    subgraph Output["Generated Plugin"]
+        Plugin["Complete Plugin<br/>Ready to develop"]
+    end
+
+    Template --> Script
+    Values --> Script
+    Script --> Plugin
+```
+
 ## Scripts
 
 ### 1. `generate-single-block-plugin.js`
@@ -93,6 +116,21 @@ bin/install-wp-tests.sh <wp-version> <db-name> <db-user> <db-pass> [db-host]
 - Downloads and configures the WordPress test suite for PHP unit testing.
 
 ## Workflow Example
+
+### Complete Development Workflow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
+flowchart TD
+    A["1. Generate Plugin"] --> B["2. Enter Directory"]
+    B --> C["3. Build Plugin"]
+    C --> D["4. Run Tests"]
+    D --> E{"Tests Pass?"}
+    E -->|No| F["Fix Issues"]
+    F --> D
+    E -->|Yes| G["5. Update Version"]
+    G --> H["6. Deploy"]
+```
 
 1. Generate a new plugin:
 

@@ -21,6 +21,40 @@ Translation files are stored in the `languages/` directory:
 - **`.mo` files**: Compiled translation files used by WordPress
 - **`.json` files**: JavaScript translation files for the block editor
 
+### Translation Workflow
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e4d78', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#15354f', 'lineColor': '#333333', 'secondaryColor': '#f0f0f0', 'tertiaryColor': '#e8e8e8', 'background': '#ffffff', 'mainBkg': '#1e4d78', 'textColor': '#333333', 'nodeBorder': '#15354f', 'clusterBkg': '#f8f9fa', 'clusterBorder': '#dee2e6', 'titleColor': '#333333'}}}%%
+flowchart TB
+    subgraph Extract["1. Extract Strings"]
+        PHP["PHP Files"]
+        JS["JavaScript Files"]
+        POT[".pot Template"]
+    end
+
+    subgraph Translate["2. Translate"]
+        PO[".po File<br/>Human-readable"]
+        MO[".mo File<br/>Compiled"]
+    end
+
+    subgraph JSTranslate["3. JS Translations"]
+        JSON[".json Files<br/>Block Editor"]
+    end
+
+    subgraph Load["4. Load in WordPress"]
+        WPLoad["load_plugin_textdomain()"]
+        WPScript["wp_set_script_translations()"]
+    end
+
+    PHP --> POT
+    JS --> POT
+    POT --> PO
+    PO --> MO
+    PO --> JSON
+    MO --> WPLoad
+    JSON --> WPScript
+```
+
 ## Generating Translation Files
 
 ### PHP Translation Files
