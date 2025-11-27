@@ -25,7 +25,8 @@
 		"npm": ">=8.0.0"
 	},
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "node bin/build.js",
+		"build:quick": "wp-scripts build",
 		"check-engines": "wp-scripts check-engines",
 		"check-licenses": "wp-scripts check-licenses",
 		"format": "wp-scripts format",
@@ -38,8 +39,14 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start",
 		"test:e2e": "wp-scripts test-e2e",
+		"test:e2e:a11y": "wp-scripts test-e2e tests/e2e/accessibility.spec.js",
 		"test:unit": "wp-scripts test-unit-js",
+		"test:php": "phpunit",
 		"test": "npm run test:unit && npm run test:e2e",
+		"lighthouse": "lhci autorun",
+		"size-limit": "size-limit",
+		"analyze-bundle": "webpack-bundle-analyzer build/stats.json build",
+		"performance": "npm run lighthouse && npm run size-limit",
 		"makepot": "wp i18n make-pot . languages/{{slug}}.pot --slug={{slug}} --domain={{textdomain}} --exclude=node_modules,vendor,build,tests",
 		"makepot:php": "wp i18n make-pot . languages/{{slug}}.pot --slug={{slug}} --domain={{textdomain}} --exclude=node_modules,vendor,build,tests,src",
 		"makejson": "wp i18n make-json languages --no-purge",
@@ -54,6 +61,7 @@
 		"update-version": "node bin/update-version.js"
 	},
 	"devDependencies": {
+		"@lhci/cli": "^0.13.0",
 		"@wordpress/babel-preset-default": "^8.35.0",
 		"@wordpress/browserslist-config": "^6.35.0",
 		"@wordpress/create-block": "^4.78.0",
@@ -66,8 +74,12 @@
 		"@wordpress/prettier-config": "^4.35.0",
 		"@wordpress/scripts": "^31.0.0",
 		"@wordpress/stylelint-config": "^23.27.0",
+		"axe-core": "^4.10.2",
+		"axe-playwright": "^2.0.3",
 		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7"
+		"lint-staged": "^16.2.7",
+		"size-limit": "^11.1.6",
+		"webpack-bundle-analyzer": "^4.10.2"
 	},
 	"dependencies": {
 		"@wordpress/a11y": "^4.35.0",

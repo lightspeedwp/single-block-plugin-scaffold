@@ -201,7 +201,22 @@ npm run test:js -- --watch
 Generate code coverage reports:
 
 ```bash
+# JavaScript coverage
 npm run test:js -- --coverage
+
+# PHP coverage (requires Xdebug)
+XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage/
+```
+
+Coverage reports are uploaded to Codecov in CI.
+
+### Accessibility Testing
+
+Run accessibility tests:
+
+```bash
+# Accessibility E2E tests
+npm run test:e2e:a11y
 ```
 
 ## Test Files

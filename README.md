@@ -41,8 +41,11 @@ This plugin uses modern WordPress development practices:
 - **SCSS** for styling
 - **PHP 8.0+** for server-side functionality
 - **PHPUnit** for PHP testing
-- **Jest** for JavaScript testing
+- **Jest** for JavaScript testing with coverage
 - **Playwright** for E2E testing
+- **Lighthouse CI** for performance monitoring
+- **Docker/DevContainer** for consistent development environments
+- **GitHub Actions** for CI/CD automation
 
 ## Placeholder Mappings
 
@@ -83,12 +86,25 @@ This template uses mustache-style placeholders that should be replaced when scaf
 ├── tests/
 │   ├── date.js                # Date utility functions
 │   └── date.test.js           # Date utility tests
+├── .devcontainer/             # Docker development container
+│   ├── devcontainer.json     # VS Code dev container config
+│   ├── docker-compose.yml    # Docker services (WP, MySQL, etc.)
+│   └── Dockerfile            # Container definition
 ├── .github/
 │   └── workflows/
-│       └── ci-cd.yml          # GitHub Actions workflow
+│       ├── ci-cd.yml          # Main CI/CD pipeline
+│       ├── code-quality.yml   # Coverage & quality gates
+│       ├── deploy-wporg.yml   # WordPress.org deployment
+│       └── release.yml        # Version bumping & releases
 ├── .vscode/                   # VSCode configuration
 ├── .husky/                    # Git hooks
+├── .wordpress-org/            # WordPress.org assets
+├── assets/                    # Plugin assets (icons, banners)
 ├── docs/                      # Documentation
+├── inc/                       # PHP utilities
+│   ├── db-migration.php      # Database migrations
+│   ├── deprecation.php       # Deprecation workflow
+│   └── nonce.php             # Nonce utilities
 ├── {{slug}}.php               # Main plugin file
 ├── package.json               # Node.js dependencies
 ├── composer.json              # PHP dependencies
@@ -115,6 +131,42 @@ This template uses mustache-style placeholders that should be replaced when scaf
 - `composer run lint` - Lint PHP code
 - `composer run test` - Run PHP tests
 - `composer run analyse` - Run static analysis
+
+### Performance & Quality
+
+- `npm run lighthouse` - Run Lighthouse CI audits
+- `npm run size-limit` - Check bundle size limits
+- `npm run analyze-bundle` - Analyze webpack bundle
+- `npm run performance` - Run all performance checks
+
+## Docker Development
+
+This scaffold includes a complete Docker-based development environment:
+
+1. **Open in VS Code** with the Dev Containers extension
+2. **Reopen in Container** when prompted
+3. **Services included:**
+   - WordPress (port 8080)
+   - MariaDB (port 3306)
+   - phpMyAdmin (port 8081)
+   - MailHog (port 8025)
+
+```bash
+# Or manually start the environment
+cd .devcontainer && docker-compose up -d
+```
+
+## CI/CD Pipeline
+
+Automated workflows handle:
+
+- **Linting & Testing** - On every push/PR
+- **Security Audits** - Dependency vulnerability checks
+- **E2E Tests** - Playwright browser testing
+- **Code Coverage** - JavaScript & PHP coverage with Codecov
+- **Bundle Analysis** - Size tracking and quality gates
+- **Releases** - Automated version bumping and changelog
+- **WordPress.org Deploy** - SVN deployment on release
 
 ## Contributing
 

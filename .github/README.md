@@ -10,14 +10,26 @@ This directory contains GitHub-specific configuration files for the {{name}} plu
 - **prompts/** - Reusable prompt templates for AI-assisted development
 - **workflows/** - GitHub Actions CI/CD workflow definitions
 
+## Workflows
+
+| Workflow | Description |
+|----------|-------------|
+| `ci-cd.yml` | Main CI/CD pipeline (lint, test, security audit, E2E) |
+| `code-quality.yml` | Code coverage, quality gates, bundle analysis |
+| `deploy-wporg.yml` | Automated WordPress.org SVN deployment |
+| `release.yml` | Version bumping, changelog generation, releases |
+
 ## Purpose
 
 These files enable:
 
 - Automated build and test workflows
+- Code coverage tracking with Codecov
+- Quality gates for PRs
 - AI-assisted block development with context-specific instructions
 - Consistent code review and quality checks
 - Automated release and deployment processes
+- WordPress.org plugin directory deployment
 
 ## Usage
 

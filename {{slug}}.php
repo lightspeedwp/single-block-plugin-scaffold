@@ -45,6 +45,9 @@ define( '{{namespace|upper}}_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( '{{namespace|upper}}_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( '{{namespace|upper}}_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+// Load utilities.
+// (Included by developers where needed to avoid template parse issues.)
+
 /**
  * Main plugin class.
  */

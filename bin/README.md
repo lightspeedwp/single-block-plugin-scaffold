@@ -76,6 +76,24 @@ Builds the plugin by installing dependencies, linting, and compiling assets.
 3. Runs linters (PHP, JS, CSS)
 4. Builds production assets
 5. Runs tests
+6. Generates performance reports
+
+### `build.js`
+
+Node.js build orchestrator with enhanced capabilities.
+
+**Usage:**
+
+```bash
+# Standard build
+node bin/build.js
+
+# Build with stats for bundle analyzer
+node bin/build.js --stats
+
+# Clean build
+node bin/build.js --clean
+```
 
 ### `test.sh`
 

@@ -42,6 +42,7 @@ New to this scaffold? Start here:
 2. 🎯 [Setup Summary](./SETUP-SUMMARY.md) - Overview of what's configured
 3. ✅ [Template Validation](./TEMPLATE-VALIDATION.md) - Valid mustache templates
 4. 🏗️ [Build Process](./BUILD-PROCESS.md) - Understanding the build system
+5. 📚 [API Reference](./API-REFERENCE.md) - Complete API documentation
 
 ## Documentation Structure
 
@@ -77,6 +78,22 @@ Detailed documentation for `@wordpress/scripts` build system:
 |----------|-------------|
 | [TOOL-CONFIGS.md](./TOOL-CONFIGS.md) | Overview of all development tools and their purposes |
 | [config/](./config/) | Detailed configuration guides for individual tools |
+
+### Security & Best Practices
+
+| Document | Description |
+|----------|-------------|
+| [SECURITY-NONCE.md](./SECURITY-NONCE.md) | Nonce utilities for secure AJAX and form handling |
+| [SECURITY-HEADERS.md](./SECURITY-HEADERS.md) | Security headers and content security policies |
+| [DEPRECATION.md](./DEPRECATION.md) | Deprecation workflow for functions and hooks |
+| [DB-MIGRATION.md](./DB-MIGRATION.md) | Database migration system documentation |
+
+### Performance & Quality
+
+| Document | Description |
+|----------|-------------|
+| [PERFORMANCE.md](./PERFORMANCE.md) | Performance monitoring with Lighthouse CI and bundle analysis |
+| [API-REFERENCE.md](./API-REFERENCE.md) | Complete API reference for PHP and JavaScript |
 
 ## Configuration Files
 

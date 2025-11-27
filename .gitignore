@@ -44,6 +44,12 @@ artifacts/
 test-results/
 playwright-report/
 
+# Performance monitoring
+lighthouse-reports/
+webpack-stats.json
+stats.json
+bundle-report.html
+
 # WordPress plugin specific
 wp-config.php
 .htaccess
