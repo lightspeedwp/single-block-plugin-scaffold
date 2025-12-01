@@ -266,9 +266,7 @@ Each tool has its own comprehensive guide with:
 
 ### Build Process Guides
 
-- [WP-Scripts Configuration](./WP-SCRIPTS-CONFIGURATION.md) - Detailed wp-scripts setup
-- [WP-Scripts Quick Reference](./WP-SCRIPTS-QUICK-REFERENCE.md) - Command reference
-- [WP-Scripts Summary](./WP-SCRIPTS-SUMMARY.md) - Feature overview
+- [WP-Scripts Configuration](./config/wp-scripts.md) - Complete @wordpress/scripts guide
 - [Build Process](./BUILD-PROCESS.md) - Complete build workflow
 
 ### Tool-Specific Documentation

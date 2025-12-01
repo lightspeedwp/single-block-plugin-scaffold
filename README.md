@@ -178,6 +178,34 @@ This project is licensed under the {{license}} License - see the [LICENSE](LICEN
 
 ## Support
 
+### Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- **[Build Process](docs/BUILD-PROCESS.md)** - Complete build system guide
+- **[Testing Guide](docs/TESTING.md)** - Running and writing tests
+- **[Internationalization](docs/INTERNATIONALIZATION.md)** - i18n and translation guide
+- **[Tool Configuration](docs/TOOL-CONFIGS.md)** - Linting, formatting, and build tools
+- **[Agents Guide](docs/AGENTS.md)** - AI agents and automation
+- **[Workflows Guide](docs/WORKFLOWS.md)** - CI/CD workflows documentation
+- **[API Reference](docs/API-REFERENCE.md)** - Plugin API documentation
+- **[Performance](docs/PERFORMANCE.md)** - Performance optimization guide
+- **[Security](docs/SECURITY-HEADERS.md)** - Security best practices
+
+**Configuration Documentation** (`docs/config/`):
+
+- [wp-scripts](docs/config/wp-scripts.md) - Complete @wordpress/scripts guide
+- [Webpack](docs/config/webpack.md) - Bundling configuration
+- [Babel](docs/config/babel.md) - JavaScript compilation
+- [ESLint](docs/config/eslint.md) - JavaScript linting
+- [Stylelint](docs/config/stylelint.md) - CSS/Sass linting
+- [PostCSS](docs/config/postcss.md) - CSS processing
+- [Jest](docs/config/jest.md) - Unit testing
+- [Playwright](docs/config/playwright.md) - E2E testing
+- [Prettier](docs/config/prettier.md) - Code formatting
+
+### Community Support
+
 For support, please see:
 
 - [Support Documentation](SUPPORT.md)
