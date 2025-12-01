@@ -17,12 +17,13 @@ Use this file as a comprehensive reference when creating the `multi-block-plugin
 7. Shared React components (Slider, Repeater, etc.)
 8. Post Collection block (similar to WooCommerce Product Collection)
 9. Complete uninstall cleanup and test suite
+10. **WordPress Plugin Dependencies** (`Requires Plugins` header) for SCF dependency
 
 ---
 
 ## Repository Structure
 
-```
+```text
 multi-block-plugin-scaffold/
 ├── {{slug}}.php                    # Main plugin file
 ├── uninstall.php                   # Uninstall cleanup
@@ -185,6 +186,10 @@ multi-block-plugin-scaffold/
 
 ### Main Plugin File (`{{slug}}.php`)
 
+**Important:** WordPress 6.5+ introduced Plugin Dependencies. The `Requires Plugins` header declares that this plugin requires Secure Custom Fields. WordPress will prevent activation until SCF is installed and active.
+
+See: [WordPress Plugin Dependencies](https://make.wordpress.org/core/2024/03/05/introducing-plugin-dependencies-in-wordpress-6-5/)
+
 ```php
 <?php
 /**
@@ -194,6 +199,7 @@ multi-block-plugin-scaffold/
  * Version:           {{version}}
  * Requires at least: {{requires_wp}}
  * Requires PHP:      {{requires_php}}
+ * Requires Plugins:  secure-custom-fields
  * Author:            {{author}}
  * Author URI:        {{author_uri}}
  * License:           {{license}}
@@ -213,6 +219,26 @@ define( '{{namespace|upper}}_VERSION', '{{version}}' );
 define( '{{namespace|upper}}_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( '{{namespace|upper}}_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( '{{namespace|upper}}_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+
+/**
+ * Defensive coding: Check for SCF/ACF functions before using them.
+ *
+ * While Plugin Dependencies ensures SCF is active, defensive coding is still
+ * recommended for:
+ * - Edge cases (FTP deletion, deployment issues)
+ * - Loading order variations
+ * - Future compatibility
+ *
+ * @see https://make.wordpress.org/core/2024/03/05/introducing-plugin-dependencies-in-wordpress-6-5/
+ */
+if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+    add_action( 'admin_notices', function() {
+        echo '<div class="error"><p>' .
+            esc_html__( '{{name}} requires Secure Custom Fields to be active.', '{{textdomain}}' ) .
+            '</p></div>';
+    } );
+    return;
+}
 
 // Autoloader.
 require_once {{namespace|upper}}_PLUGIN_DIR . 'vendor/autoload.php';
@@ -1938,12 +1964,174 @@ module.exports = {
 ## Dependencies
 
 ### Required
-- WordPress 6.5+ (for Block Bindings API)
+
+- WordPress 6.5+ (for Block Bindings API and Plugin Dependencies)
 - PHP 8.0+
 - Node.js 18+
+- **Secure Custom Fields** (declared via `Requires Plugins` header)
 
-### Recommended
-- [Secure Custom Fields](https://wordpress.org/plugins/secure-custom-fields/) for custom fields
+### WordPress Plugin Dependencies (WP 6.5+)
+
+The `Requires Plugins` header in the main plugin file declares SCF as a required dependency:
+
+```php
+Requires Plugins: secure-custom-fields
+```
+
+**Behaviour:**
+
+- Plugin cannot be installed until SCF is installed
+- Plugin cannot be activated until SCF is activated
+- SCF cannot be deactivated while this plugin is active
+- SCF cannot be deleted while this plugin is installed
+
+**Reference:** [WordPress Plugin Dependencies](https://make.wordpress.org/core/2024/03/05/introducing-plugin-dependencies-in-wordpress-6-5/)
+
+### Defensive Coding
+
+While Plugin Dependencies ensures SCF is active, defensive coding is still recommended:
+
+```php
+// Check for SCF/ACF functions before using them.
+if ( function_exists( 'acf_add_local_field_group' ) ) {
+    // Register fields.
+}
+
+if ( function_exists( 'get_field' ) ) {
+    $value = get_field( 'my_field', $post_id );
+}
+
+if ( function_exists( 'have_rows' ) && have_rows( 'my_repeater', $post_id ) ) {
+    while ( have_rows( 'my_repeater', $post_id ) ) {
+        the_row();
+        // Process row.
+    }
+}
+```
+
+---
+
+## Secure Custom Fields Documentation
+
+### Key SCF Resources
+
+- **Plugin:** <https://wordpress.org/plugins/secure-custom-fields/>
+- **GitHub:** <https://github.com/WordPress/secure-custom-fields>
+- **Documentation:** <https://github.com/WordPress/secure-custom-fields/tree/trunk/docs>
+
+### Field Types Used in This Scaffold
+
+| Field Type | Description | Documentation |
+|------------|-------------|---------------|
+| Text | Single line text | `docs/features/field/text/` |
+| Textarea | Multi-line text | `docs/features/field/textarea/` |
+| Image | Image upload | `docs/features/field/image/` |
+| Gallery | Multiple images | `docs/features/field/gallery/` |
+| Repeater | Repeating subfields | `docs/features/field/repeater/` |
+| Flexible Content | Layout-based editor | `docs/features/field/flexible-content/` |
+| Post Object | Post relationships | `docs/features/field/post-object/` |
+| Link | URL with title | `docs/features/field/link/` |
+| Select | Dropdown selection | `docs/features/field/select/` |
+| True/False | Boolean toggle | `docs/features/field/true-false/` |
+
+### SCF API Functions
+
+**Getting Field Values:**
+
+```php
+// Get single field value.
+$value = get_field( 'field_name', $post_id );
+
+// Get all fields for a post.
+$fields = get_fields( $post_id );
+
+// Get field object (with settings).
+$field = get_field_object( 'field_name', $post_id );
+```
+
+**Repeater Fields:**
+
+```php
+// Loop through repeater.
+if ( have_rows( 'repeater_name', $post_id ) ) {
+    while ( have_rows( 'repeater_name', $post_id ) ) {
+        the_row();
+
+        // Get sub field values.
+        $title = get_sub_field( 'title' );
+        $image = get_sub_field( 'image' );
+    }
+}
+
+// Reset repeater (if nested).
+reset_rows();
+```
+
+**Flexible Content:**
+
+```php
+// Loop through flexible content.
+if ( have_rows( 'sections', $post_id ) ) {
+    while ( have_rows( 'sections', $post_id ) ) {
+        the_row();
+
+        // Get current layout name.
+        $layout = get_row_layout();
+
+        if ( 'text_section' === $layout ) {
+            $heading = get_sub_field( 'heading' );
+            $content = get_sub_field( 'content' );
+        } elseif ( 'gallery_section' === $layout ) {
+            $images = get_sub_field( 'gallery' );
+        }
+    }
+}
+```
+
+**Registering Fields Programmatically:**
+
+```php
+// Register field group.
+acf_add_local_field_group( array(
+    'key'      => 'group_my_fields',
+    'title'    => 'My Fields',
+    'fields'   => array(
+        array(
+            'key'   => 'field_my_text',
+            'label' => 'My Text',
+            'name'  => 'my_text',
+            'type'  => 'text',
+        ),
+    ),
+    'location' => array(
+        array(
+            array(
+                'param'    => 'post_type',
+                'operator' => '==',
+                'value'    => 'my_post_type',
+            ),
+        ),
+    ),
+) );
+```
+
+### SCF REST API
+
+SCF fields are exposed via the WordPress REST API when enabled:
+
+```php
+// In field group settings, set 'show_in_rest' => true.
+acf_add_local_field_group( array(
+    'key'          => 'group_my_fields',
+    'show_in_rest' => true,
+    // ... other settings
+) );
+```
+
+**REST API Endpoints:**
+
+- `GET /wp-json/wp/v2/{post_type}?_fields=acf` – Get posts with ACF fields
+- Fields appear in the `acf` object on post responses
 
 ---
 
