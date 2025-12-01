@@ -5,25 +5,25 @@ Use this prompt when creating a new repository with GitHub Copilot's coding agen
 ## 500-Character Prompt
 
 ```text
-Create a WordPress multi-block plugin scaffold based on lightspeedwp/single-block-plugin-scaffold. Reference .github/prompts/multi-block-plugin-scaffold.prompt.md for complete structure. Include: src/blocks/ for multiple blocks, inc/ with class-post-types.php, class-taxonomies.php, class-fields.php (SCF integration), class-block-bindings.php, class-block-templates.php, class-patterns.php. Add patterns/, templates/, parts/ directories. Use mustache {{variables}} throughout. WordPress 6.5+, PHP 8.0+.
+WordPress multi-block plugin scaffold. Full spec: https://raw.githubusercontent.com/lightspeedwp/single-block-plugin-scaffold/develop/.github/prompts/multi-block-plugin-scaffold.prompt.md – Include src/blocks/ (card, collection, slider, featured), inc/ classes (post-types, taxonomies, fields, repeater-fields, block-bindings, block-templates, patterns), patterns/, templates/, parts/. SCF repeaters, block bindings API. Mustache {{variables}}. WP 6.5+, PHP 8.0+. Tests + uninstall.php.
 ```
 
-Character count: 498
+Character count: 499
 
 ---
 
 ## Alternative Prompts
 
-### Focused on CPT (489 chars)
+### Focused on CPT (496 chars)
 
 ```text
-WordPress multi-block plugin scaffold extending lightspeedwp/single-block-plugin-scaffold. See .github/prompts/multi-block-plugin-scaffold.prompt.md for full spec. Key features: multiple blocks in src/blocks/, custom post type registration, custom taxonomy, Secure Custom Fields integration, block bindings API, block templates for single/archive views, PHP patterns with i18n. Use mustache {{slug}}, {{namespace}}, {{textdomain}} variables. Requires WP 6.5+, PHP 8.0+.
+WordPress multi-block plugin with CPT. Spec: https://raw.githubusercontent.com/lightspeedwp/single-block-plugin-scaffold/develop/.github/prompts/multi-block-plugin-scaffold.prompt.md – Custom post type, taxonomy, Secure Custom Fields with repeaters, block bindings API, block templates (single/archive), PHP patterns with i18n. Blocks: card, collection, slider, featured in src/blocks/. Components: Slider, PostSelector, RepeaterField. Mustache {{slug}}, {{namespace}}. WP 6.5+, PHP 8.0+.
 ```
 
-### Minimal Reference (342 chars)
+### Minimal Reference (398 chars)
 
 ```text
-Multi-block WordPress plugin scaffold. Fork lightspeedwp/single-block-plugin-scaffold structure. Read .github/prompts/multi-block-plugin-scaffold.prompt.md for complete architecture including: multi-block src/blocks/ structure, CPT/taxonomy classes, SCF field integration, block bindings, templates, patterns. Mustache variables for customisation. WP 6.5+.
+Multi-block WordPress plugin. Full reference: https://raw.githubusercontent.com/lightspeedwp/single-block-plugin-scaffold/develop/.github/prompts/multi-block-plugin-scaffold.prompt.md – Multi-block structure (card, collection, slider, featured), CPT/taxonomy classes, SCF repeater fields, block bindings, templates, patterns. Shared React components and hooks. Tests included. Mustache variables. WP 6.5+.
 ```
 
 ---

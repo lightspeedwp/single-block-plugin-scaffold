@@ -11,9 +11,12 @@ Use this file as a comprehensive reference when creating the `multi-block-plugin
 1. Multiple blocks in `src/blocks/` directory
 2. Custom Post Types with block templates
 3. Custom Taxonomies
-4. Custom Fields via Secure Custom Fields (SCF)
+4. Custom Fields via Secure Custom Fields (SCF) with repeater support
 5. Block Patterns and Template Parts
 6. Block Bindings for dynamic content
+7. Shared React components (Slider, Repeater, etc.)
+8. Post Collection block (similar to WooCommerce Product Collection)
+9. Complete uninstall cleanup and test suite
 
 ---
 
@@ -35,9 +38,11 @@ multi-block-plugin-scaffold/
 │   ├── class-post-types.php        # CPT registration
 │   ├── class-taxonomies.php        # Taxonomy registration
 │   ├── class-fields.php            # SCF field registration
+│   ├── class-repeater-fields.php   # SCF repeater/flexible content
 │   ├── class-block-templates.php   # Block template registration
 │   ├── class-block-bindings.php    # Block bindings registration
 │   ├── class-patterns.php          # Pattern registration
+│   ├── class-rest-api.php          # Custom REST API endpoints
 │   ├── db-migration.php            # Database migrations
 │   ├── deprecation.php             # Deprecation notices
 │   └── nonce.php                   # Nonce utilities
@@ -45,7 +50,7 @@ multi-block-plugin-scaffold/
 ├── src/                            # Source files
 │   ├── index.js                    # Main entry point (registers all blocks)
 │   ├── blocks/                     # Block source files
-│   │   ├── {{slug}}-card/          # Example: card block
+│   │   ├── {{slug}}-card/          # Single post card block
 │   │   │   ├── block.json
 │   │   │   ├── index.js
 │   │   │   ├── edit.js
@@ -54,37 +59,82 @@ multi-block-plugin-scaffold/
 │   │   │   ├── style.scss
 │   │   │   ├── editor.scss
 │   │   │   └── view.js
-│   │   ├── {{slug}}-grid/          # Example: grid block
+│   │   ├── {{slug}}-collection/    # Post collection block (like WC Product Collection)
+│   │   │   ├── block.json
+│   │   │   ├── index.js
+│   │   │   ├── edit.js
+│   │   │   ├── save.js
+│   │   │   ├── render.php
+│   │   │   ├── style.scss
+│   │   │   ├── editor.scss
+│   │   │   └── variations.js       # Block variations for different layouts
+│   │   ├── {{slug}}-slider/        # Slider/carousel block
+│   │   │   ├── block.json
+│   │   │   ├── index.js
+│   │   │   ├── edit.js
+│   │   │   ├── save.js
+│   │   │   ├── render.php
+│   │   │   ├── style.scss
+│   │   │   ├── editor.scss
+│   │   │   └── view.js             # Frontend slider functionality
+│   │   ├── {{slug}}-single/        # Single post display block
 │   │   │   └── ... (same structure)
-│   │   ├── {{slug}}-archive/       # Example: archive block
-│   │   │   └── ... (same structure)
-│   │   └── {{slug}}-single/        # Example: single post block
+│   │   └── {{slug}}-featured/      # Featured posts block
 │   │       └── ... (same structure)
 │   │
 │   ├── components/                 # Shared React components
 │   │   ├── index.js
-│   │   ├── PostSelector/
-│   │   ├── TaxonomyFilter/
-│   │   └── FieldDisplay/
+│   │   ├── Slider/                 # Reusable slider component
+│   │   │   ├── index.js
+│   │   │   ├── Slider.js
+│   │   │   ├── SliderControls.js
+│   │   │   ├── SliderDots.js
+│   │   │   └── style.scss
+│   │   ├── PostSelector/           # Post selection UI
+│   │   │   ├── index.js
+│   │   │   └── PostSelector.js
+│   │   ├── TaxonomyFilter/         # Taxonomy filtering UI
+│   │   │   ├── index.js
+│   │   │   └── TaxonomyFilter.js
+│   │   ├── FieldDisplay/           # ACF field display
+│   │   │   ├── index.js
+│   │   │   └── FieldDisplay.js
+│   │   ├── RepeaterField/          # Repeater field display
+│   │   │   ├── index.js
+│   │   │   └── RepeaterField.js
+│   │   ├── Gallery/                # Image gallery component
+│   │   │   ├── index.js
+│   │   │   └── Gallery.js
+│   │   └── QueryControls/          # Query/collection controls
+│   │       ├── index.js
+│   │       └── QueryControls.js
 │   │
 │   ├── hooks/                      # Custom React hooks
 │   │   ├── index.js
-│   │   ├── usePostType.js
-│   │   ├── useTaxonomies.js
-│   │   └── useFields.js
+│   │   ├── usePostType.js          # Post type data hook
+│   │   ├── useTaxonomies.js        # Taxonomy data hook
+│   │   ├── useFields.js            # ACF fields hook
+│   │   ├── useRepeater.js          # Repeater field hook
+│   │   ├── useSlider.js            # Slider state hook
+│   │   └── useCollection.js        # Collection query hook
 │   │
 │   ├── utils/                      # Utility functions
-│   │   └── index.js
+│   │   ├── index.js
+│   │   ├── query.js                # Query building utilities
+│   │   └── fields.js               # Field processing utilities
 │   │
 │   └── scss/                       # Global styles
 │       ├── style.scss
-│       └── editor.scss
+│       ├── editor.scss
+│       └── _slider.scss            # Slider-specific styles
 │
 ├── patterns/                       # Block patterns (PHP)
 │   ├── {{slug}}-archive.php        # Archive pattern
 │   ├── {{slug}}-single.php         # Single post pattern
 │   ├── {{slug}}-card.php           # Card pattern
-│   └── {{slug}}-grid.php           # Grid pattern
+│   ├── {{slug}}-grid.php           # Grid pattern
+│   ├── {{slug}}-slider.php         # Slider pattern
+│   └── {{slug}}-featured.php       # Featured posts pattern
 │
 ├── templates/                      # Block templates (HTML)
 │   ├── single-{{slug}}.html        # Single CPT template
@@ -92,7 +142,8 @@ multi-block-plugin-scaffold/
 │
 ├── parts/                          # Template parts (HTML)
 │   ├── {{slug}}-header.html        # CPT-specific header
-│   └── {{slug}}-meta.html          # CPT meta display
+│   ├── {{slug}}-meta.html          # CPT meta display
+│   └── {{slug}}-sidebar.html       # CPT-specific sidebar
 │
 ├── languages/                      # Translations
 │   └── {{slug}}.pot
@@ -102,17 +153,25 @@ multi-block-plugin-scaffold/
 │   └── icons/
 │
 ├── tests/                          # Test files
-│   ├── bootstrap.php
-│   ├── phpstan-bootstrap.php
+│   ├── bootstrap.php               # PHPUnit bootstrap
+│   ├── phpstan-bootstrap.php       # PHPStan bootstrap
+│   ├── setup-tests.js              # Jest setup
 │   ├── php/                        # PHP unit tests
-│   │   ├── test-post-types.php
-│   │   ├── test-taxonomies.php
-│   │   └── test-fields.php
+│   │   ├── test-post-types.php     # CPT registration tests
+│   │   ├── test-taxonomies.php     # Taxonomy tests
+│   │   ├── test-fields.php         # SCF field tests
+│   │   ├── test-block-registration.php  # Block registration tests
+│   │   ├── test-plugin-main.php    # Main plugin tests
+│   │   └── test-uninstall.php      # Uninstall cleanup tests
 │   ├── js/                         # JS unit tests
-│   │   └── blocks.test.js
-│   └── e2e/                        # E2E tests
-│       ├── blocks.spec.js
-│       └── post-type.spec.js
+│   │   ├── blocks.test.js          # Block unit tests
+│   │   ├── components.test.js      # Component tests
+│   │   └── hooks.test.js           # Hook tests
+│   └── e2e/                        # E2E tests (Playwright)
+│       ├── blocks.spec.js          # Block editor tests
+│       ├── post-type.spec.js       # CPT admin tests
+│       ├── collection.spec.js      # Collection block tests
+│       └── slider.spec.js          # Slider block tests
 │
 └── bin/                            # Build scripts
     ├── build.js
@@ -827,6 +886,896 @@ class {{namespace|pascalCase}}_Patterns {
         }
     }
 }
+```
+
+---
+
+### Repeater Fields (`inc/class-repeater-fields.php`)
+
+```php
+<?php
+/**
+ * Repeater and Flexible Content Fields using Secure Custom Fields.
+ *
+ * @package {{namespace}}
+ * @see https://wordpress.org/plugins/secure-custom-fields/
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * Repeater Fields class.
+ */
+class {{namespace|pascalCase}}_Repeater_Fields {
+
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        add_action( 'acf/init', array( $this, 'register_repeater_fields' ) );
+    }
+
+    /**
+     * Register repeater field groups.
+     */
+    public function register_repeater_fields() {
+        if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+            return;
+        }
+
+        // Slider/Gallery Repeater Field Group.
+        acf_add_local_field_group( array(
+            'key'      => 'group_{{slug}}_slider',
+            'title'    => __( '{{name_singular}} Slider', '{{textdomain}}' ),
+            'fields'   => array(
+                array(
+                    'key'          => 'field_{{slug}}_slides',
+                    'label'        => __( 'Slides', '{{textdomain}}' ),
+                    'name'         => '{{slug}}_slides',
+                    'type'         => 'repeater',
+                    'instructions' => __( 'Add slides to the slider.', '{{textdomain}}' ),
+                    'min'          => 0,
+                    'max'          => 20,
+                    'layout'       => 'block',
+                    'button_label' => __( 'Add Slide', '{{textdomain}}' ),
+                    'sub_fields'   => array(
+                        array(
+                            'key'           => 'field_{{slug}}_slide_image',
+                            'label'         => __( 'Image', '{{textdomain}}' ),
+                            'name'          => 'image',
+                            'type'          => 'image',
+                            'return_format' => 'array',
+                            'preview_size'  => 'medium',
+                            'library'       => 'all',
+                        ),
+                        array(
+                            'key'   => 'field_{{slug}}_slide_title',
+                            'label' => __( 'Title', '{{textdomain}}' ),
+                            'name'  => 'title',
+                            'type'  => 'text',
+                        ),
+                        array(
+                            'key'   => 'field_{{slug}}_slide_caption',
+                            'label' => __( 'Caption', '{{textdomain}}' ),
+                            'name'  => 'caption',
+                            'type'  => 'textarea',
+                            'rows'  => 2,
+                        ),
+                        array(
+                            'key'   => 'field_{{slug}}_slide_link',
+                            'label' => __( 'Link', '{{textdomain}}' ),
+                            'name'  => 'link',
+                            'type'  => 'link',
+                        ),
+                    ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param'    => 'post_type',
+                        'operator' => '==',
+                        'value'    => {{namespace|pascalCase}}_Post_Types::POST_TYPE,
+                    ),
+                ),
+            ),
+        ) );
+
+        // Flexible Content Field Group for sections.
+        acf_add_local_field_group( array(
+            'key'      => 'group_{{slug}}_sections',
+            'title'    => __( '{{name_singular}} Sections', '{{textdomain}}' ),
+            'fields'   => array(
+                array(
+                    'key'          => 'field_{{slug}}_sections',
+                    'label'        => __( 'Content Sections', '{{textdomain}}' ),
+                    'name'         => '{{slug}}_sections',
+                    'type'         => 'flexible_content',
+                    'instructions' => __( 'Add content sections.', '{{textdomain}}' ),
+                    'button_label' => __( 'Add Section', '{{textdomain}}' ),
+                    'layouts'      => array(
+                        'layout_text' => array(
+                            'key'        => 'layout_{{slug}}_text',
+                            'name'       => 'text_section',
+                            'label'      => __( 'Text Section', '{{textdomain}}' ),
+                            'sub_fields' => array(
+                                array(
+                                    'key'   => 'field_{{slug}}_section_heading',
+                                    'label' => __( 'Heading', '{{textdomain}}' ),
+                                    'name'  => 'heading',
+                                    'type'  => 'text',
+                                ),
+                                array(
+                                    'key'   => 'field_{{slug}}_section_content',
+                                    'label' => __( 'Content', '{{textdomain}}' ),
+                                    'name'  => 'content',
+                                    'type'  => 'wysiwyg',
+                                ),
+                            ),
+                        ),
+                        'layout_gallery' => array(
+                            'key'        => 'layout_{{slug}}_gallery',
+                            'name'       => 'gallery_section',
+                            'label'      => __( 'Gallery Section', '{{textdomain}}' ),
+                            'sub_fields' => array(
+                                array(
+                                    'key'           => 'field_{{slug}}_section_gallery',
+                                    'label'         => __( 'Gallery', '{{textdomain}}' ),
+                                    'name'          => 'gallery',
+                                    'type'          => 'gallery',
+                                    'return_format' => 'array',
+                                ),
+                            ),
+                        ),
+                        'layout_cta' => array(
+                            'key'        => 'layout_{{slug}}_cta',
+                            'name'       => 'cta_section',
+                            'label'      => __( 'Call to Action', '{{textdomain}}' ),
+                            'sub_fields' => array(
+                                array(
+                                    'key'   => 'field_{{slug}}_cta_text',
+                                    'label' => __( 'CTA Text', '{{textdomain}}' ),
+                                    'name'  => 'cta_text',
+                                    'type'  => 'text',
+                                ),
+                                array(
+                                    'key'   => 'field_{{slug}}_cta_link',
+                                    'label' => __( 'CTA Link', '{{textdomain}}' ),
+                                    'name'  => 'cta_link',
+                                    'type'  => 'link',
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param'    => 'post_type',
+                        'operator' => '==',
+                        'value'    => {{namespace|pascalCase}}_Post_Types::POST_TYPE,
+                    ),
+                ),
+            ),
+        ) );
+    }
+}
+```
+
+---
+
+### Collection Block (`src/blocks/{{slug}}-collection/block.json`)
+
+```json
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "{{namespace}}/{{slug}}-collection",
+    "title": "{{name}} Collection",
+    "category": "{{slug}}",
+    "icon": "grid-view",
+    "description": "Display a collection of {{name_plural_lower}} with filtering and layout options.",
+    "version": "{{version}}",
+    "textdomain": "{{textdomain}}",
+    "keywords": ["collection", "{{slug}}", "grid", "list", "query"],
+    "usesContext": ["postId", "postType"],
+    "providesContext": {
+        "{{namespace}}/queryId": "queryId"
+    },
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "anchor": true,
+        "className": true,
+        "color": {
+            "background": true,
+            "text": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true,
+            "blockGap": true
+        }
+    },
+    "attributes": {
+        "queryId": {
+            "type": "number"
+        },
+        "query": {
+            "type": "object",
+            "default": {
+                "postType": "{{slug}}",
+                "perPage": 6,
+                "pages": 0,
+                "offset": 0,
+                "order": "desc",
+                "orderBy": "date",
+                "author": "",
+                "search": "",
+                "exclude": [],
+                "sticky": "",
+                "inherit": false,
+                "taxQuery": null,
+                "featured": false
+            }
+        },
+        "layout": {
+            "type": "string",
+            "default": "grid",
+            "enum": ["grid", "list", "slider"]
+        },
+        "columns": {
+            "type": "number",
+            "default": 3
+        },
+        "displayFeaturedImage": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayTitle": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayExcerpt": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayMeta": {
+            "type": "boolean",
+            "default": true
+        },
+        "displayPagination": {
+            "type": "boolean",
+            "default": true
+        }
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "render": "file:./render.php",
+    "viewScript": "file:./view.js"
+}
+```
+
+---
+
+### Slider Component (`src/components/Slider/Slider.js`)
+
+```javascript
+/**
+ * Slider Component
+ *
+ * A reusable slider/carousel component for the block editor and frontend.
+ *
+ * @package {{namespace}}
+ */
+
+import { useState, useEffect, useRef, useCallback } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { Button } from '@wordpress/components';
+import { chevronLeft, chevronRight } from '@wordpress/icons';
+
+import './style.scss';
+
+/**
+ * Slider component.
+ *
+ * @param {Object}   props                   Component props.
+ * @param {Array}    props.slides            Array of slide objects.
+ * @param {boolean}  props.autoplay          Enable autoplay.
+ * @param {number}   props.autoplaySpeed     Autoplay interval in ms.
+ * @param {boolean}  props.showDots          Show navigation dots.
+ * @param {boolean}  props.showArrows        Show prev/next arrows.
+ * @param {boolean}  props.infinite          Enable infinite loop.
+ * @param {number}   props.slidesToShow      Number of slides visible.
+ * @param {number}   props.slidesToScroll    Number of slides to scroll.
+ * @param {Function} props.renderSlide       Custom slide render function.
+ * @param {string}   props.className         Additional CSS class.
+ *
+ * @return {Element} Slider component.
+ */
+export default function Slider( {
+    slides = [],
+    autoplay = false,
+    autoplaySpeed = 5000,
+    showDots = true,
+    showArrows = true,
+    infinite = true,
+    slidesToShow = 1,
+    slidesToScroll = 1,
+    renderSlide,
+    className = '',
+} ) {
+    const [ currentIndex, setCurrentIndex ] = useState( 0 );
+    const [ isPlaying, setIsPlaying ] = useState( autoplay );
+    const sliderRef = useRef( null );
+    const autoplayRef = useRef( null );
+
+    const totalSlides = slides.length;
+    const maxIndex = Math.max( 0, totalSlides - slidesToShow );
+
+    /**
+     * Go to next slide.
+     */
+    const nextSlide = useCallback( () => {
+        setCurrentIndex( ( prev ) => {
+            if ( prev >= maxIndex ) {
+                return infinite ? 0 : prev;
+            }
+            return Math.min( prev + slidesToScroll, maxIndex );
+        } );
+    }, [ maxIndex, infinite, slidesToScroll ] );
+
+    /**
+     * Go to previous slide.
+     */
+    const prevSlide = useCallback( () => {
+        setCurrentIndex( ( prev ) => {
+            if ( prev <= 0 ) {
+                return infinite ? maxIndex : 0;
+            }
+            return Math.max( prev - slidesToScroll, 0 );
+        } );
+    }, [ maxIndex, infinite, slidesToScroll ] );
+
+    /**
+     * Go to specific slide.
+     *
+     * @param {number} index Slide index.
+     */
+    const goToSlide = ( index ) => {
+        setCurrentIndex( Math.min( Math.max( 0, index ), maxIndex ) );
+    };
+
+    // Autoplay effect.
+    useEffect( () => {
+        if ( isPlaying && totalSlides > slidesToShow ) {
+            autoplayRef.current = setInterval( nextSlide, autoplaySpeed );
+        }
+
+        return () => {
+            if ( autoplayRef.current ) {
+                clearInterval( autoplayRef.current );
+            }
+        };
+    }, [ isPlaying, nextSlide, autoplaySpeed, totalSlides, slidesToShow ] );
+
+    // Pause on hover.
+    const handleMouseEnter = () => setIsPlaying( false );
+    const handleMouseLeave = () => setIsPlaying( autoplay );
+
+    // Keyboard navigation.
+    const handleKeyDown = ( event ) => {
+        if ( event.key === 'ArrowLeft' ) {
+            prevSlide();
+        } else if ( event.key === 'ArrowRight' ) {
+            nextSlide();
+        }
+    };
+
+    if ( totalSlides === 0 ) {
+        return null;
+    }
+
+    const slideWidth = 100 / slidesToShow;
+    const translateX = -currentIndex * slideWidth;
+
+    return (
+        <div
+            className={ `wp-block-{{namespace}}-slider ${ className }` }
+            ref={ sliderRef }
+            onMouseEnter={ handleMouseEnter }
+            onMouseLeave={ handleMouseLeave }
+            onKeyDown={ handleKeyDown }
+            role="region"
+            aria-label={ __( 'Slider', '{{textdomain}}' ) }
+            aria-roledescription="carousel"
+            tabIndex="0"
+        >
+            <div className="wp-block-{{namespace}}-slider__viewport">
+                <div
+                    className="wp-block-{{namespace}}-slider__track"
+                    style={ {
+                        transform: `translateX(${ translateX }%)`,
+                        transition: 'transform 0.5s ease-in-out',
+                    } }
+                >
+                    { slides.map( ( slide, index ) => (
+                        <div
+                            key={ slide.id || index }
+                            className="wp-block-{{namespace}}-slider__slide"
+                            style={ { width: `${ slideWidth }%` } }
+                            role="group"
+                            aria-roledescription="slide"
+                            aria-label={ `${ index + 1 } of ${ totalSlides }` }
+                        >
+                            { renderSlide ? renderSlide( slide, index ) : (
+                                <>
+                                    { slide.image && (
+                                        <img
+                                            src={ slide.image.url }
+                                            alt={ slide.image.alt || slide.title || '' }
+                                            className="wp-block-{{namespace}}-slider__image"
+                                        />
+                                    ) }
+                                    { slide.title && (
+                                        <h3 className="wp-block-{{namespace}}-slider__title">
+                                            { slide.title }
+                                        </h3>
+                                    ) }
+                                    { slide.caption && (
+                                        <p className="wp-block-{{namespace}}-slider__caption">
+                                            { slide.caption }
+                                        </p>
+                                    ) }
+                                </>
+                            ) }
+                        </div>
+                    ) ) }
+                </div>
+            </div>
+
+            { showArrows && totalSlides > slidesToShow && (
+                <>
+                    <Button
+                        className="wp-block-{{namespace}}-slider__arrow wp-block-{{namespace}}-slider__arrow--prev"
+                        onClick={ prevSlide }
+                        icon={ chevronLeft }
+                        label={ __( 'Previous slide', '{{textdomain}}' ) }
+                        disabled={ ! infinite && currentIndex === 0 }
+                    />
+                    <Button
+                        className="wp-block-{{namespace}}-slider__arrow wp-block-{{namespace}}-slider__arrow--next"
+                        onClick={ nextSlide }
+                        icon={ chevronRight }
+                        label={ __( 'Next slide', '{{textdomain}}' ) }
+                        disabled={ ! infinite && currentIndex >= maxIndex }
+                    />
+                </>
+            ) }
+
+            { showDots && totalSlides > slidesToShow && (
+                <div
+                    className="wp-block-{{namespace}}-slider__dots"
+                    role="tablist"
+                    aria-label={ __( 'Slider navigation', '{{textdomain}}' ) }
+                >
+                    { Array.from( { length: maxIndex + 1 } ).map( ( _, index ) => (
+                        <button
+                            key={ index }
+                            className={ `wp-block-{{namespace}}-slider__dot ${
+                                index === currentIndex ? 'is-active' : ''
+                            }` }
+                            onClick={ () => goToSlide( index ) }
+                            role="tab"
+                            aria-selected={ index === currentIndex }
+                            aria-label={ `Go to slide ${ index + 1 }` }
+                        />
+                    ) ) }
+                </div>
+            ) }
+        </div>
+    );
+}
+```
+
+---
+
+### Uninstall File (`uninstall.php`)
+
+```php
+<?php
+/**
+ * {{name}} Uninstall
+ *
+ * Fired when the plugin is uninstalled to clean up all plugin data.
+ *
+ * @package {{namespace}}
+ */
+
+// If uninstall not called from WordPress, exit.
+if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
+    exit;
+}
+
+global $wpdb;
+
+$slug      = '{{slug}}';
+$post_type = '{{slug}}';
+$taxonomy  = '{{slug}}_category';
+
+/**
+ * Delete all posts of the custom post type.
+ */
+$posts = get_posts( array(
+    'post_type'      => $post_type,
+    'post_status'    => 'any',
+    'posts_per_page' => -1,
+    'fields'         => 'ids',
+) );
+
+foreach ( $posts as $post_id ) {
+    wp_delete_post( $post_id, true );
+}
+
+/**
+ * Delete all terms from the custom taxonomy.
+ */
+$terms = get_terms( array(
+    'taxonomy'   => $taxonomy,
+    'hide_empty' => false,
+    'fields'     => 'ids',
+) );
+
+if ( ! is_wp_error( $terms ) ) {
+    foreach ( $terms as $term_id ) {
+        wp_delete_term( $term_id, $taxonomy );
+    }
+}
+
+/**
+ * Delete plugin options.
+ */
+$wpdb->query(
+    $wpdb->prepare(
+        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s",
+        $slug . '_%'
+    )
+);
+
+/**
+ * Delete transients.
+ */
+$wpdb->query(
+    $wpdb->prepare(
+        "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
+        '_transient_' . $slug . '_%',
+        '_site_transient_' . $slug . '_%'
+    )
+);
+
+/**
+ * Delete user meta.
+ */
+$wpdb->query(
+    $wpdb->prepare(
+        "DELETE FROM {$wpdb->usermeta} WHERE meta_key LIKE %s",
+        $slug . '_%'
+    )
+);
+
+/**
+ * Delete post meta (including ACF fields).
+ */
+$wpdb->query(
+    $wpdb->prepare(
+        "DELETE FROM {$wpdb->postmeta} WHERE meta_key LIKE %s",
+        $slug . '_%'
+    )
+);
+
+/**
+ * Delete term meta.
+ */
+$wpdb->query(
+    $wpdb->prepare(
+        "DELETE FROM {$wpdb->termmeta} WHERE meta_key LIKE %s",
+        $slug . '_%'
+    )
+);
+
+/**
+ * Clear scheduled cron hooks.
+ */
+$hooks = array(
+    "{$slug}_cron",
+    "{$slug}_daily",
+    "{$slug}_hourly",
+    "{$slug}_cleanup",
+);
+
+foreach ( $hooks as $hook ) {
+    $timestamp = wp_next_scheduled( $hook );
+    if ( $timestamp ) {
+        wp_unschedule_event( $timestamp, $hook );
+    }
+    wp_clear_scheduled_hook( $hook );
+}
+
+/**
+ * Flush rewrite rules.
+ */
+flush_rewrite_rules();
+
+/**
+ * Clear any cached data.
+ */
+wp_cache_flush();
+```
+
+---
+
+### Test Bootstrap (`tests/bootstrap.php`)
+
+```php
+<?php
+/**
+ * PHPUnit bootstrap file for {{name}}.
+ *
+ * @package {{namespace}}
+ */
+
+// Composer autoloader.
+if ( file_exists( dirname( __DIR__ ) . '/vendor/autoload.php' ) ) {
+    require dirname( __DIR__ ) . '/vendor/autoload.php';
+}
+
+$_tests_dir = getenv( 'WP_TESTS_DIR' );
+
+if ( ! $_tests_dir ) {
+    $_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
+}
+
+if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
+    echo "Could not find $_tests_dir/includes/functions.php" . PHP_EOL;
+    echo "Have you run bin/install-wp-tests.sh?" . PHP_EOL;
+    exit( 1 );
+}
+
+// Give access to tests_add_filter() function.
+require_once $_tests_dir . '/includes/functions.php';
+
+/**
+ * Manually load the plugin being tested.
+ */
+function _manually_load_plugin() {
+    require dirname( __DIR__ ) . '/{{slug}}.php';
+}
+tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
+
+// Start up the WP testing environment.
+require $_tests_dir . '/includes/bootstrap.php';
+```
+
+---
+
+### Post Type Tests (`tests/php/test-post-types.php`)
+
+```php
+<?php
+/**
+ * Post Types Tests.
+ *
+ * @package {{namespace}}
+ */
+
+class Test_Post_Types extends WP_UnitTestCase {
+
+    public function setUp(): void {
+        parent::setUp();
+        do_action( 'init' );
+    }
+
+    public function test_post_type_registered() {
+        $this->assertTrue( post_type_exists( '{{slug}}' ) );
+    }
+
+    public function test_post_type_supports_editor() {
+        $this->assertTrue( post_type_supports( '{{slug}}', 'editor' ) );
+    }
+
+    public function test_post_type_supports_thumbnail() {
+        $this->assertTrue( post_type_supports( '{{slug}}', 'thumbnail' ) );
+    }
+
+    public function test_post_type_is_public() {
+        $post_type = get_post_type_object( '{{slug}}' );
+        $this->assertTrue( $post_type->public );
+    }
+
+    public function test_post_type_shows_in_rest() {
+        $post_type = get_post_type_object( '{{slug}}' );
+        $this->assertTrue( $post_type->show_in_rest );
+    }
+
+    public function test_post_type_has_archive() {
+        $post_type = get_post_type_object( '{{slug}}' );
+        $this->assertTrue( $post_type->has_archive );
+    }
+
+    public function test_can_create_post() {
+        $post_id = $this->factory->post->create( array(
+            'post_type'  => '{{slug}}',
+            'post_title' => 'Test {{name_singular}}',
+        ) );
+
+        $this->assertIsInt( $post_id );
+        $this->assertGreaterThan( 0, $post_id );
+
+        $post = get_post( $post_id );
+        $this->assertEquals( '{{slug}}', $post->post_type );
+    }
+}
+```
+
+---
+
+### Block Registration Tests (`tests/php/test-block-registration.php`)
+
+```php
+<?php
+/**
+ * Block Registration Tests.
+ *
+ * @package {{namespace}}
+ */
+
+class Test_Block_Registration extends WP_UnitTestCase {
+
+    public function setUp(): void {
+        parent::setUp();
+        do_action( 'init' );
+    }
+
+    public function test_blocks_registered() {
+        $registry   = WP_Block_Type_Registry::get_instance();
+        $registered = $registry->get_all_registered();
+
+        $plugin_blocks = array_filter(
+            array_keys( $registered ),
+            function ( $name ) {
+                return strpos( $name, '{{namespace}}/' ) === 0;
+            }
+        );
+
+        $this->assertNotEmpty( $plugin_blocks, 'No plugin blocks registered' );
+    }
+
+    public function test_collection_block_registered() {
+        $registry = WP_Block_Type_Registry::get_instance();
+        $this->assertTrue(
+            $registry->is_registered( '{{namespace}}/{{slug}}-collection' ),
+            'Collection block not registered'
+        );
+    }
+
+    public function test_card_block_registered() {
+        $registry = WP_Block_Type_Registry::get_instance();
+        $this->assertTrue(
+            $registry->is_registered( '{{namespace}}/{{slug}}-card' ),
+            'Card block not registered'
+        );
+    }
+
+    public function test_slider_block_registered() {
+        $registry = WP_Block_Type_Registry::get_instance();
+        $this->assertTrue(
+            $registry->is_registered( '{{namespace}}/{{slug}}-slider' ),
+            'Slider block not registered'
+        );
+    }
+
+    public function test_blocks_have_render_callback() {
+        $registry = WP_Block_Type_Registry::get_instance();
+
+        $plugin_blocks = array(
+            '{{namespace}}/{{slug}}-collection',
+            '{{namespace}}/{{slug}}-card',
+            '{{namespace}}/{{slug}}-slider',
+        );
+
+        foreach ( $plugin_blocks as $block_name ) {
+            $block = $registry->get_registered( $block_name );
+            if ( $block ) {
+                $this->assertNotEmpty(
+                    $block->render_callback,
+                    "$block_name missing render callback"
+                );
+            }
+        }
+    }
+}
+```
+
+---
+
+### E2E Collection Block Tests (`tests/e2e/collection.spec.js`)
+
+```javascript
+/**
+ * E2E tests for {{name}} Collection block.
+ *
+ * @package {{namespace}}
+ */
+
+import { test, expect } from '@playwright/test';
+
+test.describe( '{{name}} Collection Block', () => {
+    test.beforeEach( async ( { page } ) => {
+        // Login to WordPress admin.
+        await page.goto( '/wp-admin' );
+        await page.fill( '#user_login', 'admin' );
+        await page.fill( '#user_pass', 'password' );
+        await page.click( '#wp-submit' );
+
+        // Create a new post.
+        await page.goto( '/wp-admin/post-new.php' );
+        await page.waitForSelector( '.block-editor-page' );
+    } );
+
+    test( 'should insert collection block', async ( { page } ) => {
+        // Open block inserter.
+        await page.click( '.edit-post-header-toolbar__inserter-toggle' );
+        await page.fill( '.block-editor-inserter__search input', '{{name}} Collection' );
+
+        // Insert the block.
+        const blockItem = page.locator(
+            '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}-collection"]'
+        );
+        await blockItem.click();
+
+        // Verify block is inserted.
+        const block = page.locator( '.wp-block-{{namespace}}-{{slug}}-collection' );
+        await expect( block ).toBeVisible();
+    } );
+
+    test( 'should show layout options in sidebar', async ( { page } ) => {
+        // Insert the block.
+        await page.click( '.edit-post-header-toolbar__inserter-toggle' );
+        await page.fill( '.block-editor-inserter__search input', '{{name}} Collection' );
+        await page.click(
+            '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}-collection"]'
+        );
+
+        // Select the block.
+        const block = page.locator( '.wp-block-{{namespace}}-{{slug}}-collection' );
+        await block.click();
+
+        // Check sidebar settings.
+        const layoutControl = page.locator( 'select[aria-label*="Layout"]' );
+        await expect( layoutControl ).toBeVisible();
+    } );
+
+    test( 'should filter by taxonomy', async ( { page } ) => {
+        // Insert the block.
+        await page.click( '.edit-post-header-toolbar__inserter-toggle' );
+        await page.fill( '.block-editor-inserter__search input', '{{name}} Collection' );
+        await page.click(
+            '.block-editor-block-types-list__item[data-id="{{namespace}}/{{slug}}-collection"]'
+        );
+
+        // Open block settings.
+        const block = page.locator( '.wp-block-{{namespace}}-{{slug}}-collection' );
+        await block.click();
+
+        // Check for taxonomy filter.
+        const taxonomyPanel = page.locator( 'text=Filter by' );
+        await expect( taxonomyPanel ).toBeVisible();
+    } );
+} );
 ```
 
 ---
