@@ -14,6 +14,12 @@ module.exports = {
 	rules: {
 		'no-console': 'warn',
 		'no-debugger': 'error',
+		'jsdoc/check-tag-names': [
+			'error',
+			{
+				definedTags: [ 'jest-environment' ],
+			},
+		],
 	},
 	overrides: [
 		{

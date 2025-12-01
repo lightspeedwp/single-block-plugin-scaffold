@@ -184,7 +184,7 @@ and file-type-specific standards.
 | **Custom Instructions** | [.github/custom-instructions.md](.github/custom-instructions.md) | Central Copilot/org instructions, prompts, and standards |
 | **Main Agent Index**    | [.github/agents/agent.md](.github/agents/agent.md)               | Directory of agent specs, stubs, usage, implementation   |
 | **WP Block Build Agent Spec** | [.github/agents/wp-block-build.agent.md](.github/agents/wp-block-build.agent.md) | Detailed build process for single block plugin agent     |
-| **Chat Modes Index**    | [.github/chatmodes/chatmodes.md](.github/chatmodes/chatmodes.md) | List and guidance for all chat modes                     |
+| **Development Assistant** | [.github/agents/development-assistant.agent.md](.github/agents/development-assistant.agent.md) | AI development assistant with context-specific modes |
 | **Prompts Index**       | [.github/prompts/prompts.md](.github/prompts/prompts.md)         | Master prompt index and authoring conventions            |
 
 ---

@@ -7,7 +7,6 @@ This file documents the primary automation agent(s) for this repository, their p
 **Related Files:**
 
 -   [Custom Instructions](../custom-instructions.md) — main AI/Copilot and plugin instructions
--   [Chat Modes](../chatmodes/chatmodes.md) — context-specific Copilot prompts
 -   [Prompts](../prompts/prompts.md) — prompt templates for consistent output
 -   [Global AI Rules (AGENTS.md)](../../AGENTS.md) — org-wide agent rules, coding standards, and cross-references
 -   [WP Block Build Agent Spec](./wp-block-build.agent.md) — detailed build agent spec for single block plugin
@@ -17,23 +16,36 @@ This file documents the primary automation agent(s) for this repository, their p
 -   All instruction files: [`*.instructions.md`](../instructions/)
 -   All agent files: [`*.agent.md`](../agents/) and [`*.agent.js`](../agents/) (current directory)
 -   All prompt files: [`*.prompt.md`](../prompts/)
--   All chatmode files: [`*.md`](../chatmodes/)
 
 ---
 
-## Primary Agents
+## Available Agents
 
--   **Block Plugin Build Agent:**
+### Scaffold Generator Agent
 
-    -   **Agent Script:** `.github/agents/wp-block-build.agent.js`
-    -   **Spec:** `.github/agents/wp-block-build.agent.md`
-    -   **Workflow:** `.github/workflows/block-plugin-build-and-e2e.yml`
-    -   **Purpose:** Automate build, lint, test, and validation for this block plugin using WordPress and org standards.
+-   **Agent Spec:** `.github/agents/scaffold-generator.agent.md`
+-   **Purpose:** Interactive agent that guides you through creating a new WordPress block plugin from this scaffold. Collects requirements through a multi-stage conversation and generates the plugin.
+-   **Usage:** Say "Generate a new block plugin" or "Create plugin from scaffold"
+-   **Related Prompt:** [generate-plugin.prompt.md](../prompts/generate-plugin.prompt.md)
 
--   **General Automation Agent Example:**
-    -   **Agent Script:** `.github/agents/agent-script.js`
-    -   **Workflow:** `.github/workflows/agent-workflow.yml`
-    -   **Purpose:** Demonstrates a functional Node.js agent and workflow for file listing, environment echo, and artifact upload. Use as a template for new automation agents.
+### Development Assistant Agent
+
+-   **Agent Spec:** `.github/agents/development-assistant.agent.md`
+-   **Purpose:** AI-powered development assistant for block plugin development, providing guidance on block creation, WordPress standards, and best practices.
+-   **Modes:** WordPress Development, Block Development, Testing, Security Audit, Performance, Accessibility
+
+### Block Plugin Build Agent
+
+-   **Agent Script:** `.github/agents/wp-block-build.agent.js`
+-   **Spec:** `.github/agents/wp-block-build.agent.md`
+-   **Workflow:** `.github/workflows/block-plugin-build-and-e2e.yml`
+-   **Purpose:** Automate build, lint, test, and validation for this block plugin using WordPress and org standards.
+
+### General Automation Agent Example
+
+-   **Agent Script:** `.github/agents/agent-script.js`
+-   **Workflow:** `.github/workflows/agent-workflow.yml`
+-   **Purpose:** Demonstrates a functional Node.js agent and workflow for file listing, environment echo, and artifact upload. Use as a template for new automation agents.
 
 ### Usage
 

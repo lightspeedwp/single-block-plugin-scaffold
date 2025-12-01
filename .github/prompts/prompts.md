@@ -6,7 +6,8 @@ This repository uses prompt templates to ensure Copilot/AI output is consistent,
 
 **Related Files:**
 
-- [Chat Modes](../chatmodes/chatmodes.md) — context-specific Copilot prompts
+- [Development Assistant](../agents/development-assistant.agent.md) — AI development assistant with context-specific modes
+- [Scaffold Generator](../agents/scaffold-generator.agent.md) — Interactive plugin generation agent
 - [Custom Instructions](../custom-instructions.md) — main AI/Copilot and plugin instructions
 - [Main Agent Index](../agents/agent.md) — agent specs and usage
 - [WP Block Build Agent Spec](../agents/wp-block-build.agent.md) — build agent spec for this scaffold
@@ -18,7 +19,28 @@ This repository uses prompt templates to ensure Copilot/AI output is consistent,
 - All instruction files: [`*.instructions.md`](../instructions/)
 - All agent files: [`*.agent.md`](../agents/) and [`*.agent.js`](../agents/)
 - All prompt files: [`*.prompt.md`](../prompts/) (current directory)
-- All chatmode files: [`*.md`](../chatmodes/)
+
+---
+
+## Available Prompts
+
+| Prompt | Description | Usage |
+|--------|-------------|-------|
+| [generate-plugin.prompt.md](./generate-plugin.prompt.md) | Interactive block plugin generator | Start with "Generate a new block plugin" |
+
+---
+
+## Quick Start: Generate a New Block Plugin
+
+To create a new WordPress block plugin from this scaffold:
+
+1. **Use the prompt**: Open [generate-plugin.prompt.md](./generate-plugin.prompt.md) in Copilot
+2. **Or invoke the agent**: Ask the [Scaffold Generator](../agents/scaffold-generator.agent.md)
+3. **Or run directly**:
+
+   ```bash
+   node bin/generate-single-block-plugin.js --slug "my-block" --name "My Block" --author "Author"
+   ```
 
 ---
 
