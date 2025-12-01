@@ -7,6 +7,16 @@ description: "Code of conduct for {{name}} community"
 type: "documentation"
 ---
 
+---
+
+title: Code of Conduct
+description: Community standards and guidelines for respectful collaboration
+category: Project
+type: Policy
+audience: Community Members
+date: 2025-12-01
+---
+
 # Code of Conduct
 
 ## Our Pledge
@@ -102,13 +112,15 @@ This Code of Conduct applies within all community spaces, and also applies when 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement:
 
 #### Primary Contact
+
 - **Email**: conduct@{{author}}.com
-- **GitHub**: [@{{author}}](https://github.com/{{author}})
+* **GitHub**: [@{{author}}](https://github.com/{{author}})
 
 #### Alternative Contacts
+
 If the primary contact is not appropriate (e.g., they are involved in the issue), contact:
-- **WordPress Community Team**: [WordPress Slack moderators](https://make.wordpress.org/chat/)
-- **GitHub Support**: [GitHub Community Guidelines](https://github.com/github/community/discussions)
+* **WordPress Community Team**: [WordPress Slack moderators](https://make.wordpress.org/chat/)
+* **GitHub Support**: [GitHub Community Guidelines](https://github.com/github/community/discussions)
 
 ### Information to Include
 
@@ -136,6 +148,7 @@ Community leaders will follow these Community Impact Guidelines in determining t
 **Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
 
 **Example Actions**:
+
 * Private message explaining the issue
 * Request for behavior modification
 * Warning about future consequences
@@ -148,6 +161,7 @@ Community leaders will follow these Community Impact Guidelines in determining t
 **Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
 
 **Example Actions**:
+
 * Formal written warning
 * Temporary restriction from participation
 * No contact order with specific individuals
@@ -162,6 +176,7 @@ Community leaders will follow these Community Impact Guidelines in determining t
 **Duration**: Typically 1-30 days depending on severity
 
 **Example Actions**:
+
 * Temporary suspension from GitHub repository
 * Temporary ban from community forums
 * Exclusion from community events
@@ -174,6 +189,7 @@ Community leaders will follow these Community Impact Guidelines in determining t
 **Consequence**: A permanent ban from any sort of public interaction within the community.
 
 **Example Actions**:
+
 * Permanent removal from all community spaces
 * Loss of all contributor privileges
 * Blocking from all communication channels
@@ -186,18 +202,22 @@ Community leaders will follow these Community Impact Guidelines in determining t
 Anyone subject to enforcement action has the right to appeal the decision:
 
 #### Appeal Timeline
+
 * **Submit appeals** within 30 days of the enforcement action
 * **Response time** - Appeals will be reviewed within 14 days
 * **Final decision** - Appeal decisions are final
 
 #### Appeal Process
+
 1. **Submit written appeal** to conduct@{{author}}.com
 2. **Include new evidence** or circumstances not previously considered
 3. **Community leaders review** the original decision and new information
 4. **Decision communicated** to all parties involved
 
 #### Appeal Criteria
+
 Appeals will be considered based on:
+
 * New evidence not available during original investigation
 * Procedural errors in the investigation process
 * Disproportionate enforcement action
@@ -248,6 +268,7 @@ We thank the following for their guidance in creating this Code of Conduct:
 ### Modification Process
 
 This Code of Conduct may be updated to:
+
 * Clarify existing guidelines
 * Address new types of conduct issues
 * Improve enforcement procedures

@@ -1,3 +1,12 @@
+---
+title: Binary Scripts
+description: Build and utility scripts
+category: Documentation
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 # Build Scripts
 
 This directory contains build and generation scripts for the single block plugin scaffold.

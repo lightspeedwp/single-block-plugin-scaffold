@@ -7,6 +7,16 @@ description: "User guide for {{name}}"
 type: "documentation"
 ---
 
+---
+
+title: Usage Guide
+description: Guide to using the plugin in WordPress
+category: Documentation
+type: Guide
+audience: Users
+date: 2025-12-01
+---
+
 # Usage Guide
 
 This guide explains how to use the {{name}} in your WordPress site.

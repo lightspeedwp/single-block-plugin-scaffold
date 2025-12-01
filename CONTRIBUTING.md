@@ -7,6 +7,16 @@ description: "Guidelines for contributing to {{name}}"
 type: "documentation"
 ---
 
+---
+
+title: Contributing Guidelines
+description: Guidelines for contributing to the project
+category: Project
+type: Guide
+audience: Developers
+date: 2025-12-01
+---
+
 # Contributing to {{name}}
 
 Thank you for your interest in contributing to {{name}}! This document provides guidelines and information for contributors.

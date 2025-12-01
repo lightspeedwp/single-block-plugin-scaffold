@@ -1,3 +1,12 @@
+---
+title: VS Code Configuration
+description: Visual Studio Code workspace configuration
+category: Project
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 # VS Code Configuration
 
 This directory contains Visual Studio Code workspace configuration files.

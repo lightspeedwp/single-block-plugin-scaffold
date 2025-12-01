@@ -1,3 +1,12 @@
+---
+title: Block Plugin Agents Index
+description: Main index of automation agents for single-block plugin scaffold
+category: Agent
+type: Agent Index
+audience: Developers, AI Agents
+date: 2025-12-01
+---
+
 # Block Plugin Scaffold: Main Agent Index
 
 ## Overview & Related Files

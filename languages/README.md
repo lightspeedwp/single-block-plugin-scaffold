@@ -1,3 +1,12 @@
+---
+title: Translations
+description: Language and translation files
+category: Documentation
+type: Index
+audience: Translators, Developers
+date: 2025-12-01
+---
+
 # Translation Files
 
 This directory contains translation files for internationalization (i18n) and localization (l10n) of the plugin.

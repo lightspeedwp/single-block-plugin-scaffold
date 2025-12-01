@@ -1,3 +1,12 @@
+---
+title: Includes Directory
+description: PHP include files and classes
+category: Documentation
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 ````markdown
 # Plugin Includes
 

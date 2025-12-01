@@ -1,4 +1,13 @@
-# Block Plugin Scaffold: Prompt Templates & Authoring
+---
+title: Block Plugin Prompt Templates
+description: Prompt templates for consistent AI-assisted single-block plugin development
+category: Documentation
+type: Prompt Templates
+audience: Developers, AI Assistants
+date: 2025-12-01
+---
+
+## Block Plugin Scaffold: Prompt Templates & Authoring
 
 ## Overview & Related Files
 

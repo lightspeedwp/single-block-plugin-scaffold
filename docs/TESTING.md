@@ -1,4 +1,11 @@
-# Testing Guide
+---
+title: Testing Guide
+description: Complete guide to running and writing tests for block plugins
+category: Testing
+type: Guide
+audience: Developers
+date: 2025-12-01
+---
 
 Complete guide to running and writing tests for the {{name}} block plugin scaffold.
 

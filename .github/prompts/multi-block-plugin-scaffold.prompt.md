@@ -1,4 +1,13 @@
-# Multi-Block Plugin Scaffold Prompt
+---
+title: Multi-Block Plugin Scaffold Prompt
+description: Comprehensive reference prompt for GitHub Copilot to bootstrap multi-block plugins
+category: Documentation
+type: Copilot Prompt
+audience: Developers, AI Agents
+date: 2025-12-01
+---
+
+## Multi-Block Plugin Scaffold Prompt
 
 > **Purpose:** Reference file for GitHub Copilot coding agent to bootstrap a multi-block WordPress plugin with custom post types, taxonomies, fields, block templates, and patterns.
 

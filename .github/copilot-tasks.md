@@ -1,3 +1,12 @@
+---
+title: Copilot Tasklist
+description: Tracked tasks and audit items for automation
+category: Project
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 # Copilot Tasklist - Single Block Plugin Scaffold
 
 > **Status**: ✅ All audit remediation tasks completed (21/21)

@@ -1,3 +1,12 @@
+---
+title: WP Block Build Agent Spec
+description: Specification for the build, lint, and test automation agent for single-block plugins
+category: Agent
+type: Agent Specification
+audience: Developers, AI Agents
+date: 2025-12-01
+---
+
 # WP Block Build Agent Spec
 
 This document defines the specification for the `wp-block-build.agent.js` automation agent, responsible for managing the build, lint, and test lifecycle of a single-block WordPress plugin. It is tightly integrated with the repository's workflows and follows the latest best practices from the official WordPress block development tutorial.

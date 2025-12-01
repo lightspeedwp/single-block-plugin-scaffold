@@ -1,3 +1,12 @@
+---
+title: Source Files
+description: Source code and component files
+category: Documentation
+type: Reference
+audience: Developers
+date: 2025-12-01
+---
+
 # SCSS Stylesheets
 
 This directory contains the global SCSS stylesheets for the plugin.

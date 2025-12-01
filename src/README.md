@@ -1,3 +1,12 @@
+---
+title: Source Files
+description: Source code and component files
+category: Documentation
+type: Reference
+audience: Developers
+date: 2025-12-01
+---
+
 # Source Files
 
 This directory contains the source code for the block plugin that gets compiled into the final build.

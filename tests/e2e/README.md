@@ -1,3 +1,12 @@
+---
+title: Tests
+description: Test files and test configuration
+category: Testing
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 # End-to-End Tests
 
 This directory contains end-to-end (E2E) tests using Playwright to test the block in a real WordPress environment.

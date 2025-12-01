@@ -7,6 +7,16 @@ description: "{{description}}"
 type: "documentation"
 ---
 
+---
+
+title: Project Overview
+description: WordPress single block plugin scaffold with comprehensive documentation
+category: Project
+type: Index
+audience: Developers, Users
+date: 2025-12-01
+---
+
 # {{name}}
 
 {{description}}

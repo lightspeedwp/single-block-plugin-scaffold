@@ -1,3 +1,12 @@
+---
+title: Tests
+description: Test files and test configuration
+category: Testing
+type: Index
+audience: Developers
+date: 2025-12-01
+---
+
 # Tests
 
 This directory contains all test files for the single block plugin.

@@ -1,4 +1,13 @@
-# Multi-Block Plugin Scaffold – Repository Creation Prompt
+---
+title: Multi-Block Plugin Repository Prompt
+description: Prompt template for creating a new multi-block plugin repository
+category: Documentation
+type: Repository Prompt
+audience: Developers, AI Agents
+date: 2025-12-01
+---
+
+## Multi-Block Plugin Scaffold – Repository Creation Prompt
 
 Use this prompt when creating a new repository with GitHub Copilot's coding agent.
 
