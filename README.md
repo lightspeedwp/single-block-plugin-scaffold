@@ -1,14 +1,4 @@
 ---
-title: "{{name}} - WordPress Block Plugin"
-version: "{{version}}"
-last_updated: "2024-10-18"
-author: "{{author}}"
-description: "{{description}}"
-type: "documentation"
----
-
----
-
 title: Project Overview
 description: WordPress single block plugin scaffold with comprehensive documentation
 category: Project
