@@ -43,3 +43,4 @@ These files enable:
 ## Usage
 
 These files are automatically used by GitHub Actions and compatible AI development tools. They are excluded from plugin distribution packages.
+
